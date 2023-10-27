@@ -1,25 +1,22 @@
 {
-  "compilerOptions": {
-    "target": "ES6",
-    "module": "ESNext",
-    "jsx": "react-jsx",  // Updated this line
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "declaration": false,
-    "sourceMap": true,
-    "noEmitOnError": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "./node_modules"
-  ]
+	"compilerOptions": {
+		"target": "ES6",
+		"module": "ESNext",
+		"jsx": "react-jsx", // Updated this line
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"declaration": false,
+		"sourceMap": true,
+		"noEmitOnError": true,
+		"noFallthroughCasesInSwitch": true
+	},
+	"include": ["./src/**/*", "./src/typings/*.d.ts"],
+
+	"exclude": ["./node_modules"]
 }
