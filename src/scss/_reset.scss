@@ -1,0 +1,114 @@
+/* _reset.scss */
+
+/* Box sizing to include padding and border in element width */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+pre,
+code,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+figure,
+figcaption,
+hr {
+	margin: 0;
+	padding: 0;
+}
+
+/* Remove list styling */
+ul,
+ol {
+	list-style: none;
+}
+
+/* Remove anchor (link) styling */
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* Remove underlines for all elements with a 'underline' class */
+.underline {
+	text-decoration: none;
+}
+
+/* Remove default styling for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-size: 1em;
+	font-weight: normal;
+}
+
+/* Remove border outline on focused elements */
+:focus {
+	outline: none;
+}
+
+/* Normalize heading margins for consistent spacing */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+/* Set base font size and line height */
+/* body {
+	font-size: 16px;
+	line-height: 1.5;
+} */
+
+/* Remove default styles for form elements */
+button,
+input,
+select,
+textarea {
+	margin: 0;
+	padding: 0;
+	border: none;
+	outline: none;
+	font-family: inherit;
+}
+
+/* Reset button styling */
+button {
+	background: transparent;
+	cursor: pointer;
+}
+
+/* Reset anchor styling for links within buttons */
+button a {
+	color: inherit;
+	text-decoration: none;
+}
+
+/* Normalize images */
+img {
+	max-width: 100%;
+	height: auto;
+}

@@ -1,0 +1,63 @@
+/* _variables.scss */
+
+/* Typography variables */
+$font-family-primary: "Arial", sans-serif;
+$font-family-secondary: "Helvetica", sans-serif;
+$font-size-base: 16px;
+$line-height-base: 1.5;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+/* Color variables */
+$primary-color: #3498db;
+$secondary-color: #e74c3c;
+$success-color: #2ecc71;
+$info-color: #3498db;
+$warning-color: #f1c40f;
+$error-color: #e74c3c;
+
+/* Background color variables */
+$body-bg: #f5f5f5;
+$content-bg: #fff;
+$footer-bg: #333;
+
+/* Text color variables */
+$text-color: #333;
+$heading-color: #333;
+$link-color: #3498db;
+$link-color-hover: darken($link-color, 10%);
+
+/* Border variables */
+$border-width: 1px;
+$border-color: #ddd;
+
+/* Spacing and sizing variables */
+$spacing-unit: 1rem;
+$container-max-width: 1200px;
+
+/* Breakpoint variables */
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+/* Z-index variables */
+$z-index-modal: 1000;
+$z-index-dropdown: 500;
+$z-index-tooltip: 600;
+$z-index-header:1;
+
+/* Animation variables */
+$transition-duration: 0.3s;
+
+/* Media query variables */
+$screen-xs-max: $breakpoint-sm - 1;
+$screen-sm-min: $breakpoint-sm;
+$screen-sm-max: $breakpoint-md - 1;
+$screen-md-min: $breakpoint-md;
+$screen-md-max: $breakpoint-lg - 1;
+$screen-lg-min: $breakpoint-lg;
+$screen-lg-max: $breakpoint-xl - 1;
+$screen-xl-min: $breakpoint-xl;
+
+/* Other variables as needed */
