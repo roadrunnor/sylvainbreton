@@ -1,0 +1,35 @@
+{
+	"name": "breton",
+	"version": "1.0.0",
+	"description": "Contemporary Art Production\r Tous droits réservés © Sylvain Breton. Toute utilisation, modification ou distribution de ce travail est strictement interdite sans l'autorisation préalable de l'auteur. Pour toute demande d'autorisation, veuillez me contacter à me@sylvainbreton.com.",
+	"main": "index.js",
+	"scripts": {
+		"start": "webpack serve",
+		"build": "tsc",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "Sylvain Breton",
+	"license": "ISC",
+	"devDependencies": {
+		"css-loader": "^6.8.1",
+		"html-loader": "^4.2.0",
+		"html-webpack-plugin": "^5.5.3",
+		"mini-css-extract-plugin": "^2.7.6",
+		"node-sass": "^9.0.0",
+		"sass": "^1.69.1",
+		"sass-loader": "^13.3.2",
+		"style-loader": "^3.3.3",
+		"ts-loader": "^9.5.0",
+		"typescript": "^5.2.2",
+		"webpack": "^5.88.2",
+		"webpack-cli": "^5.1.4",
+		"webpack-dev-server": "^4.15.1"
+	},
+	"dependencies": {
+		"@types/react": "^18.2.33",
+		"@types/react-dom": "^18.2.14",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	}
+}
