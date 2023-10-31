@@ -1,17 +1,88 @@
-.head-marquee {
-	background-color: gold;
-	margin-top: 0;
-	margin-bottom: 0;
-	padding: 1em 0 0 0;
+@use "sass:math";
+@import "../scss/_variables.scss";
+
+header {
+	.container {
+		padding-top: $spacing-unit * 4.5;
+		max-width: $container-max-width;
+		margin: 0 auto;
+	}
+
+	.row {
+		margin: 0 0 0 2rem;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		align-items: end;
+
+		.col {
+			// Removing flex: 1; here
+			flex-basis: 25%; // Default for larger screens (4 columns or 25% each)
+			flex-grow: 0;
+			flex-shrink: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 0;
+		}
+
+		// For iPad size
+		@media (max-width: 1166px) and (min-width: 768px) {
+			.col:not(:first-child):not(:last-child) {
+				display: none;
+			}
+			justify-content: center;
+		}
+
+		// For mobile and 767px breakpoint
+		@media (max-width: $breakpoint-md) {
+			.col:not(:first-child):not(:last-child) {
+				display: none;
+			}
+			.col {
+				flex-basis: 100%;
+			}
+			justify-content: center;
+		}
+	}
+
+	.head-marquee {
+		background-color: $warning-color;
+		margin: 0 3.98em -1.09em 0;
+		padding: math.div($spacing-unit, 2) 0;
+		overflow: hidden;
+		white-space: nowrap;
+		max-width: 24.2em;
+
+		.scrolling-text {
+			display: inline-block;
+			animation: scroll-text 100s linear infinite;
+
+			em {
+				font-style: italic;
+			}
+
+			@media (max-width: $breakpoint-md) {
+				animation-name: scroll-text-mobile;
+			}
+		}
+	}
 }
 
-.span-top {
-	display: block;
-	margin-top: 11px;
-	border-bottom: 0.065em solid black;
+@keyframes scroll-text {
+	0% {
+		transform: translateX(3%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
 }
 
-.style4 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
+@keyframes scroll-text-mobile {
+	0% {
+		transform: translateX(3%);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
 }

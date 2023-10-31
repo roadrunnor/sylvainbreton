@@ -1,3 +1,80 @@
+/*!****************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/scss/_header.scss ***!
+  \****************************************************************************************************************/
+/* _variables.scss */
+/* Typography variables */
+/* Color variables */
+/* Background color variables */
+/* Text color variables */
+/* Border variables */
+/* Spacing and sizing variables */
+/* Breakpoint variables */
+/* Z-index variables */
+/* Animation variables */
+/* Media query variables */
+/* Other variables as needed */
+header {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+header .container {
+  padding-top: 4.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+header .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 0.5rem;
+}
+header .row .col {
+  flex: 1;
+  flex-basis: 25%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+@media (max-width: 768px) {
+  header .row .col {
+    flex-basis: 50%;
+  }
+}
+@media (max-width: 576px) {
+  header .row .col {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}
+header .head-marquee {
+  background-color: gold;
+  margin-top: 0;
+  margin-bottom: -1.08em;
+  padding: 0.5rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 24.2em;
+}
+header .head-marquee .scrolling-text {
+  display: inline-block;
+  animation: scroll-text 100s linear infinite;
+}
+header .head-marquee .scrolling-text em {
+  font-style: italic;
+}
+
+@keyframes scroll-text {
+  0% {
+    transform: translateX(3%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
 /*!*************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/sass-loader/dist/cjs.js!./src/scss/main.scss ***!
   \*************************************************************************************************************/
@@ -80,10 +157,12 @@ h6 {
 }
 
 /* Set base font size and line height */
-/* body {
-	font-size: 16px;
-	line-height: 1.5;
-} */
+body {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  /* line-height: 1.5; */
+}
+
 /* Remove default styles for form elements */
 button,
 input,
@@ -114,6 +193,14 @@ img {
   height: auto;
 }
 
+blockquote {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 40px;
+}
+
 /* _variables.scss */
 /* Typography variables */
 /* Color variables */
@@ -126,24 +213,80 @@ img {
 /* Animation variables */
 /* Media query variables */
 /* Other variables as needed */
-.head-marquee {
+/* _variables.scss */
+/* Typography variables */
+/* Color variables */
+/* Background color variables */
+/* Text color variables */
+/* Border variables */
+/* Spacing and sizing variables */
+/* Breakpoint variables */
+/* Z-index variables */
+/* Animation variables */
+/* Media query variables */
+/* Other variables as needed */
+header {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+header .container {
+  padding-top: 4.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+header .row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 0.5rem;
+}
+header .row .col {
+  flex: 1;
+  flex-basis: 25%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0.5rem;
+}
+@media (max-width: 768px) {
+  header .row .col {
+    flex-basis: 50%;
+  }
+}
+@media (max-width: 576px) {
+  header .row .col {
+    flex-basis: 100%;
+    text-align: center;
+  }
+}
+header .head-marquee {
   background-color: gold;
   margin-top: 0;
-  margin-bottom: 0;
-  padding: 1em 0 0 0;
+  margin-bottom: -1.08em;
+  padding: 0.5rem 0;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 24.2em;
+}
+header .head-marquee .scrolling-text {
+  display: inline-block;
+  animation: scroll-text 100s linear infinite;
+}
+header .head-marquee .scrolling-text em {
+  font-style: italic;
 }
 
-.span-top {
-  display: block;
-  margin-top: 11px;
-  border-bottom: 0.065em solid black;
+@keyframes scroll-text {
+  0% {
+    transform: translateX(3%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
-
-.style4 {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 10px;
-}
-
 a:link {
   color: #000000;
   text-decoration: none;

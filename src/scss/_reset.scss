@@ -78,10 +78,11 @@ h6 {
 }
 
 /* Set base font size and line height */
-/* body {
-	font-size: 16px;
-	line-height: 1.5;
-} */
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	line-height: 1.089em;
+}
 
 /* Remove default styles for form elements */
 button,
@@ -111,4 +112,12 @@ button a {
 img {
 	max-width: 100%;
 	height: auto;
+}
+
+blockquote {
+	display: block;
+	margin-block-start: 1em;
+	margin-block-end: 0;
+	margin-inline-start: 0;
+	margin-inline-end: 40px;
 }
