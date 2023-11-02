@@ -1,8 +1,16 @@
 body {
-	margin-left: 0px;
-	margin-top: 0px;
-	margin-right: 0px;
-	margin-bottom: 0px;
+	background-image: url("../../public/images/DreamingSarah/ring.jpg"); // replace with the path to your image
+	background-size: cover; // this will make sure the image covers the entire header
+	background-repeat: no-repeat; // this will prevent the image from repeating
+	background-position: center center; // this centers the image in the header
+	background-attachment: fixed; // ensures the background stays in place when scrolling
+	height: 100%; // ensures the body covers the whole viewport
+	margin: 0; // removes default margin
+	overflow-x: hidden; // prevents horizontal scrolling
+}
+
+html {
+	height: 100%; // ensures the html element covers the whole viewport
 }
 
 blockquote {
@@ -19,25 +27,4 @@ p {
 	margin-block-end: 1em;
 	margin-inline-start: 0px;
 	margin-inline-end: 0px;
-}
-
-.Titre {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-.unp {
-	font-size: 10px;
-}
-.style34 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-weight: bold;
-	font-style: italic;
-}
-body,
-th {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-}
-td,
-a {
-	font-size: 10px;
 }

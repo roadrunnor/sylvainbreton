@@ -10,6 +10,16 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scss/_body.scss":
+/*!*****************************!*\
+  !*** ./src/scss/_body.scss ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n// extracted by mini-css-extract-plugin\n\n\n//# sourceURL=webpack://breton/./src/scss/_body.scss?");
+
+/***/ }),
+
 /***/ "./src/scss/_header.scss":
 /*!*******************************!*\
   !*** ./src/scss/_header.scss ***!
@@ -146,7 +156,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ \"./node_modules/react/jsx-runtime.js\");\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ \"./src/ts/App.tsx\");\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../scss/main.scss */ \"./src/scss/main.scss\");\n\n\n // Make sure the path to your App component is correct\n// Import your main SCSS file\n // Adjust the path to point to your main SCSS file\nconst root = document.getElementById('root');\nif (!root) {\n    throw new Error('Root element not found');\n}\nconst reactRoot = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(root);\nreactRoot.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_App__WEBPACK_IMPORTED_MODULE_2__[\"default\"], {}));\n\n\n//# sourceURL=webpack://breton/./src/ts/index.tsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-runtime */ \"./node_modules/react/jsx-runtime.js\");\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./App */ \"./src/ts/App.tsx\");\n/* harmony import */ var _scss_body_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../scss/_body.scss */ \"./src/scss/_body.scss\");\n/* harmony import */ var _scss_main_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../scss/main.scss */ \"./src/scss/main.scss\");\n\n\n // Make sure the path to your App component is correct\n// Import your main SCSS file\n // Path to your global styles\n // Adjust the path to point to your main SCSS file\nconst root = document.getElementById('root');\nif (!root) {\n    throw new Error('Root element not found');\n}\nconst reactRoot = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(root);\nreactRoot.render((0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx)(_App__WEBPACK_IMPORTED_MODULE_2__[\"default\"], {}));\n\n\n//# sourceURL=webpack://breton/./src/ts/index.tsx?");
 
 /***/ })
 
