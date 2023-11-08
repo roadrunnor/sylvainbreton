@@ -2,6 +2,8 @@
 @import "../scss/_variables.scss";
 
 header {
+	display: flex;
+
 	.container {
 		padding-top: $spacing-unit * 4.5;
 		max-width: $container-max-width;
@@ -16,33 +18,46 @@ header {
 		align-items: end;
 
 		.col {
-			// Removing flex: 1; here
-			flex-basis: 25%; // Default for larger screens (4 columns or 25% each)
+			flex-basis: 24.99%; // Default for larger screens (4 columns or 25% each)
 			flex-grow: 0;
 			flex-shrink: 0;
 			display: flex;
-			justify-content: center;
 			align-items: center;
 			padding: 0;
 		}
 
-		// For iPad size
+		// For iPad size for la .row
 		@media (max-width: 1166px) and (min-width: 768px) {
+			justify-content: left;
+
 			.col:not(:first-child):not(:last-child) {
 				display: none;
 			}
-			justify-content: center;
 		}
 
-		// For mobile and 767px breakpoint
+		// For mobile and less 767px breakpoint
 		@media (max-width: $breakpoint-md) {
+			justify-content: center;
+			max-width: min-content;
+			white-space: nowrap; /* Prevents the text from wrapping */
+			overflow: hidden; /* Prevents the text from overflowing the container */
+			text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */
+
+			.container {
+				max-width: min-content;
+			}
+
 			.col:not(:first-child):not(:last-child) {
 				display: none;
 			}
+
 			.col {
 				flex-basis: 100%;
+
+				blockquote {
+					margin-inline-end: 0;
+				}
 			}
-			justify-content: center;
 		}
 	}
 
