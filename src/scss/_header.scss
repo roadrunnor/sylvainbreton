@@ -1,61 +1,74 @@
 @use "sass:math";
-@import "../scss/_variables.scss";
+@import "variables";
 
 header {
-	display: flex;
-
 	.container {
 		padding-top: $spacing-unit * 4.5;
 		max-width: $container-max-width;
 		margin: 0 auto;
-	}
 
-	.row {
-		margin: 0 0 0 2rem;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-start;
-		align-items: end;
-
-		.col {
-			flex-basis: 24.99%; // Default for larger screens (4 columns or 25% each)
-			flex-grow: 0;
-			flex-shrink: 0;
+		.row {
 			display: flex;
-			align-items: center;
-			padding: 0;
-		}
-
-		// For iPad size for la .row
-		@media (max-width: 1166px) and (min-width: 768px) {
-			justify-content: left;
-
-			.col:not(:first-child):not(:last-child) {
-				display: none;
-			}
-		}
-
-		// For mobile and less 767px breakpoint
-		@media (max-width: $breakpoint-md) {
-			justify-content: center;
-			max-width: min-content;
-			white-space: nowrap; /* Prevents the text from wrapping */
-			overflow: hidden; /* Prevents the text from overflowing the container */
-			text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */
-
-			.container {
-				max-width: min-content;
-			}
-
-			.col:not(:first-child):not(:last-child) {
-				display: none;
-			}
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: end;
+			margin: 0 $spacing-unit * 2 0 $spacing-unit * 2;
+			padding-bottom: calc($spacing-unit / 2);
 
 			.col {
-				flex-basis: 100%;
+				display: flex;
+				flex: 1 1 25%;
+				max-width: 25%;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-start; // Alignement à gauche
+				padding: 0 $spacing-unit;
+				text-align: left;
+				box-sizing: border-box;
 
-				blockquote {
-					margin-inline-end: 0;
+				p {
+					padding-bottom: calc($spacing-unit / 2);
+				}
+			}
+
+			.underline {
+				border-bottom: $border-width solid $border-color;
+				height: 1px; // Hauteur minimale pour s'assurer qu'elle est visible
+				width: 100%; // S'assure que la bordure s'étend sur toute la largeur
+			}
+
+			// Adaptations pour les tablettes
+			@media (max-width: 1166px) and (min-width: 768px) {
+				justify-content: flex-start;
+				white-space: nowrap; /* Prevents the text from wrapping */
+				overflow: hidden; /* Prevents the text from overflowing the container */
+				text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */
+
+				.col {
+					flex: 0 0 50%; // Base de 50% pour avoir 2 colonnes
+					max-width: 50%; // Largeur maximale de 50%
+				}
+
+				.col:not(:first-child):not(:last-child) {
+					display: none;
+				}
+			}
+
+			// Adaptations pour les mobiles
+			@media (max-width: $breakpoint-md) {
+				justify-content: center;
+				max-width: min-content;
+				white-space: nowrap; /* Prevents the text from wrapping */
+				overflow: hidden; /* Prevents the text from overflowing the container */
+				text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */
+
+				.col:not(:first-child):not(:last-child) {
+					display: none;
+				}
+
+				.col {
+					flex: 0 0 100%; // Base de 100% pour avoir 1 colonne
+					max-width: 100%; // Largeur maximale de 100%
 				}
 			}
 		}
@@ -63,11 +76,10 @@ header {
 
 	.head-marquee {
 		background-color: $warning-color;
-		margin: 0 3.98em -1.09em 0;
-		padding: math.div($spacing-unit, 2) 0;
+		padding: calc($spacing-unit / 2);
 		overflow: hidden;
 		white-space: nowrap;
-		max-width: 24.2em;
+		max-width: 100%;
 
 		.scrolling-text {
 			display: inline-block;
