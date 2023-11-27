@@ -31,7 +31,7 @@ const Header = () => {
 								<em>
 									"IT IS SELF-EVIDENT THAT NOTHING CONCERNING ART IS
 									SEFL-EVIDENT ANYMORE, NOT ITS INNER LIFE, NOT ITS RELATIONSHIP
-									TO THE WORLD, NOT EVEN ITS RIGHT TO EXIST"
+									TO THE WORLD, NOT EVEN ITS RIGHT TO EXIST")
 								</em>
 								, Theodor Adorno, <em>Aesthetic Theory.</em>
 							</div>

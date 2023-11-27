@@ -41,3 +41,5 @@ yarn-error.log*    # Yarn error logs
 
 #Dependency Directories:
 node_modules
+_api
+_mysql
