@@ -2,6 +2,7 @@
 .DS_Store          # macOS Finder files
 Thumbs.db          # Windows thumbnail files
 .vscode/           # Visual Studio Code settings
+.vs
 .idea/             # JetBrains IDE settings
 
 #Build and Output Files:
@@ -41,5 +42,24 @@ yarn-error.log*    # Yarn error logs
 
 #Dependency Directories:
 node_modules
-_api
-_mysql
+
+# Dossiers de build
+bin/
+obj/
+
+# Dossiers des packages NuGet
+packages/
+
+# Fichiers de configuration personnelle
+**/appsettings.json
+
+# Dossiers et fichiers spécifiques à l'IDE
+*.user
+*.userprefs
+
+# Autres fichiers et dossiers
+*.log
+*.tmp
+*.vsix
+*.swp
+
