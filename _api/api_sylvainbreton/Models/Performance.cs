@@ -9,8 +9,9 @@
         public string Description { get; set; }
         public int PlaceID { get; set; }
 
-        // Relation avec Place
+        // Propriétés de navigation
         public Place Place { get; set; }
+        public ICollection<Image> Images { get; set; }
     }
 
 }

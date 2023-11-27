@@ -14,12 +14,10 @@
         public string CityOfPublication { get; set; }
 
         // Relation avec Artwork
+        // Propriétés de navigation
         public Artwork Artwork { get; set; }
     }
 
-
-
-}
 
 
 }

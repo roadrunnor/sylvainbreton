@@ -1,15 +1,23 @@
+using Microsoft.EntityFrameworkCore;
+using api_sylvainbreton.Models;
+using api_sylvainbreton.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// Ajout des services au conteneur
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Configuration du contexte de base de données
+builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
+    options.UseMySQL(builder.Configuration.GetConnectionString("SylvainBretonConnection")));
+
+// Configuration Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configuration du pipeline de requête HTTP
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -17,9 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
+

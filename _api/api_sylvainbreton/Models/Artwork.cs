@@ -11,7 +11,10 @@
         public string Description { get; set; }
         public string Conceptual { get; set; }
 
-        // Relations avec d'autres tables (si nécessaire)
+        // Propriétés de navigation
+        public ICollection<Image> Images { get; set; }
+        public ICollection<Sentence> Sentences { get; set; }
+        public ICollection<EventArtwork> EventArtworks { get; set; }
     }
 
 }

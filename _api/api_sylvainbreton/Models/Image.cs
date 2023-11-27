@@ -11,6 +11,7 @@
         public string MediaDescription { get; set; }
 
         // Relations avec Artwork et Performance
+        // Propriétés de navigation
         public Artwork Artwork { get; set; }
         public Performance Performance { get; set; }
     }

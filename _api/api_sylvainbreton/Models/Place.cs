@@ -8,7 +8,9 @@
         public string Address { get; set; }
         public string Country { get; set; }
 
-        // Relations avec d'autres tables (si nécessaire)
+        // Propriétés de navigation
+        public ICollection<Performance> Performances { get; set; }
+        public ICollection<Event> Events { get; set; }
     }
 
 }
