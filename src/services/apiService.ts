@@ -29,7 +29,14 @@ const apiService = {
   getEventById: async (id: number) => axios.get(`${API_BASE_URL}/events/${id}`),
   createEvent: async (eventData: any) => axios.post(`${API_BASE_URL}/events`, eventData),
   updateEvent: async (id: number, eventData: any) => axios.put(`${API_BASE_URL}/events/${id}`, eventData),
-  deleteEvent: async (id: number) => axios.delete(`${API_BASE_URL}/events/${id}`),
+	deleteEvent: async (id: number) => axios.delete(`${API_BASE_URL}/events/${id}`),
+
+	// EventArtworks
+	getAllEventArtworks: async () => axios.get(`${API_BASE_URL}/eventartworks`),
+	getEventArtworkById: async (eventId: number, artworkId: number) => axios.get(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`),
+	createEventArtwork: async (eventArtworkData: any) => axios.post(`${API_BASE_URL}/eventartworks`, eventArtworkData),
+	updateEventArtwork: async (eventId: number, artworkId: number, eventArtworkData: any) => axios.put(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`, eventArtworkData),
+	deleteEventArtwork: async (eventId: number, artworkId: number) => axios.delete(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`),
 
   // Images
   getAllImages: async () => axios.get(`${API_BASE_URL}/images`),
