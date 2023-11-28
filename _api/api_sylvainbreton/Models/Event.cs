@@ -11,6 +11,7 @@
 
         // Relation avec Place
         public Place Place { get; set; }
+        public ICollection<EventArtwork> EventArtworks { get; set; }
     }
 
 

@@ -2,6 +2,9 @@
 using api_sylvainbreton.Models;
 using System.Collections.Generic;
 using System.Linq;
+using api_sylvainbreton.Data;
+using Microsoft.EntityFrameworkCore;
+
 // Assurez-vous d'inclure tous les namespaces nécessaires
 
 namespace api_sylvainbreton.Controllers
@@ -10,7 +13,7 @@ namespace api_sylvainbreton.Controllers
     [ApiController]
     public class ArtworksController : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context; // Remplacez SylvainBretonDbContext par le contexte de votre base de données
+        private readonly SylvainBretonDbContext _context; 
 
         public ArtworksController(SylvainBretonDbContext context)
         {
