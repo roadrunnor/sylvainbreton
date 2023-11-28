@@ -22,7 +22,10 @@ namespace api_sylvainbreton.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Place>> GetPlaces()
         {
-            return _context.Places.ToList();
+            return _context.Places
+                .Include(p => p.Performances)
+                .Include(p => p.Events)
+                .ToList();
         }
 
         // GET: api/Places/5

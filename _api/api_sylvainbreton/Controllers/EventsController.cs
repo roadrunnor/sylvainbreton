@@ -23,8 +23,9 @@ namespace api_sylvainbreton.Controllers
         public ActionResult<IEnumerable<Event>> GetEvents()
         {
             return _context.Events
-                .Include(e => e.Place) // Inclut les données associées de Place
-                .Include(e => e.EventArtworks) // Inclut les relations EventArtwork
+                .Include(e => e.Place)
+                .Include(e => e.EventArtworks)
+                    .ThenInclude(ea => ea.Artwork)
                 .ToList();
         }
 
