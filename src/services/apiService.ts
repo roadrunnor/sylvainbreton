@@ -4,55 +4,309 @@ const API_BASE_URL = 'http://localhost:5000/api';
 
 const apiService = {
   // Artworks
-  getAllArtworks: async () => axios.get(`${API_BASE_URL}/artworks`),
-  getArtworkById: async (id: number) => axios.get(`${API_BASE_URL}/artworks/${id}`),
-  createArtwork: async (artworkData: any) => axios.post(`${API_BASE_URL}/artworks`, artworkData),
-  updateArtwork: async (id: number, artworkData: any) => axios.put(`${API_BASE_URL}/artworks/${id}`, artworkData),
-  deleteArtwork: async (id: number) => axios.delete(`${API_BASE_URL}/artworks/${id}`),
+  getAllArtworks: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/artworks`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getArtworkById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/artworks/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createArtwork: async (artworkData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/artworks`, artworkData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updateArtwork: async (id: number, artworkData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/artworks/${id}`, artworkData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deleteArtwork: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/artworks/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Places
-  getAllPlaces: async () => axios.get(`${API_BASE_URL}/places`),
-  getPlaceById: async (id: number) => axios.get(`${API_BASE_URL}/places/${id}`),
-  createPlace: async (placeData: any) => axios.post(`${API_BASE_URL}/places`, placeData),
-  updatePlace: async (id: number, placeData: any) => axios.put(`${API_BASE_URL}/places/${id}`, placeData),
-  deletePlace: async (id: number) => axios.delete(`${API_BASE_URL}/places/${id}`),
+  getAllPlaces: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/places`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getPlaceById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/places/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createPlace: async (placeData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/places`, placeData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updatePlace: async (id: number, placeData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/places/${id}`, placeData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deletePlace: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/places/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Performances
-  getAllPerformances: async () => axios.get(`${API_BASE_URL}/performances`),
-  getPerformanceById: async (id: number) => axios.get(`${API_BASE_URL}/performances/${id}`),
-  createPerformance: async (performanceData: any) => axios.post(`${API_BASE_URL}/performances`, performanceData),
-  updatePerformance: async (id: number, performanceData: any) => axios.put(`${API_BASE_URL}/performances/${id}`, performanceData),
-  deletePerformance: async (id: number) => axios.delete(`${API_BASE_URL}/performances/${id}`),
+  getAllPerformances: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/performances`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getPerformanceById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/performances/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createPerformance: async (performanceData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/performances`, performanceData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updatePerformance: async (id: number, performanceData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/performances/${id}`, performanceData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deletePerformance: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/performances/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Events
-  getAllEvents: async () => axios.get(`${API_BASE_URL}/events`),
-  getEventById: async (id: number) => axios.get(`${API_BASE_URL}/events/${id}`),
-  createEvent: async (eventData: any) => axios.post(`${API_BASE_URL}/events`, eventData),
-  updateEvent: async (id: number, eventData: any) => axios.put(`${API_BASE_URL}/events/${id}`, eventData),
-	deleteEvent: async (id: number) => axios.delete(`${API_BASE_URL}/events/${id}`),
-
+  getAllEvents: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/events`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getEventById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/events/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createEvent: async (eventData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/events`, eventData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updateEvent: async (id: number, eventData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/events/${id}`, eventData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deleteEvent: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/events/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+	},
+	
 	// EventArtworks
-	getAllEventArtworks: async () => axios.get(`${API_BASE_URL}/eventartworks`),
-	getEventArtworkById: async (eventId: number, artworkId: number) => axios.get(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`),
-	createEventArtwork: async (eventArtworkData: any) => axios.post(`${API_BASE_URL}/eventartworks`, eventArtworkData),
-	updateEventArtwork: async (eventId: number, artworkId: number, eventArtworkData: any) => axios.put(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`, eventArtworkData),
-	deleteEventArtwork: async (eventId: number, artworkId: number) => axios.delete(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`),
+  getAllEventArtworks: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/eventartworks`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getEventArtworkById: async (eventId: number, artworkId: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createEventArtwork: async (eventArtworkData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/eventartworks`, eventArtworkData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updateEventArtwork: async (eventId: number, artworkId: number, eventArtworkData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`, eventArtworkData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deleteEventArtwork: async (eventId: number, artworkId: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Images
-  getAllImages: async () => axios.get(`${API_BASE_URL}/images`),
-  getImageById: async (id: number) => axios.get(`${API_BASE_URL}/images/${id}`),
-  createImage: async (imageData: any) => axios.post(`${API_BASE_URL}/images`, imageData),
-  updateImage: async (id: number, imageData: any) => axios.put(`${API_BASE_URL}/images/${id}`, imageData),
-  deleteImage: async (id: number) => axios.delete(`${API_BASE_URL}/images/${id}`),
+  getAllImages: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/images`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getImageById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/images/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createImage: async (imageData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/images`, imageData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updateImage: async (id: number, imageData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/images/${id}`, imageData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deleteImage: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/images/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Sentences
-  getAllSentences: async () => axios.get(`${API_BASE_URL}/sentences`),
-  getSentenceById: async (id: number) => axios.get(`${API_BASE_URL}/sentences/${id}`),
-  createSentence: async (sentenceData: any) => axios.post(`${API_BASE_URL}/sentences`, sentenceData),
-  updateSentence: async (id: number, sentenceData: any) => axios.put(`${API_BASE_URL}/sentences/${id}`, sentenceData),
-  deleteSentence: async (id: number) => axios.delete(`${API_BASE_URL}/sentences/${id}`),
+  getAllSentences: async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/sentences`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  getSentenceById: async (id: number) => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/sentences/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  createSentence: async (sentenceData: any) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/sentences`, sentenceData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  updateSentence: async (id: number, sentenceData: any) => {
+    try {
+      const response = await axios.put(`${API_BASE_URL}/sentences/${id}`, sentenceData);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
+  deleteSentence: async (id: number) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/sentences/${id}`);
+      return response.data;
+    } catch (error) {
+      handleError(error);
+    }
+  },
 
   // Ajoutez ici d'autres fonctions pour les autres entités si nécessaire
 };
+
+function handleError(error: any) {
+  if (axios.isAxiosError(error)) {
+    console.error('Erreur Axios :', error.response);
+  } else {
+    console.error('Erreur inattendue :', error);
+  }
+  throw error;
+}
 
 export default apiService;
