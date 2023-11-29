@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-	mode: "development",
+	mode: process.env.NODE_ENV === "production" ? "production" : "development",
 	entry: {
 		app: "./src/ts/index.tsx",
 	},
@@ -57,4 +57,5 @@ module.exports = {
 		liveReload: true,
 		port: 3000,
 	},
+	devtool: process.env.NODE_ENV === "development" ? "source-map" : false,
 };
