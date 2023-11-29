@@ -1,6 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
 
 module.exports = {
 	mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -46,6 +47,11 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: "[name].css", // This will produce app.css, but you don't need to worry about it since it will be injected
+		}),
+		new webpack.DefinePlugin({
+			"process.env.REACT_APP_API_BASE_URL": JSON.stringify(
+				process.env.REACT_APP_API_BASE_URL
+			),
 		}),
 	],
 	devServer: {
