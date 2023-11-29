@@ -23,8 +23,8 @@ package-lock.json
 .gitkeep           # Empty directories
 
 #Credentials and Sensitive Information (Never store sensitive information in a Git repository):
-.env.production
 .env.development
+.env.production
 
 #Logs and Debug Files:
 *.log
