@@ -13,7 +13,7 @@ CREATE TABLE Artwork (
     Conceptual TEXT
 );
 
-CREATE TABLE Places (
+CREATE TABLE Place (
     PlaceID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(255),
     PlaceType VARCHAR(50), -- Public, Privé (Galerie, Musée, etc.)
@@ -21,35 +21,35 @@ CREATE TABLE Places (
     Country VARCHAR(255)
 );
 
-CREATE TABLE Performances (
+CREATE TABLE Performance (
     PerformanceID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255),
     PerformanceDate YEAR,
     Materials VARCHAR(255),
     Description TEXT,
     PlaceID INT,
-    FOREIGN KEY (PlaceID) REFERENCES Places(PlaceID)
+    FOREIGN KEY (PlaceID) REFERENCES Place(PlaceID)
 );
 
-CREATE TABLE Events (
+CREATE TABLE Event (
     EventID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255),
     StartDate DATE,
     EndDate DATE,
     PlaceID INT,
     Description TEXT,
-    FOREIGN KEY (PlaceID) REFERENCES Places(PlaceID)
+    FOREIGN KEY (PlaceID) REFERENCES Place(PlaceID)
 );
 
-CREATE TABLE EventArtworks (
+CREATE TABLE EventArtwork (
     EventID INT,
     ArtworkID INT,
     PRIMARY KEY (EventID, ArtworkID),
-    FOREIGN KEY (EventID) REFERENCES Events(EventID),
+    FOREIGN KEY (EventID) REFERENCES Event(EventID),
     FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID)
 );
 
-CREATE TABLE Images (
+CREATE TABLE Image (
     ImageID INT AUTO_INCREMENT PRIMARY KEY,
     ArtworkID INT,
     PerformanceID INT,
@@ -58,10 +58,10 @@ CREATE TABLE Images (
     MediaType VARCHAR(50),
     MediaDescription TEXT,
     FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID),
-    FOREIGN KEY (PerformanceID) REFERENCES Performances(PerformanceID)
+    FOREIGN KEY (PerformanceID) REFERENCES Performance(PerformanceID)
 );
 
-CREATE TABLE Sentences (
+CREATE TABLE Sentence (
     SentenceID INT AUTO_INCREMENT PRIMARY KEY,
     ArtworkID INT,
     Author VARCHAR(255),
@@ -85,32 +85,32 @@ INSERT INTO Artwork (Title, CreationDate, ArtworkType, Materials, Dimensions, De
 VALUES ('What To Do With The Contemporary?', '2011', 'Performance', 'Digital Work', NULL, 'Agency of Possibilities and Impossibilities.', 'Immaterial Art');
 
 -- Insertion d'un lieu
-INSERT INTO Places (Name, PlaceType, Address, Country)
+INSERT INTO Place (Name, PlaceType, Address, Country)
 VALUES ('Web Space', 'Public', 'sylvainbreton.com', 'Canada');
-INSERT INTO Places (Name, PlaceType, Address, Country)
+INSERT INTO Place (Name, PlaceType, Address, Country)
 VALUES ('Web Space', 'Public', 'sylvainbreton.com', 'Canada');
 
 -- Insertion d'une performance
-INSERT INTO Performances (Title, PerformanceDate, Materials, Description, PlaceID)
+INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID)
 VALUES ('Dreaming Sarah Performance', '2011', 'Web', NULL, 1);
-INSERT INTO Performances (Title, PerformanceDate, Materials, Description, PlaceID)
+INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID)
 VALUES ('What To Do With The Contemporary?', '2011', 'Web', NULL, 2);
 
 -- Insertion d'un événement
--- INSERT INTO Events (Title, StartDate, EndDate, PlaceID, Description)
+-- INSERT INTO Event (Title, StartDate, EndDate, PlaceID, Description)
 -- VALUES ('Reflets Contemporains', '2023-06-01', '2023-08-30', 1, 'Une exposition collective mettant en lumière des artistes contemporains.');
 
 -- Insertion d'une relation Artwork-Event
--- INSERT INTO EventArtworks (EventID, ArtworkID)
+-- INSERT INTO EventArtwork (EventID, ArtworkID)
 -- VALUES (1, 1);
 
 -- Insertion d'une image
-INSERT INTO Images (ArtworkID, FileRoute, Description, MediaType, MediaDescription)
-VALUES (1, 'E:\Websites\breton\public\images\DreamingSarah\ring.jpg', 'Agency of Possibilities and Impossibilities - Love as a life statement commodity. Metropology: City intelligence by Money', 'Photography', 'Image taken from Birks');
+INSERT INTO Image (ArtworkID, FileRoute, Description, MediaType, MediaDescription)
+VALUES (1, 'E:\Websites\breton\public\Image\DreamingSarah\ring.jpg', 'Agency of Possibilities and Impossibilities - Love as a life statement commodity. Metropology: City intelligence by Money', 'Photography', 'Image taken from Birks');
 
 -- Insertion d'une autre citation d'un livre liée à la même œuvre d'art (ArtworkID = 1)
-INSERT INTO Sentences (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
+INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
 VALUES (2, 'Joao Ribas', '2011', 'What To Do With The Contemporary?', 'Fiorucci Art Trust with Mousse Editions', 67, 'the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore','Italy', 'Milan');
-INSERT INTO Sentences (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
+INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
 VALUES (2, 'Theodor Adorno', NULL, 'Aesthetic Theory', NULL, NULL, '(From Adorno Statement : "it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist")', NULL, NULL);
 

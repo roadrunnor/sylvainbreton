@@ -11,7 +11,7 @@ interface Config {
 }
 
 const config: Config = {
-  API_BASE_URL: "http://api.example.com",
+  API_BASE_URL: "https://localhost:7199/api",
   // D'autres configurations...
 };
 

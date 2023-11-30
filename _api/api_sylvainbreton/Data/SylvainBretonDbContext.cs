@@ -62,6 +62,18 @@ namespace api_sylvainbreton.Data
                 .HasOne(ea => ea.Artwork)
                 .WithMany(a => a.EventArtworks)
                 .HasForeignKey(ea => ea.ArtworkID);
+
+            // Configuration spécifique pour la table Artwork
+            modelBuilder.Entity<Artwork>()
+                .ToTable("Artwork");
+
+            // Ajout des configurations ToTable pour chaque entité
+            modelBuilder.Entity<Place>().ToTable("Place");
+            modelBuilder.Entity<Performance>().ToTable("Performance");
+            modelBuilder.Entity<Event>().ToTable("Event");
+            modelBuilder.Entity<EventArtwork>().ToTable("EventArtwork");
+            modelBuilder.Entity<Image>().ToTable("Image");
+            modelBuilder.Entity<Sentence>().ToTable("Sentence");
         }
     }
 }

@@ -5,7 +5,7 @@
         public int SentenceID { get; set; }
         public int ArtworkID { get; set; }
         public string Author { get; set; }
-        public DateTime PublicationDate { get; set; }
+        public DateTime? PublicationDate { get; set; }
         public string BookTitle { get; set; }
         public string Publisher { get; set; }
         public int SentencePage { get; set; }

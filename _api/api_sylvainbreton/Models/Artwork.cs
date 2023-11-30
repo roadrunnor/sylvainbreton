@@ -4,7 +4,7 @@
     {
         public int ArtworkID { get; set; }
         public string Title { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime? CreationDate { get; set; }
         public string ArtworkType { get; set; }
         public string Materials { get; set; }
         public string Dimensions { get; set; }
