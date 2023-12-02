@@ -5,7 +5,7 @@ USE SylvainBreton;
 CREATE TABLE Artwork (
     ArtworkID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255),
-    CreationDate YEAR,
+    CreationDate DATE,
     ArtworkType VARCHAR(50), -- Peinture, Sculpture, Dessin, Photographie, Installation, Conceptual, Performance
     Materials VARCHAR(255),
     Dimensions VARCHAR(255),
@@ -24,7 +24,7 @@ CREATE TABLE Place (
 CREATE TABLE Performance (
     PerformanceID INT AUTO_INCREMENT PRIMARY KEY,
     Title VARCHAR(255),
-    PerformanceDate YEAR,
+    PerformanceDate DATE,
     Materials VARCHAR(255),
     Description TEXT,
     PlaceID INT,
@@ -65,7 +65,7 @@ CREATE TABLE Sentence (
     SentenceID INT AUTO_INCREMENT PRIMARY KEY,
     ArtworkID INT,
     Author VARCHAR(255),
-    PublicationDate YEAR,
+    PublicationDate DATE,
     BookTitle VARCHAR(255),
     Publisher VARCHAR(255),
     SentencePage INT,
@@ -80,9 +80,9 @@ CREATE TABLE Sentence (
 
 -- Insertion d'une œuvre d'art
 INSERT INTO Artwork (Title, CreationDate, ArtworkType, Materials, Dimensions, Description, Conceptual)
-VALUES ('Dreaming Sarah', '2011', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description');
+VALUES ('Dreaming Sarah', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description');
 INSERT INTO Artwork (Title, CreationDate, ArtworkType, Materials, Dimensions, Description, Conceptual)
-VALUES ('What To Do With The Contemporary?', '2011', 'Performance', 'Digital Work', NULL, 'Agency of Possibilities and Impossibilities.', 'Immaterial Art');
+VALUES ('What To Do With The Contemporary?', '2011-01-01', 'Performance', 'Digital Work', NULL, 'Agency of Possibilities and Impossibilities.', 'Immaterial Art');
 
 -- Insertion d'un lieu
 INSERT INTO Place (Name, PlaceType, Address, Country)
@@ -92,9 +92,9 @@ VALUES ('Web Space', 'Public', 'sylvainbreton.com', 'Canada');
 
 -- Insertion d'une performance
 INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID)
-VALUES ('Dreaming Sarah Performance', '2011', 'Web', NULL, 1);
+VALUES ('Dreaming Sarah Performance', '2011-01-01', 'Web', NULL, 1);
 INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID)
-VALUES ('What To Do With The Contemporary?', '2011', 'Web', NULL, 2);
+VALUES ('What To Do With The Contemporary?', '2011-01-01', 'Web', NULL, 2);
 
 -- Insertion d'un événement
 -- INSERT INTO Event (Title, StartDate, EndDate, PlaceID, Description)
@@ -110,7 +110,7 @@ VALUES (1, 'E:\Websites\breton\public\Image\DreamingSarah\ring.jpg', 'Agency of 
 
 -- Insertion d'une autre citation d'un livre liée à la même œuvre d'art (ArtworkID = 1)
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
-VALUES (2, 'Joao Ribas', '2011', 'What To Do With The Contemporary?', 'Fiorucci Art Trust with Mousse Editions', 67, 'the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore','Italy', 'Milan');
+VALUES (2, 'Joao Ribas', '2011-01-01', 'What To Do With The Contemporary?', 'Fiorucci Art Trust with Mousse Editions', 67, 'the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore','Italy', 'Milan');
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
 VALUES (2, 'Theodor Adorno', NULL, 'Aesthetic Theory', NULL, NULL, '(From Adorno Statement : "it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist")', NULL, NULL);
 
