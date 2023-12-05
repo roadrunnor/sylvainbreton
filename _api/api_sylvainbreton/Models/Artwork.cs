@@ -1,4 +1,6 @@
-﻿namespace api_sylvainbreton.Models
+﻿using System.Text.Json.Serialization;
+
+namespace api_sylvainbreton.Models
 {
     public class Artwork
     {
@@ -13,6 +15,7 @@
 
         // Propriétés de navigation
         public ICollection<Image> Images { get; set; }
+        [JsonIgnore]
         public ICollection<Sentence> Sentences { get; set; }
         public ICollection<EventArtwork> EventArtworks { get; set; }
     }

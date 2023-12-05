@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using api_sylvainbreton.Models;
-using System.Collections.Generic;
-using System.Linq;
 using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
-
-// Assurez-vous d'inclure tous les namespaces nécessaires
+using api_sylvainbreton.Models.DTOs;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -40,6 +37,24 @@ namespace api_sylvainbreton.Controllers
 
             return artwork;
         }
+
+        // GET: api/Artworks
+        [HttpGet("Dto")]
+        public ActionResult<IEnumerable<ArtworkDTO>> GetArtworksDto()
+        {
+            var artworksDto = _context.Artworks
+                .Select(a => new ArtworkDTO
+                {
+                    ArtworkID = a.ArtworkID,
+                    Title = a.Title,
+                    CreationDate = a.CreationDate
+                    // Map any other necessary properties
+                })
+                .ToList();
+
+            return Ok(artworksDto); // 'artworksDto' to match the variable name
+        }
+
 
         // POST: api/Artworks
         [HttpPost]

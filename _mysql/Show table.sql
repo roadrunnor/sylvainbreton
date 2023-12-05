@@ -1,0 +1,3 @@
+SHOW TABLES;
+DESCRIBE Artwork;
+DESCRIBE Sentence

@@ -1,4 +1,3 @@
-// src/models/Sentence.ts
 export interface Sentence {
 	content: string;
 	author: string;

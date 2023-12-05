@@ -3,7 +3,7 @@
 
 // Then, import variable files
 @import "variables"; // Assuming the file is named _variables.scss
-
+@import 'utilities';
 // Import partials for different parts of your application
 @import "header"; // Assuming the file is named _header.scss
 @import "footer"; // Assuming the file is named _footer.scss

@@ -10,6 +10,16 @@ namespace api_sylvainbreton.Data
         {
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connectionString = Environment.GetEnvironmentVariable("SylvainBretonConnection");
+                optionsBuilder.UseMySQL(connectionString);
+            }
+        }
+
+        public DbSet<Artist> Artists { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Performance> Performances { get; set; }
@@ -17,10 +27,15 @@ namespace api_sylvainbreton.Data
         public DbSet<EventArtwork> EventArtworks { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<Sentence> Sentences { get; set; }
+        public DbSet<DynamicContent> DynamicContents { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Artist>()
+                .HasKey(a => a.ArtistID);
 
             // Clé composite pour EventArtworks
             modelBuilder.Entity<EventArtwork>()
@@ -62,6 +77,9 @@ namespace api_sylvainbreton.Data
                 .HasOne(ea => ea.Artwork)
                 .WithMany(a => a.EventArtworks)
                 .HasForeignKey(ea => ea.ArtworkID);
+
+            modelBuilder.Entity<DynamicContent>()
+                .HasKey(dc => dc.ContentID);
 
             // Configuration spécifique pour la table Artwork
             modelBuilder.Entity<Artwork>()

@@ -6,6 +6,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Ajout des services au conteneur
 builder.Services.AddControllers();
 
+// Configuration de CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder => builder.WithOrigins("http://localhost:3000")
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 // Configuration du contexte de base de données
 builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("SylvainBretonConnection"),
@@ -13,7 +22,6 @@ builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
 
 // Configuration Swagger/OpenAPI
 // Ajout des autres services et configuration
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -27,6 +35,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Utilisation de la politique CORS
+app.UseCors("AllowSpecificOrigin");
+
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

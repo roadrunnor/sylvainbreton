@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 import config from "../config/config";
+import { Artist } from "../models/Artist"; // Adjust the path as necessary
 
 const API_BASE_URL = config.API_BASE_URL;
 
@@ -296,9 +297,21 @@ const apiService = {
 	getAllSentences: async () => {
 		try {
 			const response = await axios.get(`${API_BASE_URL}/sentences`);
-			return response.data;
+			// Ensure that the response is an array before returning
+			if (Array.isArray(response.data)) {
+				return response.data;
+			} else {
+				console.error(
+					"Expected an array of sentences, but received:",
+					response.data
+				);
+				// Return an empty array if the response is not an array
+				return [];
+			}
 		} catch (error) {
 			handleError(error);
+			// Return an empty array in case of an error
+			return [];
 		}
 	},
 	getSentenceById: async (id: number) => {
@@ -334,6 +347,102 @@ const apiService = {
 	deleteSentence: async (id: number) => {
 		try {
 			const response = await axios.delete(`${API_BASE_URL}/sentences/${id}`);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+
+	// Artists
+	getAllArtists: async (): Promise<Artist[]> => {
+		try {
+			const response = await axios.get(`${API_BASE_URL}/artists`);
+			return response.data; // Assuming this is an array of Artist
+		} catch (error) {
+			handleError(error);
+			return []; // Return an empty array if there's an error
+		}
+	},
+	getArtistById: async (id: number) => {
+		try {
+			const response = await axios.get(`${API_BASE_URL}/artists/${id}`);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	createArtist: async (artistData: any) => {
+		try {
+			const response = await axios.post(`${API_BASE_URL}/artists`, artistData);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	updateArtist: async (id: number, artistData: any) => {
+		try {
+			const response = await axios.put(
+				`${API_BASE_URL}/artists/${id}`,
+				artistData
+			);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	deleteArtist: async (id: number) => {
+		try {
+			const response = await axios.delete(`${API_BASE_URL}/artists/${id}`);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+
+	// DynamicContent
+	getAllDynamicContents: async () => {
+		try {
+			const response = await axios.get(`${API_BASE_URL}/dynamiccontents`);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	getDynamicContentById: async (id: number) => {
+		try {
+			const response = await axios.get(`${API_BASE_URL}/dynamiccontents/${id}`);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	createDynamicContent: async (dynamicContentData: any) => {
+		try {
+			const response = await axios.post(
+				`${API_BASE_URL}/dynamiccontents`,
+				dynamicContentData
+			);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	updateDynamicContent: async (id: number, dynamicContentData: any) => {
+		try {
+			const response = await axios.put(
+				`${API_BASE_URL}/dynamiccontents/${id}`,
+				dynamicContentData
+			);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
+	deleteDynamicContent: async (id: number) => {
+		try {
+			const response = await axios.delete(
+				`${API_BASE_URL}/dynamiccontents/${id}`
+			);
 			return response.data;
 		} catch (error) {
 			handleError(error);

@@ -1,4 +1,6 @@
-﻿namespace api_sylvainbreton.Models
+﻿using System.Text.Json.Serialization;
+
+namespace api_sylvainbreton.Models
 {
     public class Sentence
     {
@@ -15,6 +17,7 @@
 
         // Relation avec Artwork
         // Propriétés de navigation
+        [JsonIgnore]
         public Artwork Artwork { get; set; }
     }
 

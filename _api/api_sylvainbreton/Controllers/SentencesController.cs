@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
+using api_sylvainbreton.Models.DTOs;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -42,6 +43,23 @@ namespace api_sylvainbreton.Controllers
 
             return sentence;
         }
+
+        // GET: api/Sentences
+        [HttpGet("Dto")]
+        public ActionResult<IEnumerable<SentenceDTO>> GetSentencesDto()
+        {
+            var sentencesDto = _context.Sentences.Select(s => new SentenceDTO
+            {
+                SentenceID = s.SentenceID,
+                Content = s.Content, // Assuming 'Content' is the correct property name
+                ArtworkID = s.ArtworkID
+                // Map any other necessary properties
+            }).ToList();
+
+            return Ok(sentencesDto); // This should match the variable name above
+        }
+
+
 
         // POST: api/Sentences
         [HttpPost]
