@@ -55,12 +55,14 @@ namespace api_sylvainbreton.Data
             modelBuilder.Entity<Image>()
                 .HasOne(i => i.Artwork)
                 .WithMany(a => a.Images)
-                .HasForeignKey(i => i.ArtworkID);
+                .HasForeignKey(i => i.ArtworkID)
+                .IsRequired(false); // Make ArtworkID nullable
 
             modelBuilder.Entity<Image>()
                 .HasOne(i => i.Performance)
                 .WithMany(p => p.Images)
-                .HasForeignKey(i => i.PerformanceID);
+                .HasForeignKey(i => i.PerformanceID)
+                .IsRequired(false); // Make PerformanceID nullable
 
             modelBuilder.Entity<Sentence>()
                 .HasOne(s => s.Artwork)

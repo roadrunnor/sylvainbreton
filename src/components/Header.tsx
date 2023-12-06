@@ -50,10 +50,18 @@ const Header = () => {
 		<header className="header">
 			<div className="container">
 				<div className="row">
+					<div>
+						<img
+							src="/public/images/world/world.webp"
+							alt="World"
+							className="world-image"
+						/>
+					</div>
+				</div>
+				<div className="row">
 					<div className="col">
-						{/* Dynamic artist name */}
-						{artistName && <div className="uppercase-text">{artistName}</div>}
-						{!artistName && <div className="uppercase-text">Artist Name</div>}
+						{artistName && <p className="uppercase-text">{artistName}</p>}
+						{!artistName && <p className="uppercase-text">Artist Name</p>}
 						<div className="underline" />
 					</div>
 					<div className="col">

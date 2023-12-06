@@ -57,8 +57,8 @@ CREATE TABLE EventArtwork (
 
 CREATE TABLE Image (
     ImageID INT AUTO_INCREMENT PRIMARY KEY,
-    ArtworkID INT,
-    PerformanceID INT,
+    ArtworkID INT NULL,
+    PerformanceID INT NULL,
     FileRoute VARCHAR(255),
     Description TEXT,
     MediaType VARCHAR(50),
@@ -66,6 +66,7 @@ CREATE TABLE Image (
     FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID),
     FOREIGN KEY (PerformanceID) REFERENCES Performance(PerformanceID)
 );
+
 
 CREATE TABLE Sentence (
     SentenceID INT AUTO_INCREMENT PRIMARY KEY,
@@ -123,9 +124,13 @@ VALUES ('What To Do With The Contemporary?', '2011-01-01', 'Web', NULL, 2);
 -- INSERT INTO EventArtwork (EventID, ArtworkID)
 -- VALUES (1, 1);
 
--- Insertion d'une image
+-- Insertion d'une image artistique
 INSERT INTO Image (ArtworkID, FileRoute, Description, MediaType, MediaDescription)
 VALUES (1, 'E:\Websites\breton\public\Image\DreamingSarah\ring.jpg', 'Agency of Possibilities and Impossibilities - Love as a life statement commodity. Metropology: City intelligence by Money', 'Photography', 'Image taken from Birks');
+
+-- Insertion d'une image non artistique
+INSERT INTO Image (FileRoute, Description, MediaType, MediaDescription)
+VALUES ('breton/public/world/world.webp', 'Description of the World Image', 'WebP', 'World Image');
 
 -- Insertion d'une autre citation d'un livre liée à la même œuvre d'art (ArtworkID = 1)
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)

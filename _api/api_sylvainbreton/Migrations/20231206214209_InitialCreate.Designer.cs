@@ -11,8 +11,8 @@ using api_sylvainbreton.Data;
 namespace api_sylvainbreton.Migrations
 {
     [DbContext(typeof(SylvainBretonDbContext))]
-    [Migration("20231202160557_UpdatePublicationDateType")]
-    partial class UpdatePublicationDateType
+    [Migration("20231206214209_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,23 @@ namespace api_sylvainbreton.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("api_sylvainbreton.Models.Artist", b =>
+                {
+                    b.Property<int>("ArtistID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ArtistID");
+
+                    b.ToTable("Artists");
+                });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Artwork", b =>
                 {
@@ -52,6 +69,23 @@ namespace api_sylvainbreton.Migrations
                     b.HasKey("ArtworkID");
 
                     b.ToTable("Artwork", (string)null);
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.DynamicContent", b =>
+                {
+                    b.Property<int>("ContentID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Keyword")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ContentID");
+
+                    b.ToTable("DynamicContents");
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Event", b =>
