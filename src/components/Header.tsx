@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "../scss/_header.scss";
 import apiService from "../services/apiService"; // Ajustez le chemin vers votre fichier apiService
 import { Sentence } from "../models/Sentence"; // Ajustez le chemin si nécessaire
-import { Artist } from "../models/Artist"; // Adjust the path to wherever your Artist interface is defined
 
 // Header.tsx
 const Header = () => {
