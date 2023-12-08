@@ -3,8 +3,6 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
-
-// Assuming you're in a development environment here
 const envPath = path.join(__dirname, ".env.development");
 const envConfig = dotenv.config({ path: envPath }).parsed;
 

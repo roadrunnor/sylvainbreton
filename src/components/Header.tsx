@@ -59,13 +59,7 @@ const Header = () => {
 		<header className="header">
 			<div className="container">
 				<div className="row">
-					<div>
-						<img
-							className="world-image"
-							src={`${process.env.REACT_APP_IMAGE_PATH}/world/world.webp`}
-							alt="World"
-						/>
-					</div>
+					<img className="world-image" src={`${process.env.REACT_APP_IMAGE_PATH}/world.webp`} alt="World"/>
 				</div>
 				<div className="row">
 					<div className="col">

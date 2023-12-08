@@ -3,7 +3,7 @@
 
 header {
 	.container {
-		padding-top: $spacing-unit * 4.5;
+		padding-top: $spacing-unit * 2.5;
 		max-width: $container-max-width;
 		margin: 0 auto;
 
@@ -57,7 +57,7 @@ header {
 			// Adaptations pour les mobiles
 			@media (max-width: $breakpoint-md) {
 				justify-content: center;
-				max-width: min-content;
+				//max-width: min-content;
 				white-space: nowrap; /* Prevents the text from wrapping */
 				overflow: hidden; /* Prevents the text from overflowing the container */
 				text-overflow: ellipsis; /* Adds an ellipsis if the text overflows */

@@ -1,5 +1,21 @@
 .world-image {
-	width: 8cm;
-	height: 8cm;
-	object-fit: cover; // Cette ligne est optionnelle, pour gérer comment l'image remplit son conteneur
+	width: 4rem;
+	height: 4rem;
+	object-fit: cover; // This line is optional, to manage how the image fills its container
+	display: block; // Change display to block to allow for margin auto to work
+	margin-left: auto;
+	margin-right: auto;
+	filter: brightness(0);
+
+	@media (max-width: 1166px) and (min-width: 768px) {
+		margin-bottom: 1rem;
+	}
+
+	// Only center the image on mobile devices
+	@media (max-width: $breakpoint-sm) {
+		// These rules will only apply to screens smaller than your mobile breakpoint
+		margin: 0 auto;
+		//margin-bottom: auto;
+		//max-width: none;
+	}
 }

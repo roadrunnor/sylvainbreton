@@ -14,6 +14,7 @@ build
 dist
 # Output directory
 out
+psd
 
 #Package Manager Files:
 # npm package lock file
