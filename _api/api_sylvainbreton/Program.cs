@@ -6,6 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Ajout des services au conteneur
 builder.Services.AddControllers();
 
+// By adding this line, you'll instruct the system to use the naming convention from your C# models
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
+
 // Configuration de CORS
 builder.Services.AddCors(options =>
 {

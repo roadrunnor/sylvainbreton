@@ -15,14 +15,19 @@ const Header = () => {
 		const findMyArtistEntry = async () => {
 			try {
 				const artists = await apiService.getAllArtists();
-				// Check if artists is not undefined before calling find
+				console.log("Fetched artists:", artists); // Debugging line
+
 				if (artists) {
 					const myEntry = artists.find(
 						(artist) =>
 							artist.FirstName === "Sylvain" && artist.LastName === "Breton"
 					);
+					console.log("My Entry:", myEntry); // Debugging line
+
 					if (myEntry) {
 						setArtistName(`${myEntry.FirstName} ${myEntry.LastName}`);
+					} else {
+						console.log("Artist Sylvain Breton not found"); // Debugging line
 					}
 				}
 			} catch (error) {
@@ -37,6 +42,7 @@ const Header = () => {
 		const fetchSentences = async () => {
 			try {
 				const fetchedSentences = await apiService.getAllSentences();
+				console.log("Fetched sentences:", fetchedSentences); // Add this line to log the fetched sentences
 				setSentences(fetchedSentences);
 			} catch (error) {
 				// Error handling is done inside apiService, so no need to set state here
@@ -80,8 +86,8 @@ const Header = () => {
 								{sentences.length > 0 ? (
 									sentences.map((sentence, index) => (
 										<em key={index}>
-											<span className="uppercase-text">{sentence.content}</span>{" "}
-											- {sentence.author}, {sentence.bookTitle}
+											<span className="uppercase-text">{sentence.Content}</span>{" "}
+											- {sentence.Author}, {sentence.BookTitle}
 										</em>
 									))
 								) : (

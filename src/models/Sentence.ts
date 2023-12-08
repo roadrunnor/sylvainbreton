@@ -1,6 +1,6 @@
 export interface Sentence {
-	content: string;
-	author: string;
-	bookTitle: string;
+	Content: string;
+	Author: string;
+	BookTitle: string;
 	// Ajoutez d'autres propriétés si nécessaire
 }
