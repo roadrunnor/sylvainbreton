@@ -273,6 +273,14 @@ const apiService = {
 			handleError(error);
 		}
 	},
+	postImage: async (imageData: ImageData) => {
+		try {
+			const response = await axios.post(`${API_BASE_URL}/images`, imageData);
+			return response.data;
+		} catch (error) {
+			handleError(error);
+		}
+	},
 	updateImage: async (id: number, imageData: any) => {
 		try {
 			const response = await axios.put(

@@ -46,15 +46,19 @@ const Header = () => {
 		fetchSentences(); // Appel de la fonction lors du chargement du composant
 	}, []); // Le tableau vide signifie que l'effet ne s'exécute qu'au montage du composant
 
+	console.log("Environment:", process.env.NODE_ENV);
+	console.log("API Base URL:", process.env.REACT_APP_API_BASE_URL);
+	console.log("Image Path:", process.env.REACT_APP_IMAGE_PATH);
+
 	return (
 		<header className="header">
 			<div className="container">
 				<div className="row">
 					<div>
 						<img
-							src="/public/images/world/world.webp"
-							alt="World"
 							className="world-image"
+							src={`${process.env.REACT_APP_IMAGE_PATH}/world/world.webp`}
+							alt="World"
 						/>
 					</div>
 				</div>

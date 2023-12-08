@@ -1,6 +1,12 @@
+const dotenv = require("dotenv");
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
+
+// Assuming you're in a development environment here
+const envPath = path.join(__dirname, ".env.development");
+const envConfig = dotenv.config({ path: envPath }).parsed;
 
 module.exports = {
 	mode: process.env.NODE_ENV === "production" ? "production" : "development",
@@ -46,6 +52,13 @@ module.exports = {
 		}),
 		new MiniCssExtractPlugin({
 			filename: "[name].css", // This will produce app.css, but you don't need to worry about it since it will be injected
+		}),
+		new webpack.DefinePlugin({
+			"process.env": JSON.stringify({
+				REACT_APP_API_BASE_URL: envConfig.REACT_APP_API_BASE_URL,
+				REACT_APP_IMAGE_PATH: envConfig.REACT_APP_IMAGE_PATH,
+				// ... any other env vars you need to define
+			}),
 		}),
 	],
 	devServer: {

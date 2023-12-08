@@ -16,9 +16,15 @@ builder.Services.AddCors(options =>
 });
 
 // Configuration du contexte de base de données
+var connectionString = builder.Configuration.GetConnectionString("SylvainBretonConnection");
+
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("La chaîne de connexion 'SylvainBretonConnection' n'est pas définie.");
+}
+
 builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
-    options.UseMySql(builder.Configuration.GetConnectionString("SylvainBretonConnection"),
-    new MySqlServerVersion(new Version(8, 0, 27)))); // Assurez-vous que la version MySQL est correcte
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Configuration Swagger/OpenAPI
 // Ajout des autres services et configuration

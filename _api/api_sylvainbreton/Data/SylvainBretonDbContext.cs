@@ -18,7 +18,7 @@ namespace api_sylvainbreton.Data
                 optionsBuilder.UseMySQL(connectionString);
             }
         }
-
+        // Déclaration des DbSet        // Déclaration des DbSet pour chaque entité
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Artwork> Artworks { get; set; }
         public DbSet<Place> Places { get; set; }

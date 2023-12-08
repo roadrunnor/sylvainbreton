@@ -130,7 +130,7 @@ VALUES (1, 'E:\Websites\breton\public\Image\DreamingSarah\ring.jpg', 'Agency of 
 
 -- Insertion d'une image non artistique
 INSERT INTO Image (FileRoute, Description, MediaType, MediaDescription)
-VALUES ('breton/public/world/world.webp', 'Description of the World Image', 'WebP', 'World Image');
+VALUES ('E:\Websites\breton\public\Image/world/world.webp', 'Description of the World Image', 'WebP', 'World Image');
 
 -- Insertion d'une autre citation d'un livre liée à la même œuvre d'art (ArtworkID = 1)
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
