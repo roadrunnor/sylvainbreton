@@ -35,6 +35,7 @@ header {
 				border-bottom: $border-width solid $border-color;
 				height: 1px; // Hauteur minimale pour s'assurer qu'elle est visible
 				width: 100%; // S'assure que la bordure s'étend sur toute la largeur
+				opacity: 0.25;
 			}
 
 			// Adaptations pour les tablettes
