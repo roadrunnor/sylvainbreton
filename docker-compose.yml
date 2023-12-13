@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  api:
+    build: .
+    ports:
+      - "7199:7199"
+    networks:
+      - app-network
+
+  frontend:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_BASE_URL=http://localhost:7199/api
+      - REACT_APP_IMAGE_PATH=/images
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
