@@ -63,6 +63,14 @@ module.exports = {
 		static: {
 			directory: path.join(__dirname, "./dist"),
 		},
+		watchFiles: {
+			paths: ["src/**/*", "public/**/*"], // Watch these paths for changes
+			options: {
+				usePolling: true,
+				poll: 1000, // Check for changes every second
+			},
+		},
+		hot: true,
 		open: true,
 		compress: true,
 		liveReload: true,

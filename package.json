@@ -4,7 +4,7 @@
 	"description": "Contemporary Art Production\r Tous droits réservés © Sylvain Breton. Toute utilisation, modification ou distribution de ce travail est strictement interdite sans l'autorisation préalable de l'auteur. Pour toute demande d'autorisation, veuillez me contacter à me@sylvainbreton.com.",
 	"main": "index.js",
 	"scripts": {
-		"build": "cross-env NODE_ENV=development tsc && webpack --config webpack.config.js",
+		"build-dev": "cross-env NODE_ENV=development tsc && webpack --config webpack.config.js",
 		"start": "webpack serve",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -28,7 +28,6 @@
 		"html-loader": "^4.2.0",
 		"html-webpack-plugin": "^5.5.3",
 		"mini-css-extract-plugin": "^2.7.6",
-		"node-sass": "^9.0.0",
 		"resolve-url-loader": "^5.0.0",
 		"sass": "^1.69.5",
 		"sass-loader": "^13.3.2",
