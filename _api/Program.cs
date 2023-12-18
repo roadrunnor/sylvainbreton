@@ -3,23 +3,24 @@ using api_sylvainbreton.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Ajout des services au conteneur
-builder.Services.AddControllers();
-
-// By adding this line, you'll instruct the system to use the naming convention from your C# models
+// Add services to the container
 builder.Services.AddControllers().AddJsonOptions(options => {
     options.JsonSerializerOptions.PropertyNamingPolicy = null;
 });
 
-
 // Configuration de CORS
-builder.Services.AddCors(options =>
+if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("DockerDevelopment"))
 {
-    options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://client:3000")
-                          .AllowAnyMethod()
-                          .AllowAnyHeader());
-});
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAllOrigins", policyBuilder =>
+        {
+            policyBuilder.AllowAnyOrigin()
+                         .AllowAnyMethod()
+                         .AllowAnyHeader();
+        });
+    });
+}
 
 // Configuration du contexte de base de données
 var connectionString = builder.Configuration.GetConnectionString("SylvainBretonConnection");
@@ -33,7 +34,6 @@ builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Configuration Swagger/OpenAPI
-// Ajout des autres services et configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -49,9 +49,8 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDeve
 app.UseHttpsRedirection();
 
 // Utilisation de la politique CORS
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowAllOrigins"); // Make sure this matches the policy name defined above
 
 app.UseAuthorization();
 app.MapControllers();
 app.Run();
-
