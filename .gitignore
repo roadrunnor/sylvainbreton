@@ -21,6 +21,7 @@ out
 psd
 pdf
 _mysql
+pages
 
 #Package Manager Files:
 package-lock.json
