@@ -8,6 +8,7 @@ const envConfig = dotenv.config({ path: envPath }).parsed;
 
 module.exports = {
 	mode: process.env.NODE_ENV === "production" ? "production" : "development",
+	devtool: process.env.NODE_ENV === "development" ? "source-map" : false,
 	entry: {
 		app: "./src/ts/index.tsx",
 	},
@@ -61,8 +62,17 @@ module.exports = {
 	],
 	devServer: {
 		static: {
-			directory: path.join(__dirname, "./dist"),
+			directory: path.join(__dirname, "dist"),
 		},
+		hot: true,
+		historyApiFallback: true, // Fallback for single-page applications
+		client: {
+			webSocketURL: "ws://0.0.0.0:3000/ws", // Adjust port if necessary
+		},
+		headers: { "Access-Control-Allow-Origin": "*" },
+		open: true,
+		compress: true,
+		port: 3000,
 		watchFiles: {
 			paths: ["src/**/*", "public/**/*"], // Watch these paths for changes
 			options: {
@@ -70,11 +80,5 @@ module.exports = {
 				poll: 1000, // Check for changes every second
 			},
 		},
-		hot: true,
-		open: true,
-		compress: true,
-		liveReload: true,
-		port: 3000,
 	},
-	devtool: process.env.NODE_ENV === "development" ? "source-map" : false,
 };

@@ -4,6 +4,7 @@ Thumbs.db
 # Visual Studio Code settings
 .vscode
 .vs
+.notes
 # JetBrains IDE settings
 .idea
 
@@ -14,7 +15,7 @@ build
 dist
 # Output directory
 out
-psd
+
 
 #Package Manager Files:
 # npm package lock file
@@ -53,4 +54,8 @@ packages
 *.tmp
 *.vsix
 *.swp
+
+psd
+pdf
+_mysql
 

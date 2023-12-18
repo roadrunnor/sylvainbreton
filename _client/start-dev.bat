@@ -6,7 +6,7 @@ REM Start the services defined in docker-compose.yml in detached mode
 docker-compose up -d --build
 
 REM Wait for the services to start up
-timeout /t 5
+timeout /t 1
 
 REM Open the browser to the frontend service
 start http://localhost:3000
