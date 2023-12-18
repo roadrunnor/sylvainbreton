@@ -7,7 +7,6 @@ Thumbs.db
 .notes
 # JetBrains IDE settings
 .idea
-
 #Build and Output Files:
 # Build output directory
 build
@@ -15,47 +14,34 @@ build
 dist
 # Output directory
 out
-
-
+psd
+pdf
+_mysql
 #Package Manager Files:
 # npm package lock file
 package-lock.json
-
 #Compiler and Build Configuration:
-.gitkeep           # Empty directories
-
+.gitkeep
 #Credentials and Sensitive Information (Never store sensitive information in a Git repository):
 .env.development
 .env.production
-
 #Logs and Debug Files:
 *.log
 npm-debug.log*
-
 #Dependency Directories:
 node_modules
-
 # Dossiers de build
 bin
 obj
-
 # Dossiers des packages NuGet
 packages
-
 # Fichiers de configuration personnelle
 **/appsettings.json
-
 # Dossiers et fichiers spécifiques à l'IDE
 *.user
 *.userprefs
-
 # Autres fichiers et dossiers
 *.log
 *.tmp
 *.vsix
 *.swp
-
-psd
-pdf
-_mysql
-
