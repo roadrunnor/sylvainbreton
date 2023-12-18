@@ -3,17 +3,19 @@ version: "3.8"
 services:
   api:
     build:
-      context: ./_api
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./_api/Dockerfile
     ports:
       - "7199:7199"
     networks:
       - app-network
-    
+    environment:
+      - ASPNETCORE_ENVIRONMENT=DockerDevelopment
+
   client: # Renamed from 'frontend' to 'client' for consistency
     build:
-      context: ./_client
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./_client/Dockerfile
     ports:
       - "3000:3000"
     environment:
@@ -33,4 +35,3 @@ services:
 networks:
   app-network:
     driver: bridge
-

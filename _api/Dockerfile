@@ -1,10 +1,10 @@
 # Use the official .NET core runtime as a parent image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 7199
 
 # Use the official .NET core SDK for building the project
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 COPY ["_api/api_sylvainbreton.csproj", "./"]
 RUN dotnet restore "api_sylvainbreton.csproj"

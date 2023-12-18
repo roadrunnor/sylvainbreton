@@ -16,7 +16,7 @@ builder.Services.AddControllers().AddJsonOptions(options => {
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
-        builder => builder.WithOrigins("http://localhost:3000")
+        builder => builder.WithOrigins("http://client:3000")
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configuration du pipeline de requête HTTP
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDevelopment"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
