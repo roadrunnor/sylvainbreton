@@ -4,33 +4,33 @@ services:
   api:
     build:
       context: ./_api
-      dockerfile: Dockerfile # This should be the path to your API's Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "7199:7199"
     networks:
       - app-network
     
-  frontend:
+  client: # Renamed from 'frontend' to 'client' for consistency
     build:
-      context: .
-      dockerfile: Dockerfile # This should be the path to your frontend's Dockerfile
+      context: ./_client
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true # This enables polling for file changes
-      - REACT_APP_API_BASE_URL=http://api:7199/api # Adjusted to use the service name for internal communication
-      - REACT_APP_IMAGE_PATH=/images
-
+      - REACT_APP_API_BASE_URL=http://api:7199/api
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
-
     depends_on:
       - api
     networks:
       - app-network
     volumes:
-      - .:/app # Mounts the project directory to /app in the container
+      - ./_client/src:/app/src
+      - ./_client/public:/app/public
+      - /app/node_modules
 
 networks:
   app-network:
     driver: bridge
+
