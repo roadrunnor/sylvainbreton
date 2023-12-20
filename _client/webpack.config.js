@@ -62,7 +62,7 @@ module.exports = {
 	],
 	devServer: {
 		static: {
-			directory: path.join(__dirname, "dist"),
+			directory: path.join(__dirname, "./dist"),
 		},
 		hot: true,
 		historyApiFallback: true, // Fallback for single-page applications
