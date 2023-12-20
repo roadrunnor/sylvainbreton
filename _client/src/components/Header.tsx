@@ -97,7 +97,7 @@ const Header = () => {
 				</div>
 				<div className="row">
 					<div className="col">
-						<p>Background : Don Carter Brown</p>
+						<p>Background : Don Brown</p>
 					</div>
 				</div>
 			</div>

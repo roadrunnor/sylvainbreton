@@ -28,6 +28,7 @@ header {
 
 				p {
 					padding-bottom: calc($spacing-unit / 2);
+					opacity: 0.5;
 				}
 			}
 
@@ -35,7 +36,7 @@ header {
 				border-bottom: $border-width solid $border-color;
 				height: 1px; // Hauteur minimale pour s'assurer qu'elle est visible
 				width: 100%; // S'assure que la bordure s'étend sur toute la largeur
-				opacity: 0.25;
+				opacity: 0.35;
 			}
 
 			// Adaptations pour les tablettes
@@ -88,6 +89,7 @@ header {
 
 			em {
 				font-style: italic;
+				opacity: 0.5;
 			}
 
 			@media (max-width: $breakpoint-md) {
