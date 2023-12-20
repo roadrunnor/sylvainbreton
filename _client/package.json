@@ -12,6 +12,7 @@
 	"author": "Sylvain Breton",
 	"license": "ISC",
 	"devDependencies": {
+		"@svgr/webpack": "^8.1.0",
 		"@types/react": "^18.2.33",
 		"@types/react-dom": "^18.2.14",
 		"@typescript-eslint/eslint-plugin": "^6.13.1",
@@ -43,7 +44,6 @@
 		"axios": "^1.6.2",
 		"dotenv": "^16.3.1",
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"sweetalert2": "^11.10.1"
+		"react-dom": "^18.2.0"
 	}
 }

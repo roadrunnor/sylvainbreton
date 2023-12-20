@@ -1,0 +1,66 @@
+/* Le style pour la modale */
+.modal {
+	display: none; /* Caché par défaut */
+	position: fixed; /* Fixé au-dessus de la page */
+	z-index: 1; /* Assurez-vous qu'il se trouve au-dessus des autres éléments */
+	left: 0;
+	top: 0;
+	width: 100%; /* Pleine largeur */
+	height: 100%; /* Pleine hauteur */
+	overflow: auto; /* Permet de scroller si nécessaire */
+	background-color: rgb(0, 0, 0); /* Couleur de fond */
+	background-color: rgba(0, 0, 0, 0.4); /* Noir avec opacité */
+}
+
+/* Le style du contenu de la modale */
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto; /* 15% du haut et centré horizontalement */
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%; /* Peut être plus ou moins, selon le besoin */
+}
+
+/* Le bouton pour fermer la modale */
+.close {
+	color: #aaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+	color: black;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+// Styles pour les icônes SVG utilisées dans le modal
+.svg-icon {
+  display: inline-block;
+  width: 24px; // Taille commune pour toutes les icônes
+  height: 24px;
+  margin-right: 8px; // Espace à droite de l'icône, si elle est à gauche du texte
+  vertical-align: middle; // Pour aligner l'icône avec le texte adjacent
+}
+
+// Styles spécifiques pour l'icône d'erreur
+.error-icon {
+  fill: #D32F2F; // Rouge pour les erreurs
+}
+
+// Styles spécifiques pour l'icône de ressource non trouvée
+.not-found-icon {
+  fill: #FF9800; // Orange pour les ressources non trouvées
+}
+
+// Styles spécifiques pour l'icône d'erreur serveur
+.server-error-icon {
+  fill: #F44336; // Rouge plus clair pour les erreurs serveur
+}
+
+// Styles spécifiques pour l'icône d'erreur inconnue
+.unknown-error-icon {
+  fill: #9E9E9E; // Gris pour les erreurs inconnues
+}

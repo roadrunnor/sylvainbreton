@@ -17,7 +17,7 @@ module.exports = {
 		path: path.resolve(__dirname, "./dist"),
 	},
 	resolve: {
-		extensions: [".ts", ".tsx", ".js", ".scss"],
+		extensions: [".ts", ".tsx", ".js", ".svg", ".scss"],
 	},
 	module: {
 		rules: [
@@ -35,10 +35,15 @@ module.exports = {
 				use: "html-loader",
 			},
 			{
-				test: /\.(png|jpe?g|gif|svg|webp)$/i,
+				test: /\.svg$/,
+				issuer: /\.[jt]sx?$/,
+				use: ["@svgr/webpack"], // Utilisez svgr pour les fichiers .svg importés par les fichiers .js/.ts/.tsx
+			},
+			{
+				test: /\.(png|jpe?g|gif|webp)$/i,
 				type: "asset/resource",
 				generator: {
-					filename: "images/[name][ext]", // This will keep the original name and extension of the file
+					filename: "images/[name][ext]",
 				},
 			},
 		],
