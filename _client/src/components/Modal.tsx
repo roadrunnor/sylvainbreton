@@ -1,9 +1,10 @@
 import React from 'react';
 import { ModalProps } from '../models/ModalProps'; // Assurez-vous que le chemin est correct
-import { ReactComponent as ErrorIcon } from '../icons/error.svg';
-import { ReactComponent as NotFoundIcon } from '../icons/not-found.svg';
-import { ReactComponent as ServerErrorIcon } from '../icons/server-error.svg';
-import { ReactComponent as UnknownErrorIcon } from '../icons/unknown-error.svg';
+import { ReactComponent as ErrorIcon } from '../../public/assets/icons/error.svg';
+import { ReactComponent as NotFoundIcon } from '../../public/assets/icons/not-found.svg';
+import { ReactComponent as ServerErrorIcon } from '../../public/assets/icons/server-error.svg';
+import { ReactComponent as UnknownErrorIcon } from '../../public/assets/icons/unknown-error.svg';
+
 
 import './modal.scss';
 
