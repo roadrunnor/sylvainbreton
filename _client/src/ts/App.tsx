@@ -7,7 +7,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<ErrorTestComponent />
+				{/* <ErrorTestComponent /> */}
 				{/* Other components or content can be added here */}
 
 				{/* Ceci va seulement rendre ErrorTestComponent en mode développement */}

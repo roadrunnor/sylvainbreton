@@ -30,7 +30,7 @@ export const Modal: React.FC<ModalProps> = ({
 				{/* Render the SVG with the class directly */}
 				<h2>{title}</h2>
 				<p>{message}</p>
-				<button onClick={onClose}>Fermer</button>
+				<button onClick={onClose}>Close</button>
 			</div>
 		</div>
 	);

@@ -1,6 +1,6 @@
 /* Le style pour la modale */
 .modal {
-	display: block; /* Caché par défaut */
+	display: block;
 	position: fixed; /* Fixé au-dessus de la page */
 	z-index: 1; /* Assurez-vous qu'il se trouve au-dessus des autres éléments */
 	left: 0;
@@ -8,8 +8,8 @@
 	width: 100%; /* Pleine largeur */
 	height: 100%; /* Pleine hauteur */
 	overflow: auto; /* Permet de scroller si nécessaire */
-	background-color: rgb(0, 0, 0); /* Couleur de fond */
-	background-color: rgba(0, 0, 0, 0.4); /* Noir avec opacité */
+	background-color: rgb(246, 246, 246); /* Couleur de fond */
+	background-color: rgba(251, 250, 250, 0.4); /* Noir avec opacité */
 
 	/* Le style du contenu de la modale */
 	.modal-content {
@@ -18,18 +18,17 @@
 		align-items: center;
 		background-color: #fefefe;
 		margin: 15% auto; /* 15% du haut et centré horizontalement */
-		padding: 20px;
-		border: 1px solid #888;
+		padding: 15px;
 		width: 30%; /* Peut être plus ou moins, selon le besoin */
+		border-radius: 5px;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19); // Ajoute une ombre portée
 
 		// Styles pour les icônes SVG utilisées dans le modal
 		.svg-icon {
 			align-self: center; // Ceci va centrer l'icône SVG verticalement dans son conteneur
-			// Ajoutez les styles pour la taille de l'icône si nécessaire
 			display: inline-block;
 			width: 10rem; // Taille commune pour toutes les icônes
 			height: 10rem;
-			margin-right: 8px; // Espace à droite de l'icône, si elle est à gauche du texte
 			margin-bottom: 8px;
 			vertical-align: middle; // Pour aligner l'icône avec le texte adjacent
 		}
@@ -41,45 +40,41 @@
 		}
 
 		button {
-			margin-top: 10px;
-			align-self: flex-end; // Place le bouton à droite
-			// Autres styles pour le bouton
+			margin: 15px 0 0 0;
+			width: 100%;
+			padding: 10px;
+			background-color: #e7f3ff;
+			color: #1877f2;
+			border: none;
+			border-radius: 5px;
+
+			&:hover,
+			&:focus {
+				background-color: #dbe7f2;
+			}
 		}
 
 		/* Le bouton pour fermer la modale */
 		.close {
 			align-self: flex-end; // Place le bouton à droite
-			color: #aaa;
+			color: #858585;
 			float: right;
 			font-size: 28px;
-			font-weight: bold;
+			width: 30px; // Taille du cercle, ajustez selon vos besoins
+			height: 30px; // Taille du cercle, ajustez selon vos besoins
+			line-height: 30px; // Centrer verticalement le texte dans le cercle
+			text-align: center; // Centrer horizontalement le texte
+			background-color: #e2e2e2; // Couleur de fond gris clair
+			border-radius: 50%; // Rend le bouton rond
+			cursor: pointer; // Change le curseur en main au survol
 		}
 
 		.close:hover,
 		.close:focus {
 			color: black;
 			text-decoration: none;
+			background-color: #e6e6e6;
 			cursor: pointer;
-		}
-
-		// Styles spécifiques pour l'icône d'erreur
-		.error-icon {
-			fill: #d32f2f; // Rouge pour les erreurs
-		}
-
-		// Styles spécifiques pour l'icône de ressource non trouvée
-		.not-found-icon {
-			fill: #ff9800; // Orange pour les ressources non trouvées
-		}
-
-		// Styles spécifiques pour l'icône d'erreur serveur
-		.server-error-icon {
-			fill: #f44336; // Rouge plus clair pour les erreurs serveur
-		}
-
-		// Styles spécifiques pour l'icône d'erreur inconnue
-		.unknown-error-icon {
-			fill: #9e9e9e; // Gris pour les erreurs inconnues
 		}
 	}
 }
