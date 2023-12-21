@@ -1,6 +1,7 @@
 /* Le style pour la modale */
 .modal {
-	display: none; /* Caché par défaut */
+	//display: none; /* Caché par défaut */
+	display: block; /* Caché par défaut */
 	position: fixed; /* Fixé au-dessus de la page */
 	z-index: 1; /* Assurez-vous qu'il se trouve au-dessus des autres éléments */
 	left: 0;

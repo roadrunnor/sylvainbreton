@@ -18,6 +18,9 @@ module.exports = {
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".svg", ".scss"],
+		alias: {
+			assets: path.resolve(__dirname, "public/assets"),
+		},
 	},
 	module: {
 		rules: [
@@ -37,7 +40,7 @@ module.exports = {
 			{
 				test: /\.svg$/,
 				issuer: /\.[jt]sx?$/,
-				use: ["@svgr/webpack"], // Utilisez svgr pour les fichiers .svg importés par les fichiers .js/.ts/.tsx
+				use: ["@svgr/webpack", "url-loader"], // Utilisez svgr pour les fichiers .svg importés par les fichiers .js/.ts/.tsx
 			},
 			{
 				test: /\.(png|jpe?g|gif|webp)$/i,
