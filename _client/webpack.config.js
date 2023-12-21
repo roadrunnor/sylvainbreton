@@ -40,7 +40,15 @@ module.exports = {
 			{
 				test: /\.svg$/,
 				issuer: /\.[jt]sx?$/,
-				use: ["@svgr/webpack", "url-loader"], // Utilisez svgr pour les fichiers .svg importés par les fichiers .js/.ts/.tsx
+				use: [
+					{
+						loader: "@svgr/webpack",
+						options: {
+							defaultExport: "ReactComponent",
+						},
+					},
+					"file-loader",
+				],
 			},
 			{
 				test: /\.(png|jpe?g|gif|webp)$/i,
