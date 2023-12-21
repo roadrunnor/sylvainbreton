@@ -26,7 +26,7 @@ export const Modal: React.FC<ModalProps> = ({
 				<span className="close" onClick={onClose}>
 					&times;
 				</span>
-				{IconComponent && <IconComponent className="svg-icon" />}{" "}
+				{IconComponent && <IconComponent className="svg-icon" />}
 				{/* Render the SVG with the class directly */}
 				<h2>{title}</h2>
 				<p>{message}</p>
