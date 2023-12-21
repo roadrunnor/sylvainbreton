@@ -1,13 +1,14 @@
 /* eslint-disable no-tabs */
 import React, { useState, useEffect } from "react";
-import "../scss/_header.scss";
-import apiService from "../services/apiService"; // Ajustez le chemin vers votre fichier apiService
+import apiService, { useApiService } from "../services/apiService"; // Ajustez le chemin vers votre fichier apiService
 import { Sentence } from "../models/Sentence"; // Ajustez le chemin si nécessaire
+import "../scss/_header.scss";
 
 // Header.tsx
 const Header = () => {
 	const [artistName, setArtistName] = useState("");
 	const [sentences, setSentences] = useState<Sentence[]>([]); // État pour stocker les données des phrases
+	const { apiService } = useApiService(); // Récupération du service API
 
 	// Fetch artist data
 	useEffect(() => {
