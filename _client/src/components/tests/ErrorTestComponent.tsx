@@ -73,7 +73,7 @@ const ErrorTestComponent = () => {
 					title="Error"
 					message="An error occurred."
 					onClose={() => setShowError(false)}
-					icon={<ErrorIcon />}
+					IconComponent={ErrorIcon}
 				/>
 			)}
 			{showNotFound && (
@@ -82,7 +82,7 @@ const ErrorTestComponent = () => {
 					title="Not Found"
 					message="The requested resource was not found."
 					onClose={() => setShowNotFound(false)}
-					icon={<NotFoundIcon />}
+					IconComponent={NotFoundIcon}
 				/>
 			)}
 			{showServerError && (
@@ -91,7 +91,7 @@ const ErrorTestComponent = () => {
 					title="Server Error"
 					message="A server error occurred."
 					onClose={() => setShowServerError(false)}
-					icon={<ServerErrorIcon />}
+					IconComponent={ServerErrorIcon}
 				/>
 			)}
 			{showUnknownError && (
@@ -100,7 +100,7 @@ const ErrorTestComponent = () => {
 					title="Unknown Error"
 					message="An unknown error occurred."
 					onClose={() => setShowUnknownError(false)}
-					icon={<UnknownErrorIcon />}
+					IconComponent={UnknownErrorIcon}
 				/>
 			)}
 		</div>

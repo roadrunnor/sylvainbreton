@@ -5,5 +5,5 @@ export interface ModalProps {
 	title: string;
 	message: string;
 	onClose: () => void;
-	icon: React.ReactNode; // Le chemin ou la classe de l'icône.
+	IconComponent?: React.ElementType; // Le chemin ou la classe de l'icône.
 }

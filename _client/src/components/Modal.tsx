@@ -7,31 +7,31 @@ import { ReactComponent as UnknownErrorIcon } from "assets/icons/unknown-error.s
 import "../scss/_modal.scss";
 
 export const Modal: React.FC<ModalProps> = ({
-  show,
-  title,
-  message,
-  onClose,
-  icon,
+	show,
+	title,
+	message,
+	onClose,
+	IconComponent,
 }) => {
-  // Log the modal props to the console
-  console.log("Modal props", { show, title, message, icon });
+	// Log the modal props to the console
+	console.log("Modal props", { show, title, message, IconComponent });
 
-  if (!show) {
-    return null;
-  }
+	if (!show) {
+		return null;
+	}
 
-  // Determine which icon to render based on the 'icon' prop
-  let IconComponent = icon;
-
-  return (
-    <div className="modal" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <span className="close" onClick={onClose}>&times;</span>
-        {IconComponent}
-        <h2>{title}</h2>
-        <p>{message}</p>
-        <button onClick={onClose}>Fermer</button>
-      </div>
-    </div>
-  );
+	return (
+		<div className="modal" onClick={onClose}>
+			<div className="modal-content" onClick={(e) => e.stopPropagation()}>
+				<span className="close" onClick={onClose}>
+					&times;
+				</span>
+				{IconComponent && <IconComponent className="svg-icon" />}{" "}
+				{/* Render the SVG with the class directly */}
+				<h2>{title}</h2>
+				<p>{message}</p>
+				<button onClick={onClose}>Fermer</button>
+			</div>
+		</div>
+	);
 };
