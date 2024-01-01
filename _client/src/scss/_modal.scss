@@ -19,17 +19,21 @@
 		background-color: #fefefe;
 		margin: 15% auto; /* 15% du haut et centré horizontalement */
 		padding: 15px;
-		width: 30%; /* Peut être plus ou moins, selon le besoin */
+		width: 80%; /* Peut être plus ou moins, selon le besoin */
+		max-width: 650px; /* Une largeur maximale pour les grands écrans */
+		min-width: 200px; /* Une largeur minimale pour s'assurer qu'il reste rectangulaire */
 		border-radius: 5px;
 		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19); // Ajoute une ombre portée
+		//opacity: .5;
 
 		// Styles pour les icônes SVG utilisées dans le modal
 		.svg-icon {
 			align-self: center; // Ceci va centrer l'icône SVG verticalement dans son conteneur
 			display: inline-block;
-			width: 10rem; // Taille commune pour toutes les icônes
-			height: 10rem;
-			margin-bottom: 8px;
+			width: 30%; /* Utilisez un pourcentage pour que l'icône s'adapte à la largeur du modal */
+			height: auto; /* Gardez le ratio de l'icône intact */
+			max-width: 100px; /* Une taille maximale pour l'icône */
+			margin: 5px 0 10px 0;
 			vertical-align: middle; // Pour aligner l'icône avec le texte adjacent
 		}
 
@@ -40,7 +44,7 @@
 		}
 
 		button {
-			margin: 15px 0 0 0;
+			margin: 30px 0 0 0;
 			width: 100%;
 			padding: 10px;
 			background-color: #e7f3ff;
