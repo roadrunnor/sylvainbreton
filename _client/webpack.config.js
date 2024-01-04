@@ -10,7 +10,7 @@ module.exports = {
 	mode: process.env.NODE_ENV === "production" ? "production" : "development",
 	devtool: process.env.NODE_ENV === "development" ? "source-map" : false,
 	entry: {
-		app: "./src/ts/index.tsx",
+		app: "./src/index.tsx",
 	},
 	output: {
 		filename: "[name].js",

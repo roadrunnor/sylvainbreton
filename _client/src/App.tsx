@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Header from "../components/Header"; // Adjust the path based on your directory structure
-import ErrorTestComponent from "../components/tests/ErrorTestComponent";
+import Header from "./components/Header"; // Adjust the path based on your directory structure
+import ErrorTestComponent from "./components/tests/ErrorTestComponent";
 
 class App extends Component {
 	render() {
