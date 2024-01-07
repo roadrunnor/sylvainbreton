@@ -13,9 +13,6 @@ export const Modal: React.FC<ModalProps> = ({
 	onClose,
 	IconComponent,
 }) => {
-	// Log the modal props to the console
-	console.log("Modal props", { show, title, message, IconComponent });
-
 	if (!show) {
 		return null;
 	}
@@ -27,7 +24,6 @@ export const Modal: React.FC<ModalProps> = ({
 					&times;
 				</span>
 				{IconComponent && <IconComponent className="svg-icon" />}
-				{/* Render the SVG with the class directly */}
 				<h2>{title}</h2>
 				<p>{message}</p>
 				<button onClick={onClose}>Close</button>

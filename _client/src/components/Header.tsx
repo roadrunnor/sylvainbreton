@@ -15,19 +15,16 @@ const Header = () => {
 		const findMyArtistEntry = async () => {
 			try {
 				const artists = await apiService.getAllArtists();
-				console.log("Fetched artists:", artists); // Debugging line
 
 				if (artists) {
 					const myEntry = artists.find(
 						(artist) =>
 							artist.FirstName === "Sylvain" && artist.LastName === "Breton"
 					);
-					console.log("My Entry:", myEntry); // Debugging line
 
 					if (myEntry) {
 						setArtistName(`${myEntry.FirstName} ${myEntry.LastName}`);
 					} else {
-						console.log("Artist Sylvain Breton not found"); // Debugging line
 					}
 				}
 			} catch (error) {
@@ -42,19 +39,13 @@ const Header = () => {
 		const fetchSentences = async () => {
 			try {
 				const fetchedSentences = await apiService.getAllSentences();
-				console.log("Fetched sentences:", fetchedSentences); // Add this line to log the fetched sentences
 				setSentences(fetchedSentences);
 			} catch (error) {
 				// Error handling is done inside apiService, so no need to set state here
-				console.error("Error fetching sentences:", error);
 			}
 		};
 		fetchSentences(); // Appel de la fonction lors du chargement du composant
 	}, []); // Le tableau vide signifie que l'effet ne s'exécute qu'au montage du composant
-
-	console.log("Environment:", process.env.NODE_ENV);
-	console.log("API Base URL:", process.env.REACT_APP_API_BASE_URL);
-	console.log("Image Path:", process.env.REACT_APP_IMAGE_PATH);
 
 	return (
 		<header className="header">

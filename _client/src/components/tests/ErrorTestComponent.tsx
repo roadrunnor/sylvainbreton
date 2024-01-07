@@ -42,16 +42,11 @@ const ErrorTestComponent = () => {
 	};
 
 	const clearErrors = () => {
-		console.log("Clearing all errors");
 		setShowError(false);
 		setShowNotFound(false);
 		setShowServerError(false);
 		setShowUnknownError(false);
 	};
-	console.log("showError:", showError);
-	console.log("showNotFound:", showNotFound);
-	console.log("showServerError:", showServerError);
-	console.log("showUnknownError:", showUnknownError);
 
 	return (
 		<div>
