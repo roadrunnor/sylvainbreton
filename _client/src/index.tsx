@@ -12,4 +12,8 @@ if (!root) {
 }
 
 const reactRoot = createRoot(root);
-reactRoot.render(<App />);
+reactRoot.render(
+	<React.StrictMode>
+		<App />
+	</React.StrictMode >
+	);

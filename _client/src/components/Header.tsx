@@ -84,7 +84,10 @@ const Header = () => {
 								{sentences.length > 0 ? (
 									sentences.map((sentence, index) => (
 										<em key={index}>
-											<span className="uppercase-text">{sentence.Content}</span>- <span>{sentence.Author}</span>, {sentence.BookTitle}, {sentence.Publisher}, {sentence.SentencePage}, {sentence.CountryOfPublication},
+											<span className="uppercase-text">{sentence.Content}</span>
+											- <span>{sentence.Author}</span>, {sentence.BookTitle},{" "}
+											{sentence.Publisher}, p. {sentence.SentencePage},{" "}
+											{sentence.CountryOfPublication},
 											{sentence.CityOfPublication}
 										</em>
 									))

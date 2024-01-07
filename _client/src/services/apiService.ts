@@ -1,10 +1,10 @@
 // src/services/apiService.tsx
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import config from "../config/config";
 import { Artist } from "../models/Artist";
-import { ErrorState, IHandleError } from "../models/HandleError"; // Assurez-vous que le chemin est correct
+import { ErrorState, IHandleError } from "../models/HandleError";
 
 const API_BASE_URL = config.API_BASE_URL;
 
@@ -524,7 +524,7 @@ export const useApiService = () => {
 			}
 		},
 	};
-	
+
 	return { error, setError, apiService };
 };
 
