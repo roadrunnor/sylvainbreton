@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import { Modal } from "../Modal"; // Make sure this import matches the actual file location
 import { ReactComponent as ErrorIcon } from "assets/icons/error.svg";
 import { ReactComponent as NotFoundIcon } from "assets/icons/not-found.svg";
@@ -103,3 +103,4 @@ const ErrorTestComponent = () => {
 };
 
 export default ErrorTestComponent;
+*/
