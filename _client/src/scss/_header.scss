@@ -87,9 +87,15 @@ header {
 			display: inline-block;
 			animation: scroll-text 40s linear infinite;
 
+			.sentence {
+				display: inline-block; // Each sentence is an inline-block to be shown sequentially
+				margin-right: calc($spacing-unit / 2); // Adjust spacing between sentences if needed
+				opacity: 0.5;
+				letter-spacing: .025em;
+			}
+
 			em {
 				font-style: italic;
-				opacity: 0.5;
 			}
 
 			@media (max-width: $breakpoint-md) {

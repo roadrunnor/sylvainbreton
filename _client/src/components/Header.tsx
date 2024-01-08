@@ -1,14 +1,14 @@
 /* eslint-disable no-tabs */
 import React, { useState, useEffect } from "react";
-import apiService, { useApiService } from "../services/apiService"; // Ajustez le chemin vers votre fichier apiService
-import { Sentence } from "../models/Sentence"; // Ajustez le chemin si nécessaire
+import apiService, { useApiService } from "../services/apiService";
+import { Sentence } from "../models/Sentence";
 import "../scss/_header.scss";
 
 // Header.tsx
 const Header = () => {
 	const [artistName, setArtistName] = useState("");
 	const [sentences, setSentences] = useState<Sentence[]>([]); // État pour stocker les données des phrases
-	const { apiService } = useApiService(); // Récupération du service API
+	const { apiService } = useApiService();
 
 	// Fetch artist data
 	useEffect(() => {
@@ -71,17 +71,19 @@ const Header = () => {
 					</div>
 					<div className="col">
 						<div className="head-marquee">
+							{/* prettier-ignore */}
 							<div className="scrolling-text">
 								{sentences.length > 0 ? (
-									sentences.map((sentence, index) => (
-										<em key={index}>
-											<span className="uppercase-text">{sentence.Content}</span>
-											- <span>{sentence.Author}</span>, {sentence.BookTitle},{" "}
-											{sentence.Publisher}, p. {sentence.SentencePage},{" "}
-											{sentence.CountryOfPublication},
-											{sentence.CityOfPublication}
-										</em>
-									))
+									sentences.map((sentence, index) => {
+										const publicationYear = new Date(sentence.PublicationDate).getFullYear();
+										return (
+											<div key={index} className="sentence">
+												<em className="uppercase-text">{sentence.Content}</em> -{sentence.Author}, {publicationYear},
+												<em>{sentence.BookTitle}</em>, {sentence.Publisher}, p.{sentence.SentencePage},
+												{sentence.CountryOfPublication},{sentence.CityOfPublication}
+											</div>
+										);
+									})
 								) : (
 									<p>No sentences available.</p>
 								)}
