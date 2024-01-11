@@ -136,5 +136,5 @@ VALUES ('E:\Websites\breton\public\Image/world/world.webp', 'Description of the 
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
 VALUES (2, 'Joao Ribas', '2011-01-01', ' What To Do with The Contemporary?', ' Fiorucci Art Trust in Mousse Editions', 67, 'the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore ',' Italy', ' Milan');
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication)
-VALUES (2, ' Theodor Adorno', '1970-01-01', ' Aesthetic Theory', 'Suhrkamp Verlag', 1, ' (From Adorno statement : "it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist") ', ' Germany', ' Frankfurt am Main');
+VALUES (2, ' Theodor W. Adorno', '1970-01-01', ' Aesthetic Theory', 'Suhrkamp Verlag', 1, ' - From Adorno statement : "it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist" ', ' Germany', ' Frankfurt am Main');
 
