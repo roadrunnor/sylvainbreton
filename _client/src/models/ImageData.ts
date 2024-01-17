@@ -1,8 +1,10 @@
-// Interface TypeScript pour les images, correspondant à ImageDTO côté serveur
 export interface ImageData {
-	fileName: string;
-	description: string;
-	mediaType: string;
-	mediaDescription: string;
-	// Ajoutez d'autres champs si nécessaire...
+	ImageId: number; // Assuming ImageID should be included and is a number
+	ArtworkId?: number; // Nullable number to match int? on server-side
+	PerformanceId?: number; // Nullable number to match int? on server-side
+	FileName: string; // Assuming this should match FileRoute from server-side
+	Description: string;
+	MediaType: string;
+	MediaDescription: string;
+	// You can include other server-side properties as needed
 }

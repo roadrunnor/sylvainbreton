@@ -1,4 +1,3 @@
-/* eslint-disable no-tabs */
 import React, { useState, useEffect } from "react";
 import apiService, { useApiService } from "../services/apiService";
 import { Sentence } from "../models/Sentence";
@@ -53,7 +52,7 @@ const Header = () => {
 				<div className="row">
 					<img
 						className="world-image"
-						src={`${process.env.REACT_APP_IMAGE_PATH}/world.webp`}
+						src={`${process.env.REACT_APP_IMAGE_PATH}world.webp`}
 						alt="World"
 					/>
 				</div>
@@ -94,7 +93,7 @@ const Header = () => {
 				</div>
 				<div className="row">
 					<div className="col">
-						<p>Background : Don Brown</p>
+						<p>Bg : Mousse, n. 285, in data 18 aprile 2006, pagina 3</p>
 					</div>
 				</div>
 			</div>

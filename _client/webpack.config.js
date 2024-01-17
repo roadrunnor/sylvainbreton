@@ -15,6 +15,7 @@ module.exports = {
 	output: {
 		filename: "[name].js",
 		path: path.resolve(__dirname, "./dist"),
+		publicPath: '/',
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".svg", ".scss"],
@@ -78,7 +79,7 @@ module.exports = {
 	],
 	devServer: {
 		static: {
-			directory: path.join(__dirname, "./dist"),
+			directory: path.join(__dirname, "public"),
 		},
 		hot: true,
 		historyApiFallback: true, // Fallback for single-page applications

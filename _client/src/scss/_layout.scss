@@ -1,0 +1,32 @@
+// main.scss
+@import "variables";
+
+.layout {
+  .row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: $spacing-unit;
+
+    .single-image,
+    .multiple-images {
+      img {
+        max-width: 100%;
+        height: auto;
+        margin: 0 $spacing-unit;
+        opacity: 0.75;
+      }
+    }
+
+    .single-image {
+      img {
+        max-width: 80%;
+      }
+    }
+
+    .multiple-images {
+      img {
+        max-width: 30%;
+      }
+    }
+  }
+}

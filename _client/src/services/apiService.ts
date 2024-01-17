@@ -4,6 +4,7 @@ import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import config from "../config/config";
 import { Artist } from "../models/Artist";
+import { Category } from "../models/Category";
 import { ErrorState, IHandleError } from "../models/HandleError";
 
 const API_BASE_URL = config.API_BASE_URL;
@@ -15,10 +16,10 @@ export const useApiService = () => {
 		let errorState: ErrorState = {
 			title: "Erreur",
 			message: "Une erreur est survenue.",
-			icon: "error", // Remplacez par l'icône ou la classe d'icône appropriée.
+			icon: "error",
 		};
 
-		if (axios.isAxiosError(error)) {
+		if (axios.isAxiosError(error) && error.response) {
 			console.error(`Erreur ${error.response?.status}: `, error.response);
 			switch (error.response?.status) {
 				case 400:
@@ -108,6 +109,54 @@ export const useApiService = () => {
 		deleteArtwork: async (id: number) => {
 			try {
 				const response = await axios.delete(`${API_BASE_URL}/artworks/${id}`);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+
+		// Categories
+		getAllCategories: async () => {
+			try {
+				const response = await axios.get(`${API_BASE_URL}/categories`);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+		getCategoryById: async (id: number) => {
+			try {
+				const response = await axios.get(`${API_BASE_URL}/categories/${id}`);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+		createCategory: async (categoryData: Category) => {
+			try {
+				const response = await axios.post(
+					`${API_BASE_URL}/categories`,
+					categoryData
+				);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+		updateCategory: async (id: number, categoryData: Category) => {
+			try {
+				const response = await axios.put(
+					`${API_BASE_URL}/categories/${id}`,
+					categoryData
+				);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+		deleteCategory: async (id: number) => {
+			try {
+				const response = await axios.delete(`${API_BASE_URL}/categories/${id}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);

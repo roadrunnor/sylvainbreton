@@ -60,4 +60,16 @@ packages
 *.tmp
 *.vsix
 *.swp
+heic
 *.HEIC
+tif
+*.tif
+psd
+*.psd
+png
+*.png
+pdf
+*.pdf
+webp
+*.webp
+

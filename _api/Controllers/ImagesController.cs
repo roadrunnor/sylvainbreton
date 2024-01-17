@@ -59,7 +59,7 @@ namespace api_sylvainbreton.Controllers
             var image = new Image
             {
                 // Supposons que ImageDto a des propriétés comme FileName, Description, etc.
-                FileRoute = imagePath,
+                FileName = imagePath,
                 Description = imageDTO.Description,
                 MediaType = imageDTO.MediaType,
                 MediaDescription = imageDTO.MediaDescription,
@@ -71,32 +71,6 @@ namespace api_sylvainbreton.Controllers
 
             return CreatedAtAction(nameof(GetImage), new { id = image.ImageID }, image);
         }
-
-        // POST: api/Images/UploadWithEnvPath
-        [HttpPost("UploadWithEnvPath")]
-        public ActionResult<Image> PostImageWithEnvPath([FromBody] ImageDTO imageDTO)
-        {
-            // Construisez le chemin de l'image en utilisant la variable d'environnement
-            // Assurez-vous que la variable IMAGE_PATH est définie dans votre fichier appsettings.json
-            var imagePath = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
-
-            var image = new Image
-            {
-                FileRoute = imagePath,
-                Description = imageDTO.Description,
-                MediaType = imageDTO.MediaType,
-                MediaDescription = imageDTO.MediaDescription,
-                // Assignez d'autres propriétés si nécessaire...
-            };
-
-            // Ajoutez l'objet image au contexte de la base de données et enregistrez les changements
-            _context.Images.Add(image);
-            _context.SaveChanges();
-
-            // Retournez une réponse HTTP 201 - Created, avec l'URL de l'image nouvellement créée et l'objet image
-            return CreatedAtAction(nameof(GetImage), new { id = image.ImageID }, image);
-        }
-
 
         // PUT: api/Images/5
         [HttpPut("{id}")]

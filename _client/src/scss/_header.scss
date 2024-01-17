@@ -3,7 +3,7 @@
 
 header {
 	.container {
-		padding-top: $spacing-unit * 2.5;
+		padding-top: $spacing-unit * 4.5;
 		max-width: $container-max-width;
 		margin: 0 auto;
 
@@ -12,7 +12,7 @@ header {
 			flex-wrap: wrap;
 			justify-content: space-between;
 			align-items: end;
-			margin: 0 $spacing-unit * 2 0 $spacing-unit * 2;
+			margin: 0 $spacing-unit * 2.5 0 $spacing-unit * 2.5;
 			padding-bottom: calc($spacing-unit / 2);
 
 			.col {
@@ -28,7 +28,7 @@ header {
 
 				p {
 					padding-bottom: calc($spacing-unit / 2);
-					opacity: 0.5;
+					opacity: 0.55;
 				}
 			}
 
@@ -36,7 +36,7 @@ header {
 				border-bottom: $border-width solid $border-color;
 				height: 1px; // Hauteur minimale pour s'assurer qu'elle est visible
 				width: 100%; // S'assure que la bordure s'étend sur toute la largeur
-				opacity: 0.35;
+				opacity: 0.45;
 			}
 
 			// Adaptations pour les tablettes
@@ -77,7 +77,7 @@ header {
 	}
 
 	.head-marquee {
-		background-color: $warning-color;
+		//background-color: $warning-color;
 		padding: calc($spacing-unit / 2);
 		overflow: hidden;
 		white-space: nowrap;
@@ -90,7 +90,7 @@ header {
 			.sentence {
 				display: inline-block; // Each sentence is an inline-block to be shown sequentially
 				margin-right: calc($spacing-unit / 2); // Adjust spacing between sentences if needed
-				opacity: 0.5;
+				opacity: 0.55;
 				letter-spacing: .025em;
 			}
 

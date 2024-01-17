@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import Header from "./components/Header"; // Adjust the path based on your directory structure
+import Header from "./components/Header";
+import Layout from "./components/Layout";
 //import ErrorTestComponent from "./components/tests/ErrorTestComponent";
 
 class App extends Component {
@@ -7,6 +8,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
+				<Layout />
 				{/* <ErrorTestComponent /> */}
 				{/* Other components or content can be added here */}
 
