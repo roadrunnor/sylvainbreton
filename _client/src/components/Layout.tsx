@@ -28,16 +28,22 @@ const Layout = () => {
 		};
 	}, []); // Tableau de dépendances vide pour que l'effet ne s'exécute qu'au montage
 
-	// You don't need the full filesystem path here, just the relative path from the public directory
 	return (
 		<div className="layout">
-			{images.map((image) => (
-				<img 
-					key={image.ImageId}
-					src={`${process.env.REACT_APP_IMAGE_PATH}${image.FileName}`}
-					alt={image.Description}
-				/>
-			))}
+			{images.map((image, index) => {
+				// Check if ImageId is undefined and log an error if it is.
+				if (typeof image.ImageID === "undefined") {
+					console.error("Undefined ImageId for image:", image);
+					return null; // Do not render this image if ImageId is undefined.
+				}
+				return (
+					<img
+						key={image.ImageID}
+						src={`${process.env.REACT_APP_IMAGE_PATH}${image.FileName}`}
+						alt={image.Description}
+					/>
+				);
+			})}
 		</div>
 	);
 };
