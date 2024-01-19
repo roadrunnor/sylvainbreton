@@ -2,9 +2,15 @@
 {
     public class ArtworkDTO
     {
-        public int ArtworkID { get; set; }
+        public int ArtworkID { get; set; } 
         public string Title { get; set; }
         public DateTime? CreationDate { get; set; }
-        // Autres propriétés publiques que vous souhaitez exposer
+        public int CategoryID { get; set; } 
+        public string Materials { get; set; }
+        public string Dimensions { get; set; }
+        public string Description { get; set; }
+        public string Conceptual { get; set; }
+
+        // ... any other properties you need ...
     }
 }

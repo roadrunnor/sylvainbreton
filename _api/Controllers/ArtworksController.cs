@@ -58,13 +58,29 @@ namespace api_sylvainbreton.Controllers
 
         // POST: api/Artworks
         [HttpPost]
-        public ActionResult<Artwork> PostArtwork(Artwork artwork)
+        public async Task<ActionResult<Artwork>> PostArtwork([FromBody] ArtworkDTO artworkDto)
         {
-            _context.Artworks.Add(artwork);
-            _context.SaveChanges();
+            // Create a new Artwork entity and map properties from the ArtworkDTO
+            var artwork = new Artwork
+            {
+                Title = artworkDto.Title,
+                CreationDate = artworkDto.CreationDate,
+                CategoryID = artworkDto.CategoryID, // Use CategoryID from the DTO
+                Materials = artworkDto.Materials,
+                Dimensions = artworkDto.Dimensions,
+                Description = artworkDto.Description,
+                Conceptual = artworkDto.Conceptual
+            };
 
-            return CreatedAtAction("GetArtwork", new { id = artwork.ArtworkID }, artwork);
+            // Add the new Artwork entity to the DbContext
+            _context.Artworks.Add(artwork);
+            // Save changes asynchronously to the database
+            await _context.SaveChangesAsync();
+
+            // Return the created artwork with the 'CreatedAtAction' helper method
+            return CreatedAtAction(nameof(GetArtwork), new { id = artwork.ArtworkID }, artwork);
         }
+
 
         // PUT: api/Artworks/5
         [HttpPut("{id}")]

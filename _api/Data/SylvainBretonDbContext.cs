@@ -37,6 +37,11 @@ namespace api_sylvainbreton.Data
             modelBuilder.Entity<Artist>()
                 .HasKey(a => a.ArtistID);
 
+            modelBuilder.Entity<Artwork>()
+           .HasOne(a => a.Category) 
+           .WithMany(c => c.Artworks) 
+           .HasForeignKey(a => a.CategoryID);
+
             // Clé composite pour EventArtworks
             modelBuilder.Entity<EventArtwork>()
                 .HasKey(ea => new { ea.EventID, ea.ArtworkID });

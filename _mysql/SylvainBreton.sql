@@ -8,21 +8,25 @@ CREATE TABLE Artists (
     LastName VARCHAR(255)
 );
 
-CREATE TABLE Artwork (
-    ArtworkID INT AUTO_INCREMENT PRIMARY KEY,
-    Title VARCHAR(255),
-    CreationDate DATE,
-    ArtworkType VARCHAR(50), -- Peinture, Sculpture, Dessin, Photographie, Installation, Conceptual, Performance
-    Materials VARCHAR(255),
-    Dimensions VARCHAR(255),
-    Description TEXT,
-    Conceptual TEXT
-);
-
 CREATE TABLE CATEGORY (
     CategoryID INT AUTO_INCREMENT PRIMARY KEY,
     CategoryName VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE Artwork (
+    ArtworkID INT AUTO_INCREMENT PRIMARY KEY,
+    Title VARCHAR(255),
+    CreationDate DATE,
+    CategoryID INT,
+    Materials VARCHAR(255),
+    Dimensions VARCHAR(255),
+    Description TEXT,
+    Conceptual TEXT,
+    FOREIGN KEY (CategoryID) REFERENCES CATEGORY(CategoryID)
+);
+
+
+
 
 INSERT INTO CATEGORY (CategoryName) 
 VALUES 
@@ -112,15 +116,15 @@ INSERT INTO Artists (FirstName, LastName) VALUES
 ('Sylvain', 'Breton');
 
 -- Insert Artworks
-INSERT INTO Artwork (Title, CreationDate, ArtworkType, Materials, Dimensions, Description, Conceptual) VALUES 
-('Dreaming Sarah', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Red Line', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Bathroom', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('ByAnalogy', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Red Tornado', '2011-01-01', 'Conceptual', 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Joao Ribas', '2011-01-01', 'Sentence', 'Web Art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Theodor W. Adorno', '1970-01-01', 'Sentence', 'Web art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Unknown', '2011-01-01', 'Painting', 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money', 'Conceptual art, painting, performance, installation');
+INSERT INTO Artwork (Title, CreationDate, CategoryID, Materials, Dimensions, Description, Conceptual) VALUES 
+('Dreaming Sarah', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Red Line', '2011-01-01', 6,'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Bathroom', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('ByAnalogy', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Red Tornado', '2011-01-01', 4, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Joao Ribas', '2011-01-01', 8, 'Web Art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Theodor W. Adorno', '1970-01-01', 8, 'Web art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
+('Unknown', '2011-01-01', 2, 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money', 'Conceptual art, painting, performance, installation');
 
 -- insert Categories -- Drawing, Painting, Sculpture, Performance, Installation, Photography, Video, Conceptual Art
 
