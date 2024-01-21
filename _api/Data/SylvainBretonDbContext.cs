@@ -93,12 +93,17 @@ namespace api_sylvainbreton.Data
                 .ToTable("Artwork");
 
             // Ajout des configurations ToTable pour chaque entité
+            // Configure EF to use singular table names
+            modelBuilder.Entity<Artist>().ToTable("Artists");
+            modelBuilder.Entity<Artwork>().ToTable("Artwork");
+            modelBuilder.Entity<Category>().ToTable("Category"); // Use uppercase to match your SQL script
             modelBuilder.Entity<Place>().ToTable("Place");
             modelBuilder.Entity<Performance>().ToTable("Performance");
             modelBuilder.Entity<Event>().ToTable("Event");
             modelBuilder.Entity<EventArtwork>().ToTable("EventArtwork");
             modelBuilder.Entity<Image>().ToTable("Image");
             modelBuilder.Entity<Sentence>().ToTable("Sentence");
+            modelBuilder.Entity<DynamicContent>().ToTable("DynamicContent");
         }
     }
 }

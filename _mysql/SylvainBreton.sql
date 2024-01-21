@@ -8,7 +8,7 @@ CREATE TABLE Artists (
     LastName VARCHAR(255)
 );
 
-CREATE TABLE CATEGORY (
+CREATE TABLE Category (
     CategoryID INT AUTO_INCREMENT PRIMARY KEY,
     CategoryName VARCHAR(255) NOT NULL
 );
@@ -117,14 +117,14 @@ INSERT INTO Artists (FirstName, LastName) VALUES
 
 -- Insert Artworks
 INSERT INTO Artwork (Title, CreationDate, CategoryID, Materials, Dimensions, Description, Conceptual) VALUES 
-('Dreaming Sarah', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Red Line', '2011-01-01', 6,'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Bathroom', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('ByAnalogy', '2011-01-01', 6, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Red Tornado', '2011-01-01', 4, 'Web Art', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Joao Ribas', '2011-01-01', 8, 'Web Art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Theodor W. Adorno', '1970-01-01', 8, 'Web art', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money', 'Conceptual art description'),
-('Unknown', '2011-01-01', 2, 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money', 'Conceptual art, painting, performance, installation');
+('Dreaming Sarah', '2011-01-01', 6, 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Red Line', '2011-01-01', 6,'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Bathroom', '2011-01-01', 6, 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('ByAnalogy', '2011-01-01', 6, 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Red Tornado', '2011-01-01', 4, 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Joao Ribas', '2011-01-01', 8, 'Sentence, Letters', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Theodor W. Adorno', '1970-01-01', 8, 'Sentence, Letters', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual art description'),
+('Unknown', '2011-01-01', 2, 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money.', 'Conceptual art, painting, performance, installation');
 
 -- insert Categories -- Drawing, Painting, Sculpture, Performance, Installation, Photography, Video, Conceptual Art
 
@@ -140,17 +140,19 @@ INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID
 
 -- Insert Images artistiques
 INSERT INTO Image (ArtworkID, FileName, Description, MediaType, MediaDescription) VALUES 
-(1, 'dreaming-sarah.jpg', 'agency of possibilities and impossibilities (love as a life statement commodity), metropology: city intelligence by money', 'photography', 'birks ring'),
-(2, 'red-line.jpg', 'metropology: city intelligence by money', 'digital photography', 'Mexico bar, neon, playa del carmen'),
-(3, 'bathroom-m6-event-032.jpg', 'Metropology: City Intelligence by Money', 'performance', 'culture factory polymer'),
-(4, 'byanalogy_logo.jpg', 'agency of possibilities and impossibilities', 'print', 'performance and print'),
-(5, 'red-tornado-center---something-043.jpg', 'agency of possibilities and impossibilities', 'performance', 'red pencil, water, glass'),
-(6, 'unknown.jpg', 'painting', 'metropology: city intelligence by money', 'Conceptual art, painting, performance, installation');
+(1, 'dreaming-sarah.jpg', 'agency of possibilities and impossibilities (love as a life statement commodity), metropology: city intelligence by money.', 'photography', 'birks ring'),
+(2, 'red-line.jpg', 'metropology: city intelligence by money.', 'digital photography', 'Mexico bar, neon, playa del carmen'),
+(3, 'bathroom-m6-event-032.jpg', 'Metropology: City Intelligence by Money.', 'performance', 'culture factory polymer'),
+(4, 'byanalogy_logo.jpg', 'agency of possibilities and impossibilities.', 'print', 'performance and print'),
+(5, 'red-tornado-center---something-043.jpg', 'agency of possibilities and impossibilities.', 'performance', 'red pencil, water, glass'),
+(6, 'unknown.jpg', 'painting', 'metropology: city intelligence by money.', 'Conceptual art, painting, performance, installation');
 
 -- Insert Images non artistiques
 INSERT INTO Image (FileName, Description, MediaType, MediaDescription) VALUES 
 ('world.webp', 'world image', 'Webp', 'world with iron lines'),
-('bg-mousse', 'journal print paper background', 'jpg', 'mousse magazine paper background');
+('bg-mousse', 'journal print paper background', 'jpg', 'mousse magazine paper background'),
+('no-image', 'image missing', 'svg', 'two mountains with a sun'),
+('no-image', 'image missing', 'webp', 'no image');
 
 -- Insert Sentences
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication) VALUES 

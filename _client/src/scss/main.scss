@@ -1,15 +1,14 @@
 // Import reset or normalization file first
-@import "reset"; // Assuming the file is named _reset.scss
+@import "mixins";
+@import "reset";
 
 // Then, import variable files
-@import "variables"; // Assuming the file is named _variables.scss
+@import "variables";
 @import "utilities";
 
 // Import partials for different parts of your application
-@import "header"; // Assuming the file is named _header.scss
-@import "layout"; // Assuming the file is named _header.scss
-@import "footer"; // Assuming the file is named _footer.scss
-@import "buttons"; // Assuming the file is named _buttons.scss
+@import "footer";
+@import "buttons";
 @import "images";
 @import "modal";
 @import "tests/ErrorTestComponent";

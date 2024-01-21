@@ -1,49 +1,77 @@
 import React, { useState, useEffect } from "react";
 import "../scss/_layout.scss";
-import { ImageData } from "../models/ImageData";
-import { useApiService } from "../services/apiService"; // Importation de useApiService
+import { Artwork } from "../models/Artwork";
+import { Category } from "../models/Category";
+import { useApiService } from "../services/apiService";
 
 const Layout = () => {
-	const [images, setImages] = useState<ImageData[]>([]);
-	const { apiService } = useApiService(); // Utilisation de useApiService pour accéder à apiService
+	const [artworks, setArtworks] = useState<Artwork[]>([]);
+	const [categoryMap, setCategoryMap] = useState<{ [key: string]: string }>({});
+	const { apiService } = useApiService();
 
 	useEffect(() => {
-		let isMounted = true; // Indicateur de montage du composant
-		const fetchImages = async () => {
-			try {
-				// Utilisation de apiService.getAllImages pour récupérer les images
-				const fetchedImages = await apiService.getAllImages();
-				if (isMounted) {
-					setImages(fetchedImages || []);
-				}
-			} catch (error) {
-				// La gestion des erreurs est déjà gérée dans apiService
-			}
+		const fetchArtworksAndCategories = async () => {
+			const fetchedArtworks = await apiService.getAllArtworks();
+			setArtworks(fetchedArtworks);
+
+			const fetchedCategories = await apiService.getAllCategories();
+			const newCategoryMap = fetchedCategories.reduce(
+				(accumulator: Record<number, string>, category: Category) => {
+					accumulator[category.CategoryID] = category.CategoryName;
+					return accumulator;
+				},
+				{} as Record<number, string>
+			);
+
+			setCategoryMap(newCategoryMap);
 		};
 
-		fetchImages();
-		// Nettoyage en cas de démontage du composant
-		return () => {
-			isMounted = false;
-		};
-	}, []); // Tableau de dépendances vide pour que l'effet ne s'exécute qu'au montage
+		fetchArtworksAndCategories();
+	}, []);
+
+	const getCategoryNameById = (categoryId: number) => {
+		return categoryMap[categoryId] || "Unknown Category";
+	};
+
+	const imageBasePath = process.env.REACT_APP_IMAGE_PATH;
+	const getImagePath = (fileName?: string) => {
+		if (!fileName) {
+			return `${imageBasePath}no-image.webp`;
+		}
+		return `${imageBasePath}${fileName}`;
+	};
 
 	return (
 		<div className="layout">
-			{images.map((image, index) => {
-				// Check if ImageId is undefined and log an error if it is.
-				if (typeof image.ImageID === "undefined") {
-					console.error("Undefined ImageId for image:", image);
-					return null; // Do not render this image if ImageId is undefined.
-				}
-				return (
-					<img
-						key={image.ImageID}
-						src={`${process.env.REACT_APP_IMAGE_PATH}${image.FileName}`}
-						alt={image.Description}
-					/>
-				);
-			})}
+			{artworks.length > 0 && (
+				<div className="image-row">
+					<div className="single-image">
+						<img
+							key={artworks[0].ArtworkID}
+							src={getImagePath(artworks[0].FileName)}
+							alt={artworks[0].Description}
+						/>
+					</div>
+					<div className="image-info">
+						<p className="image-info-padding-b"><em>{artworks[0].Title}</em>, {artworks[0].CreationDate.slice(0, 4)}</p>
+						<p>{artworks[0].Description}</p>
+					</div>
+				</div>
+			)}
+			<div className="gallery-row">
+				{artworks.slice(1, 4).map((artwork) => (
+					<div className="image-container" key={artwork.ArtworkID}>
+						<img
+							src={getImagePath(artwork.FileName)}
+							alt={artwork.Description}
+						/>
+						<div className="image-description">
+							<p><em>{artwork.Title}</em>, {artwork.CreationDate.slice(0, 4)}</p>
+							<p>{artwork.Description}</p>
+						</div>
+					</div>
+				))}
+			</div>
 		</div>
 	);
 };

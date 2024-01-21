@@ -1,7 +1,8 @@
 export interface Artwork {
-	ArtworkId: number;
-	ArtworkType: string;
+	ArtworkID: number;
+	Title: string;
 	CreationDate: string;
+	CategoryID: number;
 	Materials: string;
 	Dimensions: string;
 	Description: string;

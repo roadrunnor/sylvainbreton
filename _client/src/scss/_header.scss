@@ -1,42 +1,24 @@
 @use "sass:math";
+@use "mixins";
 @import "variables";
 
 header {
 	.container {
-		padding-top: $spacing-unit * 4.5;
-		max-width: $container-max-width;
-		margin: 0 auto;
+		@include mixins.header-container;
 
 		.row {
-			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-between;
-			align-items: end;
-			margin: 0 $spacing-unit * 2.5 0 $spacing-unit * 2.5;
-			padding-bottom: calc($spacing-unit / 2);
+			@include mixins.flex-row;
 
 			.col {
-				display: flex;
-				flex: 1 1 25%;
-				max-width: 25%;
-				flex-direction: column;
-				justify-content: flex-start;
-				align-items: flex-start; // Alignement à gauche
-				padding: 0 $spacing-unit;
-				text-align: left;
-				box-sizing: border-box;
-
-				p {
-					padding-bottom: calc($spacing-unit / 2);
-					opacity: 0.55;
-				}
+				@include mixins.flex-column;
 			}
 
 			.underline {
-				border-bottom: $border-width solid $border-color;
-				height: 1px; // Hauteur minimale pour s'assurer qu'elle est visible
-				width: 100%; // S'assure que la bordure s'étend sur toute la largeur
-				opacity: 0.45;
+				@include mixins.underline;
+			}
+
+			.head-marquee {
+				@include mixins.head-marquee;
 			}
 
 			// Adaptations pour les tablettes
@@ -74,51 +56,5 @@ header {
 				}
 			}
 		}
-	}
-
-	.head-marquee {
-		//background-color: $warning-color;
-		padding: calc($spacing-unit / 2);
-		overflow: hidden;
-		white-space: nowrap;
-		max-width: 100%;
-
-		.scrolling-text {
-			display: inline-block;
-			animation: scroll-text 40s linear infinite;
-
-			.sentence {
-				display: inline-block; // Each sentence is an inline-block to be shown sequentially
-				margin-right: calc($spacing-unit / 2); // Adjust spacing between sentences if needed
-				opacity: 0.55;
-				letter-spacing: .025em;
-			}
-
-			em {
-				font-style: italic;
-			}
-
-			@media (max-width: $breakpoint-md) {
-				animation-name: scroll-text-mobile;
-			}
-		}
-	}
-}
-
-@keyframes scroll-text {
-	0% {
-		transform: translateX(3%);
-	}
-	100% {
-		transform: translateX(-100%);
-	}
-}
-
-@keyframes scroll-text-mobile {
-	0% {
-		transform: translateX(3%);
-	}
-	100% {
-		transform: translateX(-100%);
 	}
 }

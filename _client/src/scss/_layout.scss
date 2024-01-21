@@ -1,32 +1,98 @@
-// main.scss
+@use "sass:math";
+@use "mixins";
 @import "variables";
 
 .layout {
-  .row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: $spacing-unit;
+	@include mixins.layout-container;
 
-    .single-image,
-    .multiple-images {
-      img {
-        max-width: 100%;
-        height: auto;
-        margin: 0 $spacing-unit;
-        opacity: 0.75;
-      }
-    }
+	.image-row {
+		@include mixins.image-row;
 
-    .single-image {
-      img {
-        max-width: 80%;
-      }
-    }
+		.single-image {
+			@include mixins.single-image;
 
-    .multiple-images {
-      img {
-        max-width: 30%;
-      }
-    }
-  }
+			img {
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		.image-info {
+			@include mixins.image-info;
+			padding-top: calc($spacing-unit / 2);
+
+			.image-info-padding-b {
+				padding-bottom: calc($spacing-unit / 2);
+			}
+		}
+	}
+
+	.gallery-row {
+		@include mixins.gallery-row;
+
+		.image-container {
+			@include mixins.flex-column(33.333%);
+
+			img {
+				width: 100%;
+				height: auto;
+				display: block;
+			}
+
+			.image-description {
+				@include mixins.image-description;
+			}
+		}
+	}
+
+	@media (max-width: $breakpoint-custom) and (min-width: $breakpoint-md) {
+		.gallery-row {
+			.image-container {
+				&:nth-child(3) {
+					// Hide the third image-container
+					display: none;
+				}
+
+				// For the first and second image-container
+				&:nth-child(-n + 2) {
+					flex: 0 0 50%; // Two images per row, each taking half space
+					max-width: 50%;
+				}
+			}
+		}
+	}
+
+	// In LAYOUT.SCSS
+
+	@media (max-width: $breakpoint-md) {
+		.image-row {
+			flex-direction: column; // Stack children vertically
+			flex: 1 1 auto;
+			max-width: 100%;
+			align-items: start;
+			padding: 0;
+
+			.single-image {
+				order: 1; // Ensures image comes first
+				flex: 1 0 auto; // Take the image's height
+			}
+
+			.image-info {
+				order: 2; // Move below the image
+				flex: 0 0 0%; // Take full width
+			}
+		}
+
+		.gallery-row {
+			flex-direction: column; // Stack images vertically
+
+			.image-container {
+				flex: 1 0 auto; // Ensure each image-container can grow to fit content but also take full width available
+				max-width: 100%; // Each image takes full width
+				&:not(:last-child) {
+					margin-bottom: $spacing-unit; // Add space between the images if not the last one
+				}
+			}
+		}
+	}
 }

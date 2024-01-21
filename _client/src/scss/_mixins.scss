@@ -1,0 +1,153 @@
+// _mixins.scss or at the top of your _layout.scss
+@use "sass:math";
+@import "variables";
+
+// big image with its description
+@mixin header-container {
+	padding-top: $spacing-unit * 4.5;
+	max-width: $container-max-width;
+	margin: 0 auto;
+}
+
+@mixin flex-row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: end;
+	margin: 0 $spacing-unit * 2.5 0 $spacing-unit * 2.5;
+	padding-bottom: $spacing-unit;
+}
+
+@mixin flex-column($flex-basis: 25%) {
+	display: flex;
+	flex: 1 1 $flex-basis;
+	max-width: $flex-basis;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start; // Default alignment to the left
+	padding: 0 $spacing-unit;
+	text-align: left;
+	box-sizing: border-box;
+
+	p {
+		padding-bottom: calc($spacing-unit / 2);
+		opacity: 0.55;
+	}
+}
+
+@mixin underline {
+	border-bottom: $border-width solid $border-color;
+	height: 1px; // Minimum height to ensure visibility
+	width: 100%; // Ensures the border spans the full width
+	opacity: 0.45;
+}
+
+@mixin head-marquee {
+	padding: calc($spacing-unit / 2);
+	overflow: hidden;
+	white-space: nowrap;
+	max-width: 100%;
+
+	.scrolling-text {
+		display: inline-block;
+		animation: scroll-text 40s linear infinite;
+
+		.sentence {
+			display: inline-block; // Each sentence is an inline-block to be shown sequentially
+			margin-right: calc(
+				$spacing-unit / 2
+			); // Adjust spacing between sentences if needed
+			opacity: 0.55;
+			letter-spacing: 0.025em;
+		}
+
+		em {
+			font-style: italic;
+		}
+
+		@media (max-width: $breakpoint-md) {
+			animation-name: scroll-text-mobile;
+		}
+	}
+
+	@keyframes scroll-text {
+		0% {
+			transform: translateX(3%);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+
+	@keyframes scroll-text-mobile {
+		0% {
+			transform: translateX(3%);
+		}
+		100% {
+			transform: translateX(-100%);
+		}
+	}
+}
+
+// Small images with its description
+@mixin layout-container {
+	@include header-container;
+	display: flex;
+	flex-wrap: wrap; // Allow wrapping for responsiveness
+	gap: $spacing-unit;
+	padding-top: 0;
+
+	// Flex child styles for a two-column layout (65% - 35%)
+	// These styles should be applied to the direct children of the container
+	> *:first-child {
+		// Assuming the first child takes up 65%
+		flex: 1 1 65%;
+		max-width: 62.2%;
+	}
+	> *:last-child {
+		// Assuming the second child takes up 35%
+		flex: 1 1 35%;
+		max-width: 35%;
+	}
+}
+
+@mixin image-row {
+	@include flex-row;
+	flex-wrap: nowrap;
+	padding-bottom: 0;
+	margin-top: $spacing-unit * 2.5;
+}
+
+@mixin single-image {
+	flex: 1 0 100%;
+	max-width: 100%;
+	padding: 0 $spacing-unit 0 $spacing-unit;
+}
+
+@mixin image-info {
+	flex: 0 0 40%;
+	max-width: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+	padding: 0 $spacing-unit;
+	opacity: 0.55;
+}
+
+@mixin gallery-row {
+	display: flex;
+	justify-content: space-between;
+	margin: $spacing-unit $spacing-unit * 2.5 0 $spacing-unit * 2.5;
+	max-width: max-content;
+}
+
+@mixin image-container {
+	flex: 1 1 calc(33.333%);
+	max-width: calc(33.333%);
+	margin-bottom: $spacing-unit;
+}
+
+@mixin image-description {
+	text-align: left;
+	padding-top: math.div($spacing-unit, 2);
+}

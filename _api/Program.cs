@@ -33,7 +33,12 @@ if (string.IsNullOrEmpty(connectionString))
 }
 
 builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+        mySqlOptions => mySqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5, // Maximum number of retries
+            maxRetryDelay: TimeSpan.FromSeconds(10), // Maximum delay between retries
+            errorNumbersToAdd: null))); // SQL error numbers for additional retries (optional)
+
 
 // Configuration Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
