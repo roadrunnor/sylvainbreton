@@ -8,6 +8,7 @@ header {
 
 		.row {
 			@include mixins.flex-row;
+			padding-bottom: calc($spacing-unit / 2);
 
 			.col {
 				@include mixins.flex-column;
