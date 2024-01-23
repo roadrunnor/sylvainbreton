@@ -3,9 +3,10 @@ export interface Artwork {
 	Title: string;
 	CreationDate: string;
 	CategoryID: number;
+	CategoryName: string;
 	Materials: string;
 	Dimensions: string;
 	Description: string;
 	Conceptual: string;
-	FileName: string; 
+	FileName: string;
 }

@@ -65,7 +65,8 @@ namespace api_sylvainbreton.Controllers
             {
                 Title = artworkDto.Title,
                 CreationDate = artworkDto.CreationDate,
-                CategoryID = artworkDto.CategoryID, // Use CategoryID from the DTO
+                CategoryID = artworkDto.CategoryID,
+                CategoryName = artworkDto.CategoryName,
                 Materials = artworkDto.Materials,
                 Dimensions = artworkDto.Dimensions,
                 Description = artworkDto.Description,

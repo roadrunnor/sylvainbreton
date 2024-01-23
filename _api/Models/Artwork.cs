@@ -11,7 +11,8 @@ namespace api_sylvainbreton.Models
         public string Dimensions { get; set; }
         public string Description { get; set; }
         public string Conceptual { get; set; }
-        public int CategoryID { get; set; } 
+        public int CategoryID { get; set; }
+        public string CategoryName { get; set; }
 
 
         // Propriétés de navigation

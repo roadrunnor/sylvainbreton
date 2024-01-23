@@ -53,8 +53,12 @@ const Layout = () => {
 						/>
 					</div>
 					<div className="image-info">
-						<p className="image-info-padding-b"><em>{artworks[0].Title}</em>, {artworks[0].CreationDate.slice(0, 4)}</p>
+						<p className="image-info-padding-b">
+							<em>{artworks[0].Title}</em>,{" "}
+							{artworks[0].CreationDate.slice(0, 4)}, {artworks[0].CategoryName}
+						</p>
 						<p>{artworks[0].Description}</p>
+						<p>{artworks[0].Conceptual}</p>
 					</div>
 				</div>
 			)}
@@ -66,8 +70,11 @@ const Layout = () => {
 							alt={artwork.Description}
 						/>
 						<div className="image-description">
-							<p><em>{artwork.Title}</em>, {artwork.CreationDate.slice(0, 4)}</p>
+							<p>
+								<em>{artwork.Title}</em>, {artwork.CreationDate.slice(0, 4)}, {artwork.CategoryName}
+							</p>
 							<p>{artwork.Description}</p>
+							<p>{artwork.Conceptual}</p>
 						</div>
 					</div>
 				))}
