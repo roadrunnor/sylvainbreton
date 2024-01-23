@@ -7,6 +7,5 @@ export interface Artwork {
 	Dimensions: string;
 	Description: string;
 	Conceptual: string;
-	FileName: string; // Assuming the filename for the image is here
-	// ... include other necessary properties
+	FileName: string; 
 }
