@@ -31,15 +31,14 @@
 
 	p {
 		padding-bottom: calc($spacing-unit / 2);
-		opacity: 0.55;
 	}
 }
 
 @mixin underline {
 	border-bottom: $border-width solid $border-color;
-	height: 1px; // Minimum height to ensure visibility
-	width: 100%; // Ensures the border spans the full width
-	opacity: 0.45;
+	height: 1px; 
+	width: 100%;
+	opacity: .75;
 }
 
 @mixin head-marquee {
@@ -47,17 +46,15 @@
 	overflow: hidden;
 	white-space: nowrap;
 	max-width: 100%;
+	background-color: $warning-color;
 
 	.scrolling-text {
 		display: inline-block;
 		animation: scroll-text 40s linear infinite;
 
 		.sentence {
-			display: inline-block; // Each sentence is an inline-block to be shown sequentially
-			margin-right: calc(
-				$spacing-unit / 2
-			); // Adjust spacing between sentences if needed
-			opacity: 0.55;
+			display: inline-block;
+			margin-right: calc($spacing-unit / 2);
 			letter-spacing: 0.025em;
 		}
 
@@ -131,7 +128,6 @@
 	justify-content: center;
 	align-items: flex-start;
 	padding: 0 $spacing-unit;
-	opacity: 0.55;
 }
 
 @mixin gallery-row {
@@ -144,7 +140,6 @@
 @mixin image-container {
 	flex: 1 1 calc(33.333%);
 	max-width: calc(33.333%);
-	margin-bottom: $spacing-unit;
 }
 
 @mixin image-description {

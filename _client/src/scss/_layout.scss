@@ -89,6 +89,8 @@
 			.image-container {
 				flex: 1 0 auto; // Ensure each image-container can grow to fit content but also take full width available
 				max-width: 100%; // Each image takes full width
+				margin-bottom: calc($spacing-unit * 2);
+
 				&:not(:last-child) {
 					margin-bottom: $spacing-unit; // Add space between the images if not the last one
 				}
