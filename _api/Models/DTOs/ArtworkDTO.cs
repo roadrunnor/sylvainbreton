@@ -11,6 +11,8 @@
         public string Dimensions { get; set; }
         public string Description { get; set; }
         public string Conceptual { get; set; }
+
+        // navigation props
         public List<ArtworkImageDTO> ArtworkImages { get; set; }
 
     }

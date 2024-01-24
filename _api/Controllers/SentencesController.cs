@@ -5,6 +5,7 @@ using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -26,8 +27,16 @@ namespace api_sylvainbreton.Controllers
                 .Select(s => new SentenceDTO
                 {
                     SentenceID = s.SentenceID,
+                    ArtworkID = s.ArtworkID,
+                    Author = s.Author,
+                    PublicationDate = s.PublicationDate,
+                    BookTitle = s.BookTitle,
+                    Publisher = s.Publisher,
+                    SentencePage = s.SentencePage,
                     Content = s.Content,
-                    ArtworkID = s.ArtworkID
+                    CountryOfPublication = s.CountryOfPublication,
+                    CityOfPublication = s.CityOfPublication,
+
                 })
                 .ToList();
 
