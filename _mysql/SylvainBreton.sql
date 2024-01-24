@@ -23,23 +23,8 @@ CREATE TABLE Artwork (
     Dimensions VARCHAR(255),
     Description TEXT,
     Conceptual TEXT,
-    FOREIGN KEY (CategoryID) REFERENCES CATEGORY(CategoryID)
+    FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID)
 );
-
-
-
-
-INSERT INTO CATEGORY (CategoryName) 
-VALUES 
-    ('Drawing'), 
-    ('Painting'), 
-    ('Sculpture'), 
-    ('Performance'), 
-    ('Installation'), 
-    ('Photography'), 
-    ('Video'), 
-    ('Sentence');
-
 
 CREATE TABLE Place (
     PlaceID INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,24 +54,36 @@ CREATE TABLE Event (
     FOREIGN KEY (PlaceID) REFERENCES Place(PlaceID)
 );
 
+CREATE TABLE Image (
+    ImageID INT AUTO_INCREMENT PRIMARY KEY,
+    ArtworkID INT NULL,
+    PerformanceID INT NULL,
+    FileName VARCHAR(255),
+    FilePath VARCHAR(255),
+    URL VARCHAR(255),
+    Description TEXT,
+    MediaType VARCHAR(50),
+    MediaDescription TEXT,
+    FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID),
+    FOREIGN KEY (PerformanceID) REFERENCES Performance(PerformanceID)
+);
+
+CREATE TABLE ArtworkImage (
+    ArtworkID INT,
+    ImageID INT,
+    FileName VARCHAR(255),
+    FilePath VARCHAR(255),
+    URL	VARCHAR(255),
+    FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID),
+    FOREIGN KEY (ImageID) REFERENCES Image(ImageID)
+);
+
 CREATE TABLE EventArtwork (
     EventID INT,
     ArtworkID INT,
     PRIMARY KEY (EventID, ArtworkID),
     FOREIGN KEY (EventID) REFERENCES Event(EventID),
     FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID)
-);
-
-CREATE TABLE Image (
-    ImageID INT AUTO_INCREMENT PRIMARY KEY,
-    ArtworkID INT NULL,
-    PerformanceID INT NULL,
-    FileName VARCHAR(255),
-    Description TEXT,
-    MediaType VARCHAR(50),
-    MediaDescription TEXT,
-    FOREIGN KEY (ArtworkID) REFERENCES Artwork(ArtworkID),
-    FOREIGN KEY (PerformanceID) REFERENCES Performance(PerformanceID)
 );
 
 CREATE TABLE Sentence (
@@ -109,14 +106,19 @@ CREATE TABLE DynamicContent (
     Content TEXT
 );
 
--- Insert dynamic content
-INSERT INTO DynamicContent (Keyword, Content) VALUES 
-('background', 'background');
-
 INSERT INTO Artists (FirstName, LastName) VALUES 
 ('Sylvain', 'Breton');
 
--- Insert Artworks
+INSERT INTO Category (CategoryName) VALUES 
+('Drawing'), 
+('Painting'), 
+('Sculpture'), 
+('Performance'), 
+('Installation'), 
+('Photography'), 
+('Video'), 
+('Sentence');
+
 INSERT INTO Artwork (Title, CreationDate, CategoryID, CategoryName, Materials, Dimensions, Description, Conceptual) VALUES 
 ('Dreaming Sarah', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
 ('Red Line', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
@@ -127,14 +129,13 @@ INSERT INTO Artwork (Title, CreationDate, CategoryID, CategoryName, Materials, D
 ('Theodor W. Adorno', '1970-01-01', 8, 'Sentence (Conceptual Art)', 'Sentence, Letters', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
 ('Unknown', '2011-01-01', 2, 'Painting', 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money.', 'Conceptual Art, Painting, Performance, Installation');
 
--- insert Categories -- Drawing, Painting, Sculpture, Performance, Installation, Photography, Video, Conceptual Art
-
+INSERT INTO DynamicContent (Keyword, Content) VALUES 
+('background', 'background');
 
 INSERT INTO Place (Name, PlaceType, Address, Country) VALUES 
 ('Web Space', 'Public', 'sylvainbreton.com', 'Canada'),
 ('Web Space', 'Public', 'sylvainbreton.com', 'Canada');
 
--- Insert Performances
 INSERT INTO Performance (Title, PerformanceDate, Materials, Description, PlaceID) VALUES 
 ('Dreaming Sarah Performance', '2011-01-01', 'Web', NULL, 1),
 ('What To Do With The Contemporary?', '2011-01-01', 'Web', NULL, 2);
@@ -148,6 +149,15 @@ INSERT INTO Image (ArtworkID, FileName, Description, MediaType, MediaDescription
 (5, 'red-tornado-center---something-043.jpg', 'agency of possibilities and impossibilities.', 'performance', 'red pencil, water, glass'),
 (6, 'unknown.jpg', 'painting', 'metropology: city intelligence by money.', 'Conceptual art, painting, performance, installation');
 
+-- Insert ArtworkImage associations
+INSERT INTO ArtworkImage (ArtworkID, ImageID, FileName, FilePath, URL) VALUES 
+(1, 1, 'dreaming-sarah.jpg', 'public/assets/images/dreaming-sarah.jpg', '/assets/images/dreaming-sarah.jpg'),
+(2, 2, 'red-line.jpg', 'public/assets/images/red-line.jpg', '/images/red-line.jpg'),
+(3, 3, 'bathroom-m6-event-032.jpg', 'public/assets/images/bathroom-m6-event-032.jpg', '/assets/images/bathroom-m6-event-032.jpg'),
+(4, 4, 'byanalogy_logo.jpg', 'public/assets/images/byanalogy_logo.jpg', '/assets/images/byanalogy_logo.jpg'),
+(5, 5, 'red-tornado-center---something-043.jpg', 'public/assets/images/red-tornado-center---something-043.jpg', '/assets/images/red-tornado-center---something-043.jpg'),
+(6, 6, 'unknown.jpg', 'public/assets/images/unknown.jpg', '/assets/images/unknown.jpg');
+
 -- Insert Images non artistiques
 INSERT INTO Image (FileName, Description, MediaType, MediaDescription) VALUES 
 ('world.webp', 'world image', 'Webp', 'world with iron lines'),
@@ -155,7 +165,6 @@ INSERT INTO Image (FileName, Description, MediaType, MediaDescription) VALUES
 ('no-image', 'image missing', 'svg', 'two mountains with a sun'),
 ('no-image', 'image missing', 'webp', 'no image');
 
--- Insert Sentences
 INSERT INTO Sentence (ArtworkID, Author, PublicationDate, BookTitle, Publisher, SentencePage, Content, CountryOfPublication, CityOfPublication) VALUES 
 (6, ' Joao Ribas', '2011-01-01', ' What To Do with The Contemporary?', ' Fiorucci Art Trust in Mousse Editions', 67, ' the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore', ' Italy', ' Milan'),
 (6, ' Theodor W. Adorno', '1970-01-01', ' Aesthetic Theory', ' Suhrkamp Verlag', 1, ' From Adorno statement: " it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist"', 'Germany', 'Frankfurt am Main');

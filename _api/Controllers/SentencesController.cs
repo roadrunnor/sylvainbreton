@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using api_sylvainbreton.Models;
-using System.Collections.Generic;
-using System.Linq;
+using api_sylvainbreton.Models.DTOs;
 using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
-using api_sylvainbreton.Models.DTOs;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -19,22 +19,33 @@ namespace api_sylvainbreton.Controllers
             _context = context;
         }
 
-        // GET: api/Sentences
         [HttpGet]
-        public ActionResult<IEnumerable<Sentence>> GetSentences()
+        public ActionResult<IEnumerable<SentenceDTO>> GetSentences()
         {
-            return _context.Sentences
-                .Include(s => s.Artwork)
+            var sentences = _context.Sentences
+                .Select(s => new SentenceDTO
+                {
+                    SentenceID = s.SentenceID,
+                    Content = s.Content,
+                    ArtworkID = s.ArtworkID
+                })
                 .ToList();
+
+            return sentences;
         }
 
-        // GET: api/Sentences/5
         [HttpGet("{id}")]
-        public ActionResult<Sentence> GetSentence(int id)
+        public ActionResult<SentenceDTO> GetSentence(int id)
         {
             var sentence = _context.Sentences
-                .Include(s => s.Artwork)
-                .FirstOrDefault(s => s.SentenceID == id);
+                .Where(s => s.SentenceID == id)
+                .Select(s => new SentenceDTO
+                {
+                    SentenceID = s.SentenceID,
+                    Content = s.Content,
+                    ArtworkID = s.ArtworkID
+                })
+                .FirstOrDefault();
 
             if (sentence == null)
             {
@@ -44,66 +55,51 @@ namespace api_sylvainbreton.Controllers
             return sentence;
         }
 
-        // GET: api/Sentences
-        [HttpGet("Dto")]
-        public ActionResult<IEnumerable<SentenceDTO>> GetSentencesDto()
-        {
-            var sentencesDto = _context.Sentences.Select(s => new SentenceDTO
-            {
-                SentenceID = s.SentenceID,
-                Content = s.Content, // Assuming 'Content' is the correct property name
-                ArtworkID = s.ArtworkID
-                // Map any other necessary properties
-            }).ToList();
-
-            return Ok(sentencesDto); // This should match the variable name above
-        }
-
-
-
-        // POST: api/Sentences
         [HttpPost]
-        public ActionResult<Sentence> PostSentence(Sentence sentence)
+        public ActionResult<SentenceDTO> PostSentence([FromBody] SentenceDTO sentenceDto)
         {
+            var sentence = new Sentence
+            {
+                Content = sentenceDto.Content,
+                ArtworkID = sentenceDto.ArtworkID
+            };
+
             _context.Sentences.Add(sentence);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetSentence), new { id = sentence.SentenceID }, sentence);
+            return CreatedAtAction(nameof(GetSentence), new { id = sentence.SentenceID }, new SentenceDTO
+            {
+                SentenceID = sentence.SentenceID,
+                Content = sentence.Content,
+                ArtworkID = sentence.ArtworkID
+            });
         }
 
-        // PUT: api/Sentences/5
         [HttpPut("{id}")]
-        public IActionResult PutSentence(int id, Sentence sentence)
+        public IActionResult PutSentence(int id, [FromBody] SentenceDTO sentenceDto)
         {
-            if (id != sentence.SentenceID)
+            if (id != sentenceDto.SentenceID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(sentence).State = EntityState.Modified;
+            var sentence = _context.Sentences.Find(id);
+            if (sentence == null)
+            {
+                return NotFound();
+            }
 
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SentenceExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            sentence.Content = sentenceDto.Content;
+            sentence.ArtworkID = sentenceDto.ArtworkID;
+
+            _context.Entry(sentence).State = EntityState.Modified;
+            _context.SaveChanges();
 
             return NoContent();
         }
 
-        // DELETE: api/Sentences/5
         [HttpDelete("{id}")]
-        public ActionResult<Sentence> DeleteSentence(int id)
+        public ActionResult<SentenceDTO> DeleteSentence(int id)
         {
             var sentence = _context.Sentences.Find(id);
             if (sentence == null)
@@ -114,7 +110,12 @@ namespace api_sylvainbreton.Controllers
             _context.Sentences.Remove(sentence);
             _context.SaveChanges();
 
-            return sentence;
+            return new SentenceDTO
+            {
+                SentenceID = sentence.SentenceID,
+                Content = sentence.Content,
+                ArtworkID = sentence.ArtworkID
+            };
         }
 
         private bool SentenceExists(int id)

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using api_sylvainbreton.Models;
+using api_sylvainbreton.Models.DTOs;
 using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
-using api_sylvainbreton.Models.DTOs;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -10,25 +13,72 @@ namespace api_sylvainbreton.Controllers
     [ApiController]
     public class ArtworksController : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context; 
+        private readonly SylvainBretonDbContext _context;
 
         public ArtworksController(SylvainBretonDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Artworks
         [HttpGet]
-        public ActionResult<IEnumerable<Artwork>> GetArtworks()
+        public ActionResult<IEnumerable<ArtworkDTO>> GetArtworks()
         {
-            return _context.Artworks.ToList();
+            var artworks = _context.Artworks
+                .Include(a => a.ArtworkImages)
+                    .ThenInclude(ai => ai.Image)
+                .Select(a => new ArtworkDTO
+                {
+                    ArtworkID = a.ArtworkID,
+                    Title = a.Title,
+                    CreationDate = a.CreationDate,
+                    CategoryID = a.CategoryID,
+                    CategoryName = a.CategoryName,
+                    Materials = a.Materials,
+                    Dimensions = a.Dimensions,
+                    Description = a.Description,
+                    Conceptual = a.Conceptual,
+                    ArtworkImages = a.ArtworkImages.Select(ai => new ArtworkImageDTO
+                    {
+                        ArtworkID = ai.ArtworkID,
+                        ImageID = ai.ImageID,
+                        FileName = ai.Image.FileName,
+                        FilePath = ai.Image.FilePath,
+                        URL = ai.Image.URL
+                    }).ToList()
+                })
+                .ToList();
+
+            return artworks;
         }
 
-        // GET: api/Artworks/5
         [HttpGet("{id}")]
-        public ActionResult<Artwork> GetArtwork(int id)
+        public ActionResult<ArtworkDTO> GetArtwork(int id)
         {
-            var artwork = _context.Artworks.Find(id);
+            var artwork = _context.Artworks
+                .Include(a => a.ArtworkImages)
+                    .ThenInclude(ai => ai.Image)
+                .Where(a => a.ArtworkID == id)
+                .Select(a => new ArtworkDTO
+                {
+                    ArtworkID = a.ArtworkID,
+                    Title = a.Title,
+                    CreationDate = a.CreationDate,
+                    CategoryID = a.CategoryID,
+                    CategoryName = a.CategoryName,
+                    Materials = a.Materials,
+                    Dimensions = a.Dimensions,
+                    Description = a.Description,
+                    Conceptual = a.Conceptual,
+                    ArtworkImages = a.ArtworkImages.Select(ai => new ArtworkImageDTO
+                    {
+                        ArtworkID = ai.ArtworkID,
+                        ImageID = ai.ImageID,
+                        FileName = ai.Image.FileName,
+                        FilePath = ai.Image.FilePath,
+                        URL = ai.Image.URL
+                    }).ToList()
+                })
+                .FirstOrDefault();
 
             if (artwork == null)
             {
@@ -38,29 +88,9 @@ namespace api_sylvainbreton.Controllers
             return artwork;
         }
 
-        // GET: api/Artworks
-        [HttpGet("Dto")]
-        public ActionResult<IEnumerable<ArtworkDTO>> GetArtworksDto()
-        {
-            var artworksDto = _context.Artworks
-                .Select(a => new ArtworkDTO
-                {
-                    ArtworkID = a.ArtworkID,
-                    Title = a.Title,
-                    CreationDate = a.CreationDate
-                    // Map any other necessary properties
-                })
-                .ToList();
-
-            return Ok(artworksDto); // 'artworksDto' to match the variable name
-        }
-
-
-        // POST: api/Artworks
         [HttpPost]
-        public async Task<ActionResult<Artwork>> PostArtwork([FromBody] ArtworkDTO artworkDto)
+        public async Task<ActionResult<ArtworkDTO>> PostArtwork([FromBody] ArtworkDTO artworkDto)
         {
-            // Create a new Artwork entity and map properties from the ArtworkDTO
             var artwork = new Artwork
             {
                 Title = artworkDto.Title,
@@ -73,60 +103,115 @@ namespace api_sylvainbreton.Controllers
                 Conceptual = artworkDto.Conceptual
             };
 
-            // Add the new Artwork entity to the DbContext
             _context.Artworks.Add(artwork);
-            // Save changes asynchronously to the database
             await _context.SaveChangesAsync();
 
-            // Return the created artwork with the 'CreatedAtAction' helper method
-            return CreatedAtAction(nameof(GetArtwork), new { id = artwork.ArtworkID }, artwork);
+            foreach (var artworkImageDto in artworkDto.ArtworkImages)
+            {
+                var image = new Image
+                {
+                    FileName = artworkImageDto.FileName,
+                    FilePath = artworkImageDto.FilePath,
+                    URL = artworkImageDto.URL
+                };
+
+                _context.Images.Add(image);
+                await _context.SaveChangesAsync();
+
+                var artworkImage = new ArtworkImage
+                {
+                    ArtworkID = artwork.ArtworkID,
+                    ImageID = image.ImageID
+                };
+
+                _context.Set<ArtworkImage>().Add(artworkImage);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetArtwork), new { id = artwork.ArtworkID }, new ArtworkDTO
+            {
+                ArtworkID = artwork.ArtworkID,
+                Title = artwork.Title,
+                CreationDate = artwork.CreationDate,
+                CategoryID = artwork.CategoryID,
+                CategoryName = artwork.CategoryName,
+                Materials = artwork.Materials,
+                Dimensions = artwork.Dimensions,
+                Description = artwork.Description,
+                Conceptual = artwork.Conceptual,
+                ArtworkImages = artwork.ArtworkImages.Select(ai => new ArtworkImageDTO
+                {
+                    ArtworkID = ai.ArtworkID,
+                    ImageID = ai.ImageID,
+                    FileName = ai.Image.FileName,
+                    FilePath = ai.Image.FilePath,
+                    URL = ai.Image.URL
+                }).ToList()
+            });
         }
 
-
-        // PUT: api/Artworks/5
         [HttpPut("{id}")]
-        public IActionResult PutArtwork(int id, Artwork artwork)
+        public async Task<IActionResult> PutArtwork(int id, [FromBody] ArtworkDTO artworkDto)
         {
-            if (id != artwork.ArtworkID)
+            if (id != artworkDto.ArtworkID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(artwork).State = EntityState.Modified;
+            var artwork = await _context.Artworks.FindAsync(id);
+            if (artwork == null)
+            {
+                return NotFound();
+            }
 
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ArtworkExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            artwork.Title = artworkDto.Title;
+            artwork.CreationDate = artworkDto.CreationDate;
+            artwork.CategoryID = artworkDto.CategoryID;
+            artwork.CategoryName = artworkDto.CategoryName;
+            artwork.Materials = artworkDto.Materials;
+            artwork.Dimensions = artworkDto.Dimensions;
+            artwork.Description = artworkDto.Description;
+            artwork.Conceptual = artworkDto.Conceptual;
+
+            _context.Entry(artwork).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        // DELETE: api/Artworks/5
         [HttpDelete("{id}")]
-        public ActionResult<Artwork> DeleteArtwork(int id)
+        public async Task<ActionResult<ArtworkDTO>> DeleteArtwork(int id)
         {
-            var artwork = _context.Artworks.Find(id);
+            var artwork = await _context.Artworks.FindAsync(id);
             if (artwork == null)
             {
                 return NotFound();
             }
 
             _context.Artworks.Remove(artwork);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return artwork;
+            return new ArtworkDTO
+            {
+                ArtworkID = artwork.ArtworkID,
+                Title = artwork.Title,
+                CreationDate = artwork.CreationDate,
+                CategoryID = artwork.CategoryID,
+                CategoryName = artwork.CategoryName,
+                Materials = artwork.Materials,
+                Dimensions = artwork.Dimensions,
+                Description = artwork.Description,
+                Conceptual = artwork.Conceptual,
+                ArtworkImages = artwork.ArtworkImages.Select(ai => new ArtworkImageDTO
+                {
+                    ArtworkID = ai.ArtworkID,
+                    ImageID = ai.ImageID,
+                    FileName = ai.Image.FileName,
+                    FilePath = ai.Image.FilePath,
+                    URL = ai.Image.URL
+                }).ToList()
+            };
         }
 
         private bool ArtworkExists(int id)
@@ -135,4 +220,3 @@ namespace api_sylvainbreton.Controllers
         }
     }
 }
-

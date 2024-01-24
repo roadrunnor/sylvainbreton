@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.IO;
+using Microsoft.AspNetCore.Mvc;
 using api_sylvainbreton.Models;
+using api_sylvainbreton.Models.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 using api_sylvainbreton.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 
 namespace api_sylvainbreton.Controllers
 {
@@ -12,34 +14,58 @@ namespace api_sylvainbreton.Controllers
     [ApiController]
     public class ImagesController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
         private readonly SylvainBretonDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        // Modifiez le constructeur pour inclure IConfiguration configuration
         public ImagesController(IConfiguration configuration, SylvainBretonDbContext context)
         {
-            _configuration = configuration; // Affectez le paramètre configuration à _configuration
+            _configuration = configuration;
             _context = context;
         }
 
-        // GET: api/Images
         [HttpGet]
-        public ActionResult<IEnumerable<Image>> GetImages()
+        public ActionResult<IEnumerable<ImageDTO>> GetImages()
         {
-            return _context.Images
+            var images = _context.Images
                 .Include(i => i.Artwork)
                 .Include(i => i.Performance)
+                .Select(i => new ImageDTO
+                {
+                    ImageID = i.ImageID,
+                    ArtworkID = i.ArtworkID ?? 0,
+                    PerformanceID = i.PerformanceID ?? 0,
+                    FileName = i.FileName,
+                    FilePath = i.FilePath,
+                    URL = i.URL,
+                    Description = i.Description,
+                    MediaType = i.MediaType,
+                    MediaDescription = i.MediaDescription
+                })
                 .ToList();
+
+            return images;
         }
 
-        // GET: api/Images/5
         [HttpGet("{id}")]
-        public ActionResult<Image> GetImage(int id)
+        public ActionResult<ImageDTO> GetImage(int id)
         {
             var image = _context.Images
                 .Include(i => i.Artwork)
                 .Include(i => i.Performance)
-                .FirstOrDefault(i => i.ImageID == id);
+                .Where(i => i.ImageID == id)
+                .Select(i => new ImageDTO
+                {
+                    ImageID = i.ImageID,
+                    ArtworkID = i.ArtworkID ?? 0,
+                    PerformanceID = i.PerformanceID ?? 0,
+                    FileName = i.FileName,
+                    FilePath = i.FilePath,
+                    URL = i.URL,
+                    Description = i.Description,
+                    MediaType = i.MediaType,
+                    MediaDescription = i.MediaDescription
+                })
+                .FirstOrDefault();
 
             if (image == null)
             {
@@ -49,37 +75,62 @@ namespace api_sylvainbreton.Controllers
             return image;
         }
 
-        // POST: api/Images
         [HttpPost]
-        public ActionResult<Image> PostImage([FromBody] ImageDTO imageDTO) // Utilisez ImageDto si vous avez besoin de valider ou de manipuler les données avant de les insérer
+        public ActionResult<ImageDTO> PostImage([FromBody] ImageDTO imageDTO)
         {
-            // Construire le chemin de l'image en utilisant la variable d'environnement
             var imagePath = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
 
             var image = new Image
             {
-                // Supposons que ImageDto a des propriétés comme FileName, Description, etc.
+                ArtworkID = imageDTO.ArtworkID != 0 ? imageDTO.ArtworkID : (int?)null, // Assuming ArtworkID and PerformanceID can be null
+                PerformanceID = imageDTO.PerformanceID != 0 ? imageDTO.PerformanceID : (int?)null,
                 FileName = imagePath,
+                FilePath = imagePath, // Assuming FilePath should be the same as FileName
+                URL = imageDTO.URL,
                 Description = imageDTO.Description,
                 MediaType = imageDTO.MediaType,
-                MediaDescription = imageDTO.MediaDescription,
-                // ... autres propriétés si nécessaire
+                MediaDescription = imageDTO.MediaDescription
             };
 
             _context.Images.Add(image);
             _context.SaveChanges();
 
-            return CreatedAtAction(nameof(GetImage), new { id = image.ImageID }, image);
+            return CreatedAtAction(nameof(GetImage), new { id = image.ImageID }, new ImageDTO
+            {
+                ImageID = image.ImageID,
+                ArtworkID = image.ArtworkID ?? 0,
+                PerformanceID = image.PerformanceID ?? 0,
+                FileName = image.FileName,
+                FilePath = image.FilePath,
+                URL = image.URL,
+                Description = image.Description,
+                MediaType = image.MediaType,
+                MediaDescription = image.MediaDescription
+            });
         }
 
-        // PUT: api/Images/5
         [HttpPut("{id}")]
-        public IActionResult PutImage(int id, Image image)
+        public IActionResult PutImage(int id, [FromBody] ImageDTO imageDTO)
         {
-            if (id != image.ImageID)
+            if (id != imageDTO.ImageID)
             {
                 return BadRequest();
             }
+
+            var image = _context.Images.Find(id);
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            image.ArtworkID = imageDTO.ArtworkID != 0 ? imageDTO.ArtworkID : (int?)null;
+            image.PerformanceID = imageDTO.PerformanceID != 0 ? imageDTO.PerformanceID : (int?)null;
+            image.FileName = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
+            image.FilePath = image.FileName;
+            image.URL = imageDTO.URL;
+            image.Description = imageDTO.Description;
+            image.MediaType = imageDTO.MediaType;
+            image.MediaDescription = imageDTO.MediaDescription;
 
             _context.Entry(image).State = EntityState.Modified;
 
@@ -89,22 +140,14 @@ namespace api_sylvainbreton.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ImageExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
         }
 
-        // DELETE: api/Images/5
         [HttpDelete("{id}")]
-        public ActionResult<Image> DeleteImage(int id)
+        public ActionResult<ImageDTO> DeleteImage(int id)
         {
             var image = _context.Images.Find(id);
             if (image == null)
@@ -115,7 +158,18 @@ namespace api_sylvainbreton.Controllers
             _context.Images.Remove(image);
             _context.SaveChanges();
 
-            return image;
+            return new ImageDTO
+            {
+                ImageID = image.ImageID,
+                ArtworkID = image.ArtworkID ?? 0,
+                PerformanceID = image.PerformanceID ?? 0,
+                FileName = image.FileName,
+                FilePath = image.FilePath,
+                URL = image.URL,
+                Description = image.Description,
+                MediaType = image.MediaType,
+                MediaDescription = image.MediaDescription
+            };
         }
 
         private bool ImageExists(int id)

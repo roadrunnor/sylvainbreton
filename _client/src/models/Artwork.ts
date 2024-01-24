@@ -1,3 +1,4 @@
+import { ArtworkImage } from "./ArtworkImage";
 export interface Artwork {
 	ArtworkID: number;
 	Title: string;
@@ -8,5 +9,5 @@ export interface Artwork {
 	Dimensions: string;
 	Description: string;
 	Conceptual: string;
-	FileName: string;
+	ArtworkImages?: ArtworkImage[];
 }

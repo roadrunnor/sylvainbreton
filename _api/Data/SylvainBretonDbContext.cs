@@ -42,11 +42,25 @@ namespace api_sylvainbreton.Data
            .WithMany(c => c.Artworks) 
            .HasForeignKey(a => a.CategoryID);
 
-            // Clé composite pour EventArtworks
+            // Clés composites
+            modelBuilder.Entity<ArtworkImage>()
+                .HasKey(ai => new { ai.ArtworkID, ai.ImageID });
+
             modelBuilder.Entity<EventArtwork>()
                 .HasKey(ea => new { ea.EventID, ea.ArtworkID });
 
             // Configurer les relations one-to-many et many-to-many
+            modelBuilder.Entity<ArtworkImage>()
+                .HasOne(ai => ai.Artwork)
+                .WithMany(a => a.ArtworkImages)
+                .HasForeignKey(ai => ai.ArtworkID);
+
+            modelBuilder.Entity<ArtworkImage>()
+                .HasOne(ai => ai.Image)
+                .WithMany(i => i.ArtworkImages)
+                .HasForeignKey(ai => ai.ImageID);
+
+
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Place)
                 .WithMany(b => b.Performances)

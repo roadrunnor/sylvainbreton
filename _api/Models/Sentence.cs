@@ -14,9 +14,6 @@ namespace api_sylvainbreton.Models
         public string Content { get; set; }
         public string CountryOfPublication { get; set; }
         public string CityOfPublication { get; set; }
-
-        // Relation avec Artwork
-        // Propriétés de navigation
         [JsonIgnore]
         public Artwork Artwork { get; set; }
     }

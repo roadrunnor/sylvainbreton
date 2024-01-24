@@ -13,13 +13,11 @@ namespace api_sylvainbreton.Models
         public string Conceptual { get; set; }
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
-
-
-        // Propriétés de navigation
         public Category Category { get; set; }
         public ICollection<Image> Images { get; set; }
         [JsonIgnore]
         public ICollection<Sentence> Sentences { get; set; }
+        public ICollection<ArtworkImage> ArtworkImages { get; set; }
         public ICollection<EventArtwork> EventArtworks { get; set; }
     }
 
