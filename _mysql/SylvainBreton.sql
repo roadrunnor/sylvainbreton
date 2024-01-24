@@ -56,8 +56,8 @@ CREATE TABLE Event (
 
 CREATE TABLE Image (
     ImageID INT AUTO_INCREMENT PRIMARY KEY,
-    ArtworkID INT NULL,
-    PerformanceID INT NULL,
+    ArtworkID INT,
+    PerformanceID INT,
     FileName VARCHAR(255),
     FilePath VARCHAR(255),
     URL VARCHAR(255),
@@ -120,14 +120,14 @@ INSERT INTO Category (CategoryName) VALUES
 ('Sentence');
 
 INSERT INTO Artwork (Title, CreationDate, CategoryID, CategoryName, Materials, Dimensions, Description, Conceptual) VALUES 
-('Dreaming Sarah', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('Red Line', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('Bathroom', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('ByAnalogy', '2011-01-01', 6, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('Red Tornado', '2011-01-01', 4, 'Photography', 'Digital Image', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('Unknown', '2011-01-01', 2, 'Painting', 'Oil on canvas', '74 X 53 inches', 'Metropology: City intelligence by Money.', 'Conceptual Art, Painting, Performance, Installation'),
-('Joao Ribas', '2011-01-01', 8, 'Sentence (Conceptual Art)', 'Sentence, Letters', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
-('Theodor W. Adorno', '1970-01-01', 8, 'Sentence (Conceptual Art)', 'Sentence, Letters', '110 character', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art');
+('Dreaming Sarah', '2011-01-01', 4, 'Performance', 'Digital', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('Red Line', '2011-01-01', 6, 'Photography', 'Digital', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('Bathroom', '2011-01-01', 4, 'Performance', 'Digital', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('ByAnalogy', '2011-01-01', 6, 'Photography', 'Digital', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('Red Tornado', '2011-01-01', 4, 'Performance', 'Digital', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('Unknown', '2011-01-01', 4, 'Performance', 'Digital', '74 X 53 inches', 'Metropology: City intelligence by Money.', 'Conceptual Art, Painting, Performance, Installation'),
+('Joao Ribas', '2011-01-01', 8, 'Sentence (Conceptual Art)', 'Digital', '80 characters', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art'),
+('Theodor W. Adorno', '1970-01-01', 8, 'Sentence (Conceptual Art)', 'Digital', '210 characters', 'Agency of Possibilities and Impossibilities: Love as a life statement commodity. Metropology: City intelligence by Money.', 'Conceptual Art');
 
 INSERT INTO DynamicContent (Keyword, Content) VALUES 
 ('background', 'background');
@@ -151,12 +151,12 @@ INSERT INTO Image (ArtworkID, FileName, Description, MediaType, MediaDescription
 
 -- Insert ArtworkImage associations
 INSERT INTO ArtworkImage (ArtworkID, ImageID, FileName, FilePath, URL) VALUES 
-(1, 1, 'dreaming-sarah.jpg', '/', '/'),
-(2, 2, 'red-line.jpg', '/', '/'),
-(3, 3, 'bathroom-m6-event-032.jpg', '/', '/'),
-(4, 4, 'byanalogy_logo.jpg', '/', '/'),
-(5, 5, 'red-tornado-center---something-043.jpg', '/', '/'),
-(6, 6, 'unknown.jpg', '/', '/');
+(1, 1, 'dreaming-sarah.jpg', 'public/assets/images/dreaming-sarah.jpg', '/assets/images/dreaming-sarah.jpg'),
+(2, 2, 'red-line.jpg', 'public/assets/images/red-line.jpg', '/assets/images/red-line.jpg'),
+(3, 3, 'bathroom-m6-event-032.jpg', 'public/assets/images/bathroom-m6-event-032.jpg', '/assets/images/bathroom-m6-event-032.jpg'),
+(4, 4, 'byanalogy_logo.jpg', 'public/assets/images/byanalogy_logo.jpg', '/assets/images/byanalogy_logo.jpg'),
+(5, 5, 'red-tornado-center---something-043.jpg', 'public/assets/images/red-tornado-center---something-043.jpg', '/assets/images/red-tornado-center---something-043.jpg'),
+(6, 6, 'unknown.jpg', 'public/assets/images/unknown.jpg', '/assets/images/unknown.jpg');
 
 -- Insert Images non artistiques
 INSERT INTO Image (FileName, Description, MediaType, MediaDescription) VALUES 

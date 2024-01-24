@@ -25,7 +25,7 @@ namespace api_sylvainbreton.Controllers
         {
             var artworks = _context.Artworks
                 .Include(a => a.ArtworkImages)
-                    .ThenInclude(ai => ai.Image)
+                .ThenInclude(ai => ai.Image)
                 .Select(a => new ArtworkDTO
                 {
                     ArtworkID = a.ArtworkID,

@@ -15,7 +15,7 @@ module.exports = {
 	output: {
 		filename: "[name].js",
 		path: path.resolve(__dirname, "./dist"),
-		publicPath: '/',
+		publicPath: "/",
 	},
 	resolve: {
 		extensions: [".ts", ".tsx", ".js", ".svg", ".scss"],
@@ -64,16 +64,15 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: "./public/index.html",
 			filename: "index.html",
-			inject: true, // This ensures the plugin will inject the scripts and links for CSS
+			inject: true,
 		}),
 		new MiniCssExtractPlugin({
-			filename: "[name].css", // This will produce app.css, but you don't need to worry about it since it will be injected
+			filename: "[name].css",
 		}),
 		new webpack.DefinePlugin({
 			"process.env": JSON.stringify({
 				REACT_APP_API_BASE_URL: envConfig.REACT_APP_API_BASE_URL,
 				REACT_APP_IMAGE_PATH: envConfig.REACT_APP_IMAGE_PATH,
-				// ... any other env vars you need to define
 			}),
 		}),
 	],
@@ -82,19 +81,19 @@ module.exports = {
 			directory: path.join(__dirname, "public"),
 		},
 		hot: true,
-		historyApiFallback: true, // Fallback for single-page applications
+		historyApiFallback: true,
 		client: {
-			webSocketURL: "ws://0.0.0.0:3000/ws", // Adjust port if necessary
+			webSocketURL: "ws://0.0.0.0:3000/ws",
 		},
 		headers: { "Access-Control-Allow-Origin": "*" },
 		open: true,
 		compress: true,
 		port: 3000,
 		watchFiles: {
-			paths: ["src/**/*", "public/**/*"], // Watch these paths for changes
+			paths: ["src/**/*", "public/**/*"],
 			options: {
 				usePolling: true,
-				poll: 1000, // Check for changes every second
+				poll: 5000,
 			},
 		},
 	},

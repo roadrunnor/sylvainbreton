@@ -1,7 +1,7 @@
 export interface ImageData {
 	ImageID: number;
-	ArtworkId?: number;
-	PerformanceId?: number;
+	ArtworkId: number;
+	PerformanceId: number;
 	FileName: string;
 	FilePath: string;
 	URL: string;

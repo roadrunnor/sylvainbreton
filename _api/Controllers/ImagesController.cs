@@ -32,8 +32,8 @@ namespace api_sylvainbreton.Controllers
                 .Select(i => new ImageDTO
                 {
                     ImageID = i.ImageID,
-                    ArtworkID = i.ArtworkID ?? 0,
-                    PerformanceID = i.PerformanceID ?? 0,
+                    ArtworkID = i.ArtworkID,
+                    PerformanceID = i.PerformanceID,
                     FileName = i.FileName,
                     FilePath = i.FilePath,
                     URL = i.URL,
@@ -56,8 +56,8 @@ namespace api_sylvainbreton.Controllers
                 .Select(i => new ImageDTO
                 {
                     ImageID = i.ImageID,
-                    ArtworkID = i.ArtworkID ?? 0,
-                    PerformanceID = i.PerformanceID ?? 0,
+                    ArtworkID = i.ArtworkID,
+                    PerformanceID = i.PerformanceID,
                     FileName = i.FileName,
                     FilePath = i.FilePath,
                     URL = i.URL,
@@ -82,10 +82,10 @@ namespace api_sylvainbreton.Controllers
 
             var image = new Image
             {
-                ArtworkID = imageDTO.ArtworkID != 0 ? imageDTO.ArtworkID : (int?)null, // Assuming ArtworkID and PerformanceID can be null
-                PerformanceID = imageDTO.PerformanceID != 0 ? imageDTO.PerformanceID : (int?)null,
+                ArtworkID = imageDTO.ArtworkID, 
+                PerformanceID = imageDTO.PerformanceID,
                 FileName = imagePath,
-                FilePath = imagePath, // Assuming FilePath should be the same as FileName
+                FilePath = imagePath, 
                 URL = imageDTO.URL,
                 Description = imageDTO.Description,
                 MediaType = imageDTO.MediaType,
@@ -98,8 +98,8 @@ namespace api_sylvainbreton.Controllers
             return CreatedAtAction(nameof(GetImage), new { id = image.ImageID }, new ImageDTO
             {
                 ImageID = image.ImageID,
-                ArtworkID = image.ArtworkID ?? 0,
-                PerformanceID = image.PerformanceID ?? 0,
+                ArtworkID = image.ArtworkID,
+                PerformanceID = image.PerformanceID,
                 FileName = image.FileName,
                 FilePath = image.FilePath,
                 URL = image.URL,
@@ -123,8 +123,8 @@ namespace api_sylvainbreton.Controllers
                 return NotFound();
             }
 
-            image.ArtworkID = imageDTO.ArtworkID != 0 ? imageDTO.ArtworkID : (int?)null;
-            image.PerformanceID = imageDTO.PerformanceID != 0 ? imageDTO.PerformanceID : (int?)null;
+            image.ArtworkID = imageDTO.ArtworkID;
+            image.PerformanceID = imageDTO.PerformanceID;
             image.FileName = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
             image.FilePath = image.FileName;
             image.URL = imageDTO.URL;
@@ -161,8 +161,8 @@ namespace api_sylvainbreton.Controllers
             return new ImageDTO
             {
                 ImageID = image.ImageID,
-                ArtworkID = image.ArtworkID ?? 0,
-                PerformanceID = image.PerformanceID ?? 0,
+                ArtworkID = image.ArtworkID,
+                PerformanceID = image.PerformanceID,
                 FileName = image.FileName,
                 FilePath = image.FilePath,
                 URL = image.URL,

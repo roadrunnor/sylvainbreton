@@ -79,7 +79,7 @@ const Header = () => {
 											<div key={index} className="sentence">
 												<em className="uppercase-text">{sentence.Content}</em> -{sentence.Author}, {publicationYear},
 												<em>{sentence.BookTitle}</em>, {sentence.Publisher}, p.{sentence.SentencePage},
-												{sentence.CountryOfPublication},{sentence.CityOfPublication}
+												{sentence.CountryOfPublication}, {sentence.CityOfPublication}
 											</div>
 										);
 									})
