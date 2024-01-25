@@ -12,6 +12,18 @@ header {
 
 			.col {
 				@include mixins.flex-column;
+
+				p {
+					opacity: 0.4;
+
+					&.uppercase-text {
+						cursor: pointer;
+						transition: opacity 0.3s ease; // Smooth transition for opacity change
+						&:hover {
+							opacity: 1; // Full opacity on hover
+						}
+					}
+				}
 			}
 
 			.underline {

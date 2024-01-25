@@ -7,6 +7,15 @@
 	padding-top: $spacing-unit * 4.5;
 	max-width: $container-max-width;
 	margin: 0 auto;
+
+	img {
+		cursor: pointer;
+		opacity: 0.5; // Default opacity
+		transition: opacity 0.3s ease; // Smooth transition for opacity change
+		&:hover {
+			opacity: 1; // Full opacity on hover
+		}
+	}
 }
 
 @mixin flex-row {
@@ -36,9 +45,9 @@
 
 @mixin underline {
 	border-bottom: $border-width solid $border-color;
-	height: 1px; 
+	height: 1px;
 	width: 100%;
-	opacity: .75;
+	opacity: 0.4;
 }
 
 @mixin head-marquee {
@@ -47,6 +56,12 @@
 	white-space: nowrap;
 	max-width: 100%;
 	background-color: $warning-color;
+	cursor: pointer;
+	opacity: 0.5; // Default opacity
+	transition: opacity 0.3s ease; // Smooth transition for opacity change
+	&:hover {
+		opacity: 1; // Full opacity on hover
+	}
 
 	.scrolling-text {
 		display: inline-block;
@@ -119,6 +134,17 @@
 	flex: 1 0 100%;
 	max-width: 100%;
 	padding: 0 $spacing-unit 0 $spacing-unit;
+
+	img {
+		cursor: pointer;
+		width: 100%;
+		height: auto;
+		opacity: 0.6; // Default opacity
+		transition: opacity 0.3s ease; // Smooth transition for opacity change
+		&:hover {
+			opacity: 1; // Full opacity on hover
+		}
+	}
 }
 
 @mixin image-info {
@@ -128,6 +154,7 @@
 	justify-content: center;
 	align-items: flex-start;
 	padding: 0 $spacing-unit;
+	opacity: 0.4;
 
 	p {
 		padding-top: calc($spacing-unit / 2);
@@ -139,6 +166,17 @@
 	justify-content: space-between;
 	margin: $spacing-unit $spacing-unit * 2.5 0 $spacing-unit * 2.5;
 	max-width: max-content;
+
+	img {
+		width: 100%;
+		height: auto;
+		cursor: pointer;
+		opacity: 0.6; // Default opacity
+		transition: opacity 0.3s ease; // Smooth transition for opacity change
+		&:hover {
+			opacity: 1; // Full opacity on hover
+		}
+	}
 }
 
 @mixin image-container {
@@ -149,4 +187,5 @@
 @mixin image-description {
 	text-align: left;
 	padding-top: math.div($spacing-unit, 2);
+	opacity: 0.4;
 }
