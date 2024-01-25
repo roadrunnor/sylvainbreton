@@ -82,10 +82,10 @@ namespace api_sylvainbreton.Controllers
 
             var image = new Image
             {
-                ArtworkID = imageDTO.ArtworkID, 
+                ArtworkID = imageDTO.ArtworkID,
                 PerformanceID = imageDTO.PerformanceID,
                 FileName = imagePath,
-                FilePath = imagePath, 
+                FilePath = imagePath,
                 URL = imageDTO.URL,
                 Description = imageDTO.Description,
                 MediaType = imageDTO.MediaType,
