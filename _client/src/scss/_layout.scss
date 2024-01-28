@@ -19,11 +19,6 @@
 
 		.image-info {
 			@include mixins.image-info;
-			padding-top: calc($spacing-unit / 2);
-
-			.image-info-padding-b {
-				padding-bottom: calc($spacing-unit / 2);
-			}
 		}
 	}
 

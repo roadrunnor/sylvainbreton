@@ -10,11 +10,23 @@ const Layout = () => {
 	const [categoryMap, setCategoryMap] = useState<{ [key: string]: string }>({});
 	const { apiService } = useApiService();
 
+	// Fisher-Yates Shuffle Algorithm
+	const shuffleArray = (array: Artwork[]) => {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+		return array;
+	};
+
 	useEffect(() => {
 		const fetchArtworksAndCategories = async () => {
 			const fetchedArtworks = await apiService.getAllArtworks();
 			console.log("Fetched Artworks:", fetchedArtworks);
-			setArtworks(fetchedArtworks);
+
+			// Shuffle the artworks using the Fisher-Yates shuffle algorithm
+			const shuffledArtworks = shuffleArray(fetchedArtworks);
+			setArtworks(shuffledArtworks);
 
 			const fetchedCategories = await apiService.getAllCategories();
 			const newCategoryMap = fetchedCategories.reduce((accumulator: Record<number, string>, category: Category) => {
@@ -51,10 +63,13 @@ const Layout = () => {
 					</div>
 					<div className="image-info">
 						<p className="image-info-padding-b">
-							<em>{artworks[0].Title}</em> ({artworks[0].CreationDate.slice(0, 4)}), {artworks[0].CategoryName}
+							<em>{artworks[0].Title}</em> ({artworks[0].CreationDate.slice(0, 4)}), {artworks[0].Materials}
 						</p>
+
 						<p>{artworks[0].Description}</p>
-						<p>{artworks[0].Conceptual}</p>
+						<p>
+							{getCategoryNameById(artworks[0].CategoryID)}, {artworks[0].Conceptual}
+						</p>
 					</div>
 				</div>
 			)}
@@ -64,10 +79,13 @@ const Layout = () => {
 						<img src={getImagePath(artwork.ArtworkImages)} alt={artwork.Description} />
 						<div className="image-description">
 							<p>
-								<em>{artwork.Title}</em> ({artwork.CreationDate.slice(0, 4)}), {artwork.CategoryName}
+								<em>{artwork.Title}</em> ({artwork.CreationDate.slice(0, 4)}), {artwork.Materials}
 							</p>
+
 							<p>{artwork.Description}</p>
-							<p>{artwork.Conceptual}</p>
+							<p>
+								{getCategoryNameById(artwork.CategoryID)}, {artwork.Conceptual}
+							</p>
 						</div>
 					</div>
 				))}
