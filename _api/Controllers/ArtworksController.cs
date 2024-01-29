@@ -52,9 +52,9 @@ namespace api_sylvainbreton.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ArtworkDTO> GetArtwork(int id)
+        public async Task<ActionResult<ArtworkDTO>> GetArtwork(int id)
         {
-            var artwork = _context.Artworks
+            var artwork = await _context.Artworks
                 .Include(a => a.ArtworkImages)
                     .ThenInclude(ai => ai.Image)
                 .Where(a => a.ArtworkID == id)
@@ -78,7 +78,7 @@ namespace api_sylvainbreton.Controllers
                         URL = ai.Image.URL
                     }).ToList()
                 })
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (artwork == null)
             {
@@ -91,6 +91,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public async Task<ActionResult<ArtworkDTO>> PostArtwork([FromBody] ArtworkDTO artworkDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var artwork = new Artwork
             {
                 Title = artworkDto.Title,
@@ -154,6 +159,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtwork(int id, [FromBody] ArtworkDTO artworkDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != artworkDto.ArtworkID)
             {
                 return BadRequest();

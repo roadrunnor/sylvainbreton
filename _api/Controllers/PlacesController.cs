@@ -46,6 +46,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<Place> PostPlace(Place place)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Places.Add(place);
             _context.SaveChanges();
 
@@ -56,6 +61,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public IActionResult PutPlace(int id, Place place)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != place.PlaceID)
             {
                 return BadRequest();

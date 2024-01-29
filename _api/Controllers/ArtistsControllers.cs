@@ -37,10 +37,30 @@ namespace api_sylvainbreton.Controllers
             return artist;
         }
 
+        // POST: api/Artists
+        [HttpPost]
+        public async Task<ActionResult<Artist>> PostArtist(Artist artist)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Artists.Add(artist);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetArtist", new { id = artist.ArtistID }, artist);
+        }
+
         // PUT: api/Artists/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtist(int id, Artist artist)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != artist.ArtistID)
             {
                 return BadRequest();
@@ -65,16 +85,6 @@ namespace api_sylvainbreton.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/Artists
-        [HttpPost]
-        public async Task<ActionResult<Artist>> PostArtist(Artist artist)
-        {
-            _context.Artists.Add(artist);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetArtist", new { id = artist.ArtistID }, artist);
         }
 
         // DELETE: api/Artists/5

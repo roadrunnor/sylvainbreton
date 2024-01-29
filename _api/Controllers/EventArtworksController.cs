@@ -50,6 +50,17 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<EventArtwork> PostEventArtwork(EventArtwork eventArtwork)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!_context.Events.Any(e => e.EventID == eventArtwork.EventID) ||
+        !       _context.Artworks.Any(a => a.ArtworkID == eventArtwork.ArtworkID))
+            {
+                return BadRequest("The specified Event or Artwork does not exist.");
+            }
+
             _context.EventArtworks.Add(eventArtwork);
             _context.SaveChanges();
 

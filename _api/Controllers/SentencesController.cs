@@ -67,6 +67,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<SentenceDTO> PostSentence([FromBody] SentenceDTO sentenceDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var sentence = new Sentence
             {
                 Content = sentenceDto.Content,
@@ -87,6 +92,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public IActionResult PutSentence(int id, [FromBody] SentenceDTO sentenceDto)
         {
+            if (ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != sentenceDto.SentenceID)
             {
                 return BadRequest();

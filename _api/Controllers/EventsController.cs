@@ -50,6 +50,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<Event> PostEvent(Event eventEntity)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Events.Add(eventEntity);
             _context.SaveChanges();
 
@@ -60,6 +65,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public IActionResult PutEvent(int id, Event eventEntity)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != eventEntity.EventID)
             {
                 return BadRequest();

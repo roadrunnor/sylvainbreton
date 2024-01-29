@@ -43,6 +43,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<Performance> PostPerformance(Performance performance)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Performances.Add(performance);
             _context.SaveChanges();
 
@@ -53,6 +58,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public IActionResult PutPerformance(int id, Performance performance)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != performance.PerformanceID)
             {
                 return BadRequest();

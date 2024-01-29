@@ -38,18 +38,13 @@ namespace api_sylvainbreton.Data
                 .HasKey(a => a.ArtistID);
 
             modelBuilder.Entity<Artwork>()
-           .HasOne(a => a.Category) 
-           .WithMany(c => c.Artworks) 
-           .HasForeignKey(a => a.CategoryID);
+                .HasOne(a => a.Category) 
+                .WithMany(c => c.Artworks) 
+                .HasForeignKey(a => a.CategoryID);
 
-            // Clés composites
             modelBuilder.Entity<ArtworkImage>()
                 .HasKey(ai => new { ai.ArtworkID, ai.ImageID });
 
-            modelBuilder.Entity<EventArtwork>()
-                .HasKey(ea => new { ea.EventID, ea.ArtworkID });
-
-            // Configurer les relations one-to-many et many-to-many
             modelBuilder.Entity<ArtworkImage>()
                 .HasOne(ai => ai.Artwork)
                 .WithMany(a => a.ArtworkImages)
@@ -59,7 +54,6 @@ namespace api_sylvainbreton.Data
                 .HasOne(ai => ai.Image)
                 .WithMany(i => i.ArtworkImages)
                 .HasForeignKey(ai => ai.ImageID);
-
 
             modelBuilder.Entity<Performance>()
                 .HasOne(p => p.Place)
@@ -75,20 +69,22 @@ namespace api_sylvainbreton.Data
                 .HasOne(i => i.Artwork)
                 .WithMany(a => a.Images)
                 .HasForeignKey(i => i.ArtworkID)
-                .IsRequired(false); // Make ArtworkID nullable
+                .IsRequired(false);
 
             modelBuilder.Entity<Image>()
                 .HasOne(i => i.Performance)
                 .WithMany(p => p.Images)
                 .HasForeignKey(i => i.PerformanceID)
-                .IsRequired(false); // Make PerformanceID nullable
+                .IsRequired(false);
 
             modelBuilder.Entity<Sentence>()
                 .HasOne(s => s.Artwork)
                 .WithMany(a => a.Sentences)
                 .HasForeignKey(s => s.ArtworkID);
 
-            // Configuration pour EventArtworks (relation many-to-many)
+            modelBuilder.Entity<EventArtwork>()
+                .HasKey(ea => new { ea.EventID, ea.ArtworkID });
+
             modelBuilder.Entity<EventArtwork>()
                 .HasOne(ea => ea.Event)
                 .WithMany(e => e.EventArtworks)
@@ -101,10 +97,6 @@ namespace api_sylvainbreton.Data
 
             modelBuilder.Entity<DynamicContent>()
                 .HasKey(dc => dc.ContentID);
-
-            // Configuration spécifique pour la table Artwork
-            modelBuilder.Entity<Artwork>()
-                .ToTable("Artwork");
 
             // Ajout des configurations ToTable pour chaque entité
             // Configure EF to use singular table names

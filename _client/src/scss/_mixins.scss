@@ -139,7 +139,7 @@
 		cursor: pointer;
 		width: 100%;
 		height: auto;
-		opacity: 0.6; // Default opacity
+		opacity: 0.75; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
 			opacity: 1; // Full opacity on hover
@@ -176,7 +176,7 @@
 		width: 100%;
 		height: auto;
 		cursor: pointer;
-		opacity: 0.6; // Default opacity
+		opacity: 0.75; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
 			opacity: 1; // Full opacity on hover

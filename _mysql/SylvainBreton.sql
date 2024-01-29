@@ -121,12 +121,12 @@ INSERT INTO Artists (FirstName, LastName) VALUES
 ('Sylvain', 'Breton');
 
 INSERT INTO Artwork (Title, CreationDate, CategoryID, CategoryName, Materials, Dimensions, Description, Conceptual) VALUES 
-('Dreaming Sarah', '2011-01-01', 4, 'Performance', 'Digital work', '1.5cm X 1.5cm', 'Metropology: Love as a life statement commodity, City Intelligence by Money.', 'Conceptual art'),
-('Red Line', '2011-01-01', 6, 'Photography', 'Digital photography', '1.5cm X 1.5cm', 'Metropology: Love as a life statement commodity, City Intelligence by Money.', 'Conceptual art'),
-('Bathroom', '2011-01-01', 4, 'Photography', 'Mixed media', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities.', 'Conceptual art'),
-('Red Tornado', '2011-01-01', 4, 'Performance', 'Glass, water, red pencil, wooden table', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities.', 'Conceptual art'),
-('Unknown', '2011-01-01', 4, 'Performance', 'Digital work', '74 X 53 inches', 'Agency of Possibilities and Impossibilities.', 'Conceptual Art'),
-('Statements', '2013-09-12', 8,'Sentence', 'Estonian & Russian newspapers, orange ink', '74 X 53 inches', 'M6 : Exhibition as a School, Art Factory Polymer', 'Conceptual art');
+('Dreaming Sarah', '2011-01-01', 4, 'Performance', 'Digital work', '1.5cm X 1.5cm', 'Metropology: Love as a life statement commodity, City Intelligence by Money.', '(Conceptual art)'),
+('Red Line', '2011-01-01', 6, 'Photography', 'Digital photography', '1.5cm X 1.5cm', 'Metropology: Love as a life statement commodity, City Intelligence by Money.', '(Conceptual art)'),
+('Bathroom', '2011-01-01', 4, 'Photography', 'Mixed media', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities.', '(Conceptual art)'),
+('Red Tornado', '2011-01-01', 4, 'Performance', 'Glass, water, red pencil, wooden table', '1.5cm X 1.5cm', 'Agency of Possibilities and Impossibilities.', '(Conceptual art)'),
+('Unknown', '2011-01-01', 4, 'Performance', 'Digital work', '74 X 53 inches', 'Agency of Possibilities and Impossibilities.', '(Conceptual art)'),
+('Statements', '2013-09-12', 8,'Sentence', 'Estonian & Russian newspapers, orange ink', '74 X 53 inches', 'M6 : Exhibition as a School, Art Factory Polymer', '(Conceptual art)');
 
 INSERT INTO Place (Name, PlaceType, Address, Country) VALUES 
 ('Web Space', 'Public', 'sylvainbreton.com', 'Canada'),
@@ -143,7 +143,7 @@ INSERT INTO Image (ArtworkID, PerformanceID, FileName, FilePath, URL) VALUES
 (3, NULL, 'bathroom-m6-event-032.jpg', '/assets/images/', '/assets/images/bathroom-m6-event-032.jpg'),
 (4, NULL, 'red-tornado-center---something-043.jpg', '/assets/images/', '/assets/images/red-tornado-center---something-043.jpg'),
 (5, NULL, 'unknown.jpg', '/assets/images/', '/assets/images/unknown.jpg'),
-(6, NULL, 'statements-art-007.jpg', '/assets/images/', '/assets/images/statements-art-007.jpg');
+(6, NULL, 'statements-art-007.png', '/assets/images/', '/assets/images/statements-art-007.png');
 
 -- images (not artwork images)
 INSERT INTO Image (ArtworkID, PerformanceID, FileName, FilePath, URL, Description, MediaType, MediaDescription) VALUES 

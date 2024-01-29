@@ -36,10 +36,7 @@ namespace api_sylvainbreton.Controllers
                     PerformanceID = i.PerformanceID,
                     FileName = i.FileName,
                     FilePath = i.FilePath,
-                    URL = i.URL,
-                    Description = i.Description,
-                    MediaType = i.MediaType,
-                    MediaDescription = i.MediaDescription
+                    URL = i.URL
                 })
                 .ToList();
 
@@ -60,10 +57,7 @@ namespace api_sylvainbreton.Controllers
                     PerformanceID = i.PerformanceID,
                     FileName = i.FileName,
                     FilePath = i.FilePath,
-                    URL = i.URL,
-                    Description = i.Description,
-                    MediaType = i.MediaType,
-                    MediaDescription = i.MediaDescription
+                    URL = i.URL
                 })
                 .FirstOrDefault();
 
@@ -78,6 +72,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public ActionResult<ImageDTO> PostImage([FromBody] ImageDTO imageDTO)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var imagePath = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
 
             var image = new Image
@@ -86,10 +85,7 @@ namespace api_sylvainbreton.Controllers
                 PerformanceID = imageDTO.PerformanceID,
                 FileName = imagePath,
                 FilePath = imagePath,
-                URL = imageDTO.URL,
-                Description = imageDTO.Description,
-                MediaType = imageDTO.MediaType,
-                MediaDescription = imageDTO.MediaDescription
+                URL = imageDTO.URL
             };
 
             _context.Images.Add(image);
@@ -102,16 +98,18 @@ namespace api_sylvainbreton.Controllers
                 PerformanceID = image.PerformanceID,
                 FileName = image.FileName,
                 FilePath = image.FilePath,
-                URL = image.URL,
-                Description = image.Description,
-                MediaType = image.MediaType,
-                MediaDescription = image.MediaDescription
+                URL = image.URL
             });
         }
 
         [HttpPut("{id}")]
         public IActionResult PutImage(int id, [FromBody] ImageDTO imageDTO)
         {
+            if (ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != imageDTO.ImageID)
             {
                 return BadRequest();
@@ -128,9 +126,6 @@ namespace api_sylvainbreton.Controllers
             image.FileName = Path.Combine(_configuration["IMAGE_PATH"], imageDTO.FileName);
             image.FilePath = image.FileName;
             image.URL = imageDTO.URL;
-            image.Description = imageDTO.Description;
-            image.MediaType = imageDTO.MediaType;
-            image.MediaDescription = imageDTO.MediaDescription;
 
             _context.Entry(image).State = EntityState.Modified;
 
@@ -165,10 +160,7 @@ namespace api_sylvainbreton.Controllers
                 PerformanceID = image.PerformanceID,
                 FileName = image.FileName,
                 FilePath = image.FilePath,
-                URL = image.URL,
-                Description = image.Description,
-                MediaType = image.MediaType,
-                MediaDescription = image.MediaDescription
+                URL = image.URL
             };
         }
 

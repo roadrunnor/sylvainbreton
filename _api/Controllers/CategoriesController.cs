@@ -44,6 +44,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
 
@@ -54,6 +59,11 @@ namespace api_sylvainbreton.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != category.CategoryID)
             {
                 return BadRequest();

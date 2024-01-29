@@ -37,10 +37,30 @@ namespace api_sylvainbreton.Controllers
             return dynamicContent;
         }
 
+        // POST: api/DynamicContents
+        [HttpPost]
+        public async Task<ActionResult<DynamicContent>> PostDynamicContent(DynamicContent dynamicContent)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.DynamicContents.Add(dynamicContent);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetDynamicContent", new { id = dynamicContent.ContentID }, dynamicContent);
+        }
+
         // PUT: api/DynamicContents/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDynamicContent(int id, DynamicContent dynamicContent)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             if (id != dynamicContent.ContentID)
             {
                 return BadRequest();
@@ -65,16 +85,6 @@ namespace api_sylvainbreton.Controllers
             }
 
             return NoContent();
-        }
-
-        // POST: api/DynamicContents
-        [HttpPost]
-        public async Task<ActionResult<DynamicContent>> PostDynamicContent(DynamicContent dynamicContent)
-        {
-            _context.DynamicContents.Add(dynamicContent);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetDynamicContent", new { id = dynamicContent.ContentID }, dynamicContent);
         }
 
         // DELETE: api/DynamicContents/5
