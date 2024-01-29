@@ -66,6 +66,7 @@
 	.scrolling-text {
 		display: inline-block;
 		animation: scroll-text 40s linear infinite;
+		animation-play-state: running;
 
 		.sentence {
 			display: inline-block;

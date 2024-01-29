@@ -22,7 +22,6 @@ const Layout = () => {
 	useEffect(() => {
 		const fetchArtworksAndCategories = async () => {
 			const fetchedArtworks = await apiService.getAllArtworks();
-			console.log("Fetched Artworks:", fetchedArtworks);
 
 			// Shuffle the artworks using the Fisher-Yates shuffle algorithm
 			const shuffledArtworks = shuffleArray(fetchedArtworks);
@@ -47,10 +46,8 @@ const Layout = () => {
 	const imageBasePath = process.env.REACT_APP_IMAGE_PATH || "/assets/images/";
 	const getImagePath = (artworkImages?: ArtworkImage[]) => {
 		if (!artworkImages || artworkImages.length === 0 || !artworkImages[0].URL) {
-			console.log("No image, returning placeholder");
 			return `${imageBasePath}no-image.webp`;
 		}
-		console.log("Image URL:", artworkImages[0].URL);
 		return artworkImages[0].URL;
 	};
 

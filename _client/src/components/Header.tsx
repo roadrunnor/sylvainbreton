@@ -16,10 +16,7 @@ const Header = () => {
 				const artists = await apiService.getAllArtists();
 
 				if (artists) {
-					const myEntry = artists.find(
-						(artist) =>
-							artist.FirstName === "Sylvain" && artist.LastName === "Breton"
-					);
+					const myEntry = artists.find((artist) => artist.FirstName === "Sylvain" && artist.LastName === "Breton");
 
 					if (myEntry) {
 						setArtistName(`${myEntry.FirstName} ${myEntry.LastName}`);
@@ -50,11 +47,7 @@ const Header = () => {
 		<header className="header">
 			<div className="container">
 				<div className="row">
-					<img
-						className="world-image"
-						src={`${process.env.REACT_APP_IMAGE_PATH}world.webp`}
-						alt="World"
-					/>
+					<img className="world-image" src={`${process.env.REACT_APP_IMAGE_PATH}world.webp`} alt="World" />
 				</div>
 				<div className="row">
 					<div className="col">
@@ -71,7 +64,7 @@ const Header = () => {
 					<div className="col">
 						<div className="head-marquee">
 							{/* prettier-ignore */}
-							<div className="scrolling-text">
+							<div className="scrolling-text" key={Date.now()}>
 								{sentences.length > 0 ? (
 									sentences.map((sentence, index) => {
 										const publicationYear = new Date(sentence.PublicationDate).getFullYear();

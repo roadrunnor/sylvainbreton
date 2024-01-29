@@ -25,8 +25,7 @@ export const useApiService = () => {
 				case 400:
 					errorState = {
 						title: "Requête Incorrecte",
-						message:
-							"Votre requête ne peut pas être traitée. Veuillez vérifier vos données.",
+						message: "Votre requête ne peut pas être traitée. Veuillez vérifier vos données.",
 						icon: "error",
 					};
 					break;
@@ -40,16 +39,14 @@ export const useApiService = () => {
 				case 500:
 					errorState = {
 						title: "Erreur Serveur",
-						message:
-							"Un problème est survenu sur le serveur. Veuillez réessayer plus tard.",
+						message: "Un problème est survenu sur le serveur. Veuillez réessayer plus tard.",
 						icon: "server_error",
 					};
 					break;
 				default:
 					errorState = {
 						title: "Erreur Inconnue",
-						message:
-							"Une erreur inattendue s'est produite. Veuillez réessayer.",
+						message: "Une erreur inattendue s'est produite. Veuillez réessayer.",
 						icon: "unknown_error",
 					};
 			}
@@ -86,10 +83,7 @@ export const useApiService = () => {
 		},
 		createArtwork: async (artworkData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/artworks`,
-					artworkData
-				);
+				const response = await axios.post(`${API_BASE_URL}/artworks`, artworkData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -97,10 +91,7 @@ export const useApiService = () => {
 		},
 		updateArtwork: async (id: number, artworkData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/artworks/${id}`,
-					artworkData
-				);
+				const response = await axios.put(`${API_BASE_URL}/artworks/${id}`, artworkData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -134,10 +125,7 @@ export const useApiService = () => {
 		},
 		createCategory: async (categoryData: Category) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/categories`,
-					categoryData
-				);
+				const response = await axios.post(`${API_BASE_URL}/categories`, categoryData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -145,10 +133,7 @@ export const useApiService = () => {
 		},
 		updateCategory: async (id: number, categoryData: Category) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/categories/${id}`,
-					categoryData
-				);
+				const response = await axios.put(`${API_BASE_URL}/categories/${id}`, categoryData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -190,10 +175,7 @@ export const useApiService = () => {
 		},
 		updatePlace: async (id: number, placeData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/places/${id}`,
-					placeData
-				);
+				const response = await axios.put(`${API_BASE_URL}/places/${id}`, placeData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -227,10 +209,7 @@ export const useApiService = () => {
 		},
 		createPerformance: async (performanceData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/performances`,
-					performanceData
-				);
+				const response = await axios.post(`${API_BASE_URL}/performances`, performanceData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -238,10 +217,7 @@ export const useApiService = () => {
 		},
 		updatePerformance: async (id: number, performanceData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/performances/${id}`,
-					performanceData
-				);
+				const response = await axios.put(`${API_BASE_URL}/performances/${id}`, performanceData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -249,9 +225,7 @@ export const useApiService = () => {
 		},
 		deletePerformance: async (id: number) => {
 			try {
-				const response = await axios.delete(
-					`${API_BASE_URL}/performances/${id}`
-				);
+				const response = await axios.delete(`${API_BASE_URL}/performances/${id}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -285,10 +259,7 @@ export const useApiService = () => {
 		},
 		updateEvent: async (id: number, eventData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/events/${id}`,
-					eventData
-				);
+				const response = await axios.put(`${API_BASE_URL}/events/${id}`, eventData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -314,9 +285,7 @@ export const useApiService = () => {
 		},
 		getEventArtworkById: async (eventId: number, artworkId: number) => {
 			try {
-				const response = await axios.get(
-					`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`
-				);
+				const response = await axios.get(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -324,25 +293,15 @@ export const useApiService = () => {
 		},
 		createEventArtwork: async (eventArtworkData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/eventartworks`,
-					eventArtworkData
-				);
+				const response = await axios.post(`${API_BASE_URL}/eventartworks`, eventArtworkData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
 			}
 		},
-		updateEventArtwork: async (
-			eventId: number,
-			artworkId: number,
-			eventArtworkData: any
-		) => {
+		updateEventArtwork: async (eventId: number, artworkId: number, eventArtworkData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`,
-					eventArtworkData
-				);
+				const response = await axios.put(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`, eventArtworkData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -350,9 +309,7 @@ export const useApiService = () => {
 		},
 		deleteEventArtwork: async (eventId: number, artworkId: number) => {
 			try {
-				const response = await axios.delete(
-					`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`
-				);
+				const response = await axios.delete(`${API_BASE_URL}/eventartworks/${eventId}/${artworkId}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -394,10 +351,7 @@ export const useApiService = () => {
 		},
 		updateImage: async (id: number, imageData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/images/${id}`,
-					imageData
-				);
+				const response = await axios.put(`${API_BASE_URL}/images/${id}`, imageData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -415,15 +369,17 @@ export const useApiService = () => {
 		// Sentences
 		getAllSentences: async () => {
 			try {
-				const response = await axios.get(`${API_BASE_URL}/sentences`);
+				const response = await axios.get(`${API_BASE_URL}/sentences`, {
+					headers: {
+						"Cache-Control": "no-cache", // Tells the browser not to cache the response
+						Pragma: "no-cache", // Additional header for compatibility with HTTP/1.0 caches
+					},
+				});
 				// Ensure that the response is an array before returning
 				if (Array.isArray(response.data)) {
 					return response.data;
 				} else {
-					console.error(
-						"Expected an array of sentences, but received:",
-						response.data
-					);
+					console.error("Expected an array of sentences, but received:", response.data);
 					// Return an empty array if the response is not an array
 					return [];
 				}
@@ -443,10 +399,7 @@ export const useApiService = () => {
 		},
 		createSentence: async (sentenceData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/sentences`,
-					sentenceData
-				);
+				const response = await axios.post(`${API_BASE_URL}/sentences`, sentenceData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -454,10 +407,7 @@ export const useApiService = () => {
 		},
 		updateSentence: async (id: number, sentenceData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/sentences/${id}`,
-					sentenceData
-				);
+				const response = await axios.put(`${API_BASE_URL}/sentences/${id}`, sentenceData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -492,10 +442,7 @@ export const useApiService = () => {
 		},
 		createArtist: async (artistData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/artists`,
-					artistData
-				);
+				const response = await axios.post(`${API_BASE_URL}/artists`, artistData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -503,10 +450,7 @@ export const useApiService = () => {
 		},
 		updateArtist: async (id: number, artistData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/artists/${id}`,
-					artistData
-				);
+				const response = await axios.put(`${API_BASE_URL}/artists/${id}`, artistData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -532,9 +476,7 @@ export const useApiService = () => {
 		},
 		getDynamicContentById: async (id: number) => {
 			try {
-				const response = await axios.get(
-					`${API_BASE_URL}/dynamiccontents/${id}`
-				);
+				const response = await axios.get(`${API_BASE_URL}/dynamiccontents/${id}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -542,10 +484,7 @@ export const useApiService = () => {
 		},
 		createDynamicContent: async (dynamicContentData: any) => {
 			try {
-				const response = await axios.post(
-					`${API_BASE_URL}/dynamiccontents`,
-					dynamicContentData
-				);
+				const response = await axios.post(`${API_BASE_URL}/dynamiccontents`, dynamicContentData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -553,10 +492,7 @@ export const useApiService = () => {
 		},
 		updateDynamicContent: async (id: number, dynamicContentData: any) => {
 			try {
-				const response = await axios.put(
-					`${API_BASE_URL}/dynamiccontents/${id}`,
-					dynamicContentData
-				);
+				const response = await axios.put(`${API_BASE_URL}/dynamiccontents/${id}`, dynamicContentData);
 				return response.data;
 			} catch (error) {
 				handleError(error);
@@ -564,9 +500,7 @@ export const useApiService = () => {
 		},
 		deleteDynamicContent: async (id: number) => {
 			try {
-				const response = await axios.delete(
-					`${API_BASE_URL}/dynamiccontents/${id}`
-				);
+				const response = await axios.delete(`${API_BASE_URL}/dynamiccontents/${id}`);
 				return response.data;
 			} catch (error) {
 				handleError(error);
