@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using api_sylvainbreton.Models;
-
-namespace api_sylvainbreton.Data
+﻿namespace api_sylvainbreton.Data
 {
+    using Microsoft.EntityFrameworkCore;
+    using api_sylvainbreton.Models;
+
     public class SylvainBretonDbContext : DbContext
     {
         public SylvainBretonDbContext(DbContextOptions<SylvainBretonDbContext> options)

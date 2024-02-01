@@ -1,8 +1,8 @@
-﻿using IdentityServer4.Models;
-using IdentityServer4.Test;
-
-namespace api_sylvainbreton.IdentityServer
+﻿namespace api_sylvainbreton.IdentityServer
 {
+    using IdentityServer4.Models;
+    using IdentityServer4.Test;
+
     public static class Config
     {
         public static IEnumerable<Client> GetClients()
