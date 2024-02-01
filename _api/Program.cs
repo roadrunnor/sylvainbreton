@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using api_sylvainbreton.Data;
 using System.Text.Json.Serialization;
+using System.Security.Cryptography.X509Certificates;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,22 +26,39 @@ if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Do
 }
 
 // Configuration du contexte de base de données
-var connectionString = builder.Configuration.GetConnectionString("SylvainBretonConnection");
-
-if (string.IsNullOrEmpty(connectionString))
-{
-    throw new InvalidOperationException("La chaîne de connexion 'SylvainBretonConnection' n'est pas définie.");
-}
+var connectionString = Environment.GetEnvironmentVariable("SYLVAINBRETON_DB_CONNECTION");
 
 builder.Services.AddDbContext<SylvainBretonDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
-        mySqlOptions => mySqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5, // Maximum number of retries
-            maxRetryDelay: TimeSpan.FromSeconds(10), // Maximum delay between retries
-            errorNumbersToAdd: null))); // SQL error numbers for additional retries (optional)
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 
-// Configuration Swagger/OpenAPI
+var certificatePassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");
+var certificate = new X509Certificate2(@"E:\Websites\breton\_api\Certificates\certificate.pfx", certificatePassword);
+
+
+// Add external authentication
+builder.Services.AddAuthentication()
+    .AddGoogle(options =>
+    {
+        // Configure Google Auth
+        options.ClientId = "<Google-Client-Id>";
+        options.ClientSecret = "<Google-Client-Secret>";
+    })
+    .AddFacebook(options =>
+    {
+        // Configure Facebook Auth
+        options.AppId = "<Facebook-App-Id>";
+        options.AppSecret = "<Facebook-App-Secret>";
+    })
+    .AddMicrosoftAccount(options =>
+    {
+        // Configure Microsoft Auth
+        options.ClientId = "<Microsoft-Client-Id>";
+        options.ClientSecret = "<Microsoft-Client-Secret>";
+    });
+
+
+builder.Services.AddIdentityServerConfiguration(certificate);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -54,10 +72,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDeve
 }
 
 app.UseHttpsRedirection();
-
-// Utilisation de la politique CORS
-app.UseCors("AllowAllOrigins"); // Make sure this matches the policy name defined above
-
+app.UseCors("AllowAllOrigins"); 
 app.UseAuthorization();
 app.MapControllers();
 app.Run();

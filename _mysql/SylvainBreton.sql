@@ -104,6 +104,37 @@ CREATE TABLE DynamicContent (
     Content TEXT NOT NULL
 );
 
+CREATE TABLE Clients (
+    ClientId VARCHAR(200) NOT NULL,
+    ClientName VARCHAR(200) NULL,
+    ClientSecrets VARCHAR(2000) NULL, -- Store as a hash
+    AllowedGrantTypes VARCHAR(200) NOT NULL,
+    AllowedScopes VARCHAR(2000) NULL,
+    RedirectUris VARCHAR(2000) NULL,
+    PostLogoutRedirectUris VARCHAR(2000) NULL,
+    AllowedCorsOrigins VARCHAR(2000) NULL,
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
+    PRIMARY KEY (ClientId)
+);
+
+CREATE TABLE Resources (
+    Name VARCHAR(200) NOT NULL,
+    DisplayName VARCHAR(200) NULL,
+    Description VARCHAR(1000) NULL,
+    Type VARCHAR(50) NOT NULL, -- 'Identity' or 'API'
+    PRIMARY KEY (Name)
+);
+
+CREATE TABLE Users (
+    UserId INT AUTO_INCREMENT NOT NULL,
+    Username VARCHAR(200) NOT NULL,
+    Password VARCHAR(200) NOT NULL, -- Store as a hash
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
+    PRIMARY KEY (UserId),
+    UNIQUE (Username)
+);
+
+
 INSERT INTO Artists (FirstName, LastName) VALUES 
 ('Sylvain', 'Breton');
 
