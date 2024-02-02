@@ -105,7 +105,7 @@ CREATE TABLE DynamicContent (
 );
 
 CREATE TABLE Clients (
-    ClientId VARCHAR(200) NOT NULL,
+    ClientID VARCHAR(200) NOT NULL,
     ClientName VARCHAR(200) NULL,
     ClientSecrets VARCHAR(2000) NULL, -- Store as a hash
     AllowedGrantTypes VARCHAR(200) NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE Clients (
     PostLogoutRedirectUris VARCHAR(2000) NULL,
     AllowedCorsOrigins VARCHAR(2000) NULL,
     IsActive BOOLEAN NOT NULL DEFAULT TRUE,
-    PRIMARY KEY (ClientId)
+    PRIMARY KEY (ClientID)
 );
 
 CREATE TABLE Resources (
@@ -126,14 +126,39 @@ CREATE TABLE Resources (
 );
 
 CREATE TABLE Users (
-    UserId INT AUTO_INCREMENT NOT NULL,
-    Username VARCHAR(200) NOT NULL,
-    Password VARCHAR(200) NOT NULL, -- Store as a hash
-    IsActive BOOLEAN NOT NULL DEFAULT TRUE,
-    PRIMARY KEY (UserId),
-    UNIQUE (Username)
+    UserID INT AUTO_INCREMENT PRIMARY KEY,
+    Username VARCHAR(200) NOT NULL UNIQUE,
+    PasswordHash VARCHAR(255) NOT NULL, -- Renamed to indicate hashing, length increased for hash storage
+    IsActive BOOLEAN NOT NULL DEFAULT TRUE
 );
 
+
+CREATE TABLE Role (
+    RoleID INT AUTO_INCREMENT PRIMARY KEY,
+    RoleName VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE UserClaim (
+    UserClaimID INT AUTO_INCREMENT PRIMARY KEY,
+    UserID INT NOT NULL,
+    ClaimType VARCHAR(255) NOT NULL,
+    ClaimValue VARCHAR(255) NOT NULL,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE UserRole (
+    UserID INT NOT NULL,
+    RoleID INT NOT NULL,
+    PRIMARY KEY (UserID, RoleID),
+    FOREIGN KEY (UserID) REFERENCES Users(UserID),
+    FOREIGN KEY (RoleID) REFERENCES Role(RoleID)
+);
+
+INSERT INTO Role (RoleName) VALUES 
+('Admin'), 
+('Editor'), 
+('Viewer'),
+('Artist');
 
 INSERT INTO Artists (FirstName, LastName) VALUES 
 ('Sylvain', 'Breton');
