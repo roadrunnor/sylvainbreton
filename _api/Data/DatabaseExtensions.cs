@@ -1,5 +1,6 @@
 ﻿namespace api_sylvainbreton.Data
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     public static class DatabaseExtensions
@@ -14,7 +15,6 @@
 
             services.AddDbContext<SylvainBretonDbContext>(options =>
                 options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
 
             return services;
         }
