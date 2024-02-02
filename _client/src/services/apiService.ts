@@ -1,10 +1,10 @@
-// src/services/apiService.tsx
-
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
 import config from "../config/config";
 import { Artist } from "../models/Artist";
 import { Category } from "../models/Category";
+import { UserLogin } from "../models/UserLogin";
+import { UserRegistration } from "../models/UserRegistration";
 import { ErrorState, IHandleError } from "../models/HandleError";
 
 const API_BASE_URL = config.API_BASE_URL;
@@ -502,6 +502,26 @@ export const useApiService = () => {
 			try {
 				const response = await axios.delete(`${API_BASE_URL}/dynamiccontents/${id}`);
 				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+
+		// User Registration
+		registerUser: async (userData: UserRegistration) => {
+			try {
+				const response = await axios.post(`${API_BASE_URL}/identity/account/register`, userData);
+				return response.data;
+			} catch (error) {
+				handleError(error);
+			}
+		},
+
+		// User Login
+		loginUser: async (userData: UserLogin) => {
+			try {
+				const response = await axios.post(`${API_BASE_URL}/identity/account/login`, userData);
+				return response.data; // This should include some form of token or user data
 			} catch (error) {
 				handleError(error);
 			}

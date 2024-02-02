@@ -1,23 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using api_sylvainbreton.Data;
-using api_sylvainbreton.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using api_sylvainbreton.Data;
+    using api_sylvainbreton.Models;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController(SylvainBretonDbContext context) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-
-        public CategoriesController(SylvainBretonDbContext context)
-        {
-            _context = context;
-        }
+        private readonly SylvainBretonDbContext _context = context;
 
         // GET: api/Categories
         [HttpGet]

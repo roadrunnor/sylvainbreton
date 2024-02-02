@@ -6,7 +6,7 @@
     {
 
 
-        public static IServiceCollection AddIdentityServerWithCertificate(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddIdentityServerWithCertificate(this IServiceCollection services)
         {
             // Obtain the certificate path and password from configuration.
             var certificatePath = Environment.GetEnvironmentVariable("CERTIFICATE_PATH");

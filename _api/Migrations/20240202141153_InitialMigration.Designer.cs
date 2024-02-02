@@ -11,15 +11,15 @@ using api_sylvainbreton.Data;
 namespace api_sylvainbreton.Migrations
 {
     [DbContext(typeof(SylvainBretonDbContext))]
-    [Migration("20231206214209_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240202141153_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("api_sylvainbreton.Models.Artist", b =>
@@ -29,14 +29,18 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("ArtistID");
 
-                    b.ToTable("Artists");
+                    b.ToTable("Artists", (string)null);
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Artwork", b =>
@@ -45,30 +49,87 @@ namespace api_sylvainbreton.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ArtworkType")
-                        .HasColumnType("longtext");
+                    b.Property<int>("CategoryID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Conceptual")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime?>("CreationDate")
+                    b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("Dimensions")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Materials")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(500)
+                        .HasColumnType("varchar(500)");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
 
                     b.HasKey("ArtworkID");
 
+                    b.HasIndex("CategoryID");
+
                     b.ToTable("Artwork", (string)null);
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.ArtworkImage", b =>
+                {
+                    b.Property<int>("ArtworkID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ImageID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
+
+                    b.HasKey("ArtworkID", "ImageID");
+
+                    b.HasIndex("ImageID");
+
+                    b.ToTable("ArtworkImage");
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("CategoryID");
+
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.DynamicContent", b =>
@@ -78,14 +139,17 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Keyword")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("ContentID");
 
-                    b.ToTable("DynamicContents");
+                    b.ToTable("DynamicContent", (string)null);
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Event", b =>
@@ -95,19 +159,22 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
-                    b.Property<DateTime?>("EndDate")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("PlaceID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("StartDate")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("EventID");
 
@@ -140,20 +207,23 @@ namespace api_sylvainbreton.Migrations
                     b.Property<int?>("ArtworkID")
                         .HasColumnType("int");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<string>("FileRoute")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MediaDescription")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("MediaType")
-                        .HasColumnType("longtext");
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<int?>("PerformanceID")
                         .HasColumnType("int");
+
+                    b.Property<string>("URL")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.HasKey("ImageID");
 
@@ -171,19 +241,23 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
                     b.Property<string>("Materials")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(1000)
+                        .HasColumnType("varchar(1000)");
 
-                    b.Property<DateTime?>("PerformanceDate")
+                    b.Property<DateTime>("PerformanceDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<int>("PlaceID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("PerformanceID");
 
@@ -199,16 +273,24 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Address")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Country")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("PlaceType")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("PlaceID");
 
@@ -221,29 +303,38 @@ namespace api_sylvainbreton.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("ArtworkID")
+                    b.Property<int?>("ArtworkID")
                         .HasColumnType("int");
 
                     b.Property<string>("Author")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("BookTitle")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("CityOfPublication")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("CountryOfPublication")
-                        .HasColumnType("longtext");
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime?>("PublicationDate")
+                    b.Property<DateTime>("PublicationDate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Publisher")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("SentencePage")
                         .HasColumnType("int");
@@ -253,6 +344,36 @@ namespace api_sylvainbreton.Migrations
                     b.HasIndex("ArtworkID");
 
                     b.ToTable("Sentence", (string)null);
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.Artwork", b =>
+                {
+                    b.HasOne("api_sylvainbreton.Models.Category", "Category")
+                        .WithMany("Artworks")
+                        .HasForeignKey("CategoryID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.ArtworkImage", b =>
+                {
+                    b.HasOne("api_sylvainbreton.Models.Artwork", "Artwork")
+                        .WithMany("ArtworkImages")
+                        .HasForeignKey("ArtworkID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("api_sylvainbreton.Models.Image", "Image")
+                        .WithMany("ArtworkImages")
+                        .HasForeignKey("ImageID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Artwork");
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Event", b =>
@@ -315,15 +436,15 @@ namespace api_sylvainbreton.Migrations
                 {
                     b.HasOne("api_sylvainbreton.Models.Artwork", "Artwork")
                         .WithMany("Sentences")
-                        .HasForeignKey("ArtworkID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ArtworkID");
 
                     b.Navigation("Artwork");
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Artwork", b =>
                 {
+                    b.Navigation("ArtworkImages");
+
                     b.Navigation("EventArtworks");
 
                     b.Navigation("Images");
@@ -331,9 +452,19 @@ namespace api_sylvainbreton.Migrations
                     b.Navigation("Sentences");
                 });
 
+            modelBuilder.Entity("api_sylvainbreton.Models.Category", b =>
+                {
+                    b.Navigation("Artworks");
+                });
+
             modelBuilder.Entity("api_sylvainbreton.Models.Event", b =>
                 {
                     b.Navigation("EventArtworks");
+                });
+
+            modelBuilder.Entity("api_sylvainbreton.Models.Image", b =>
+                {
+                    b.Navigation("ArtworkImages");
                 });
 
             modelBuilder.Entity("api_sylvainbreton.Models.Performance", b =>

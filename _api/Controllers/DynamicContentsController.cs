@@ -1,20 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using api_sylvainbreton.Models;
-using api_sylvainbreton.Data;
-
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Data;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class DynamicContentsController : ControllerBase
+    public class DynamicContentsController(SylvainBretonDbContext context) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-
-        public DynamicContentsController(SylvainBretonDbContext context)
-        {
-            _context = context;
-        }
+        private readonly SylvainBretonDbContext _context = context;
 
         // GET: api/DynamicContents
         [HttpGet]

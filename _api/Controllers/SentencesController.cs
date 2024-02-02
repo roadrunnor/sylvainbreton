@@ -1,24 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using api_sylvainbreton.Models;
-using api_sylvainbreton.Models.DTOs;
-using api_sylvainbreton.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Policy;
-
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Models.DTOs;
+    using api_sylvainbreton.Data;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class SentencesController : ControllerBase
+    public class SentencesController(SylvainBretonDbContext context) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-
-        public SentencesController(SylvainBretonDbContext context)
-        {
-            _context = context;
-        }
+        private readonly SylvainBretonDbContext _context = context;
 
         [HttpGet]
         public ActionResult<IEnumerable<SentenceDTO>> GetSentences()

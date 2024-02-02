@@ -1,21 +1,22 @@
 ﻿namespace api_sylvainbreton.Data
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using api_sylvainbreton.Models;
+    using Microsoft.Extensions.Logging;
+    using Microsoft.AspNetCore.Identity;
 
-    public class SylvainBretonDbContext : DbContext
+    public class SylvainBretonDbContext(DbContextOptions<SylvainBretonDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
-        public SylvainBretonDbContext(DbContextOptions<SylvainBretonDbContext> options)
-            : base(options)
-        {
-        }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
                 var connectionString = Environment.GetEnvironmentVariable("SylvainBretonConnection");
-                optionsBuilder.UseMySQL(connectionString);
+                optionsBuilder
+                    .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
+                    .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+
             }
         }
         public DbSet<Artist> Artists { get; set; }
@@ -102,7 +103,7 @@
             // Configure EF to use singular table names
             modelBuilder.Entity<Artist>().ToTable("Artists");
             modelBuilder.Entity<Artwork>().ToTable("Artwork");
-            modelBuilder.Entity<Category>().ToTable("Category"); // Use uppercase to match your SQL script
+            modelBuilder.Entity<Category>().ToTable("Category");
             modelBuilder.Entity<Place>().ToTable("Place");
             modelBuilder.Entity<Performance>().ToTable("Performance");
             modelBuilder.Entity<Event>().ToTable("Event");
@@ -110,6 +111,13 @@
             modelBuilder.Entity<Image>().ToTable("Image");
             modelBuilder.Entity<Sentence>().ToTable("Sentence");
             modelBuilder.Entity<DynamicContent>().ToTable("DynamicContent");
+
+            // Identity configurations that require the generic type parameter
+            modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");
+            modelBuilder.Entity<IdentityUserClaim<string>>().ToTable("UserClaims");
+            modelBuilder.Entity<IdentityUserLogin<string>>().ToTable("UserLogins");
+            modelBuilder.Entity<IdentityRoleClaim<string>>().ToTable("RoleClaims");
+            modelBuilder.Entity<IdentityUserToken<string>>().ToTable("UserTokens");
         }
     }
 }

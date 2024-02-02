@@ -11,7 +11,8 @@ builder.Services
 // Configure other services, extend IServiceCollection
 builder.Services
     .AddDatabaseContext()
-    .AddIdentityServerWithCertificate(builder.Configuration)
+    .AddIdentityServices()
+    .AddIdentityServerWithCertificate()
     .AddExternalAuthentication(builder.Configuration)
     .AddCustomCorsPolicy()
     .AddEndpointsApiExplorer()

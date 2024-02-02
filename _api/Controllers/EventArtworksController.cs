@@ -1,22 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using api_sylvainbreton.Models;
-using System.Collections.Generic;
-using System.Linq;
-using api_sylvainbreton.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Data;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class EventArtworksController : ControllerBase
+    public class EventArtworksController(SylvainBretonDbContext context) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-
-        public EventArtworksController(SylvainBretonDbContext context)
-        {
-            _context = context;
-        }
+        private readonly SylvainBretonDbContext _context = context;
 
         // GET: api/EventArtworks
         [HttpGet]

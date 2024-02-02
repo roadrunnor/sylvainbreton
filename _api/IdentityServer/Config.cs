@@ -37,13 +37,13 @@
         public static List<TestUser> GetUsers()
         {
             // Define your test users here (for development)
-            return new List<TestUser>
-        {
+            return
+        [
             new TestUser
             {
                 // User definition
             }
-        };
+        ];
         }
     }
 

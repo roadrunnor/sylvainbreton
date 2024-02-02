@@ -1,27 +1,17 @@
-﻿using System;
-using System.IO;
-using Microsoft.AspNetCore.Mvc;
-using api_sylvainbreton.Models;
-using api_sylvainbreton.Models.DTOs;
-using System.Collections.Generic;
-using System.Linq;
-using api_sylvainbreton.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
+    using Microsoft.AspNetCore.Mvc;
+    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Models.DTOs;
+    using api_sylvainbreton.Data;
+    using Microsoft.EntityFrameworkCore;
+
     [Route("api/[controller]")]
     [ApiController]
-    public class ImagesController : ControllerBase
+    public class ImagesController(IConfiguration configuration, SylvainBretonDbContext context) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-        private readonly IConfiguration _configuration;
-
-        public ImagesController(IConfiguration configuration, SylvainBretonDbContext context)
-        {
-            _configuration = configuration;
-            _context = context;
-        }
+        private readonly SylvainBretonDbContext _context = context;
+        private readonly IConfiguration _configuration = configuration;
 
         [HttpGet]
         public ActionResult<IEnumerable<ImageDTO>> GetImages()
