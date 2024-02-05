@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.Config
+﻿namespace api_sylvainbreton.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
     using System.Text.Json.Serialization;

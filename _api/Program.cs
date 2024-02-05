@@ -1,8 +1,10 @@
 using api_sylvainbreton.Config;
-using api_sylvainbreton.Data;
-using api_sylvainbreton.IdentityServer;
+using api_sylvainbreton.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+KestrelServerConfiguration.ConfigureKestrelServer(builder);
+
 // Configure services, extend IMvcBuilder
 builder.Services
     .AddControllersWithViews()
@@ -27,6 +29,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDeve
     app.UseSwaggerUI();
 }
 
+app.SeedDatabase();
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOrigins");
 app.UseAuthentication();

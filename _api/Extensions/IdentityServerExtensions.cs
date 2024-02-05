@@ -1,5 +1,6 @@
-﻿namespace api_sylvainbreton.IdentityServer
+﻿namespace api_sylvainbreton.Extensions
 {
+    using api_sylvainbreton.Config;
     using System.Security.Cryptography.X509Certificates;
 
     public static class IdentityServerExtensions
@@ -9,7 +10,7 @@
         public static IServiceCollection AddIdentityServerWithCertificate(this IServiceCollection services)
         {
             // Obtain the certificate path and password from configuration.
-            var certificatePath = Environment.GetEnvironmentVariable("CERTIFICATE_PATH");
+            var certificatePath = Environment.GetEnvironmentVariable("CERT_PATH");
             if (string.IsNullOrWhiteSpace(certificatePath))
             {
                 throw new InvalidOperationException("Certificate path not found in configuration.");
@@ -27,10 +28,10 @@
             // Configure IdentityServer with the loaded certificate.
             services.AddIdentityServer()
                 .AddSigningCredential(certificate)
-                .AddInMemoryClients(Config.GetClients())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryApiResources(Config.GetApiResources())
-                .AddTestUsers(Config.GetUsers()); // This should be replaced with a real user store in production.
+                .AddInMemoryClients(IdentityServerConfig.GetClients())
+                .AddInMemoryIdentityResources(IdentityServerConfig.GetIdentityResources())
+                .AddInMemoryApiResources(IdentityServerConfig.GetApiResources())
+                .AddTestUsers(IdentityServerConfig.GetUsers()); // This should be replaced with a real user store in production.
 
             return services;
         }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_sylvainbreton.Data;
 
@@ -10,9 +11,11 @@ using api_sylvainbreton.Data;
 namespace api_sylvainbreton.Migrations
 {
     [DbContext(typeof(SylvainBretonDbContext))]
-    partial class SylvainBretonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205000510_RenameIdentityTables")]
+    partial class RenameIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,9 +191,6 @@ namespace api_sylvainbreton.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FullName")
                         .HasColumnType("longtext");
 
                     b.Property<bool>("IsActive")

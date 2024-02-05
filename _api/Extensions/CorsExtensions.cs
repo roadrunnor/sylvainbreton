@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.Config
+﻿namespace api_sylvainbreton.Extensions
 {
     public static class CorsExtensions
     {

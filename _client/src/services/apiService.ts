@@ -3,8 +3,8 @@ import { useState } from "react";
 import config from "../config/config";
 import { Artist } from "../models/Artist";
 import { Category } from "../models/Category";
-import { UserLogin } from "../models/UserLogin";
-import { UserRegistration } from "../models/UserRegistration";
+import { UserLogin } from "../models/forms/UserLogin";
+import { UserRegistration } from "../models/forms/UserRegistration";
 import { ErrorState, IHandleError } from "../models/HandleError";
 
 const API_BASE_URL = config.API_BASE_URL;

@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -33,6 +34,7 @@
         }
 
         // POST: api/Artists
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist(Artist artist)
         {
@@ -48,6 +50,7 @@
         }
 
         // PUT: api/Artists/5
+        [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtist(int id, Artist artist)
         {
@@ -83,6 +86,7 @@
         }
 
         // DELETE: api/Artists/5
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtist(int id)
         {

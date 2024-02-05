@@ -1,0 +1,249 @@
+{
+  "Artists": [
+    {
+      "ArtistID": 1,
+      "FirstName": "Sylvain",
+      "LastName": "Breton"
+    }
+  ],
+  "Categories": [
+    {
+      "CategoryID": 1,
+      "CategoryName": "Drawing"
+    },
+    {
+      "CategoryID": 2,
+      "CategoryName": "Painting"
+    },
+    {
+      "CategoryID": 3,
+      "CategoryName": "Sculpture"
+    },
+    {
+      "CategoryID": 4,
+      "CategoryName": "Performance"
+    },
+    {
+      "CategoryID": 5,
+      "CategoryName": "Installation"
+    },
+    {
+      "CategoryID": 6,
+      "CategoryName": "Photography"
+    },
+    {
+      "CategoryID": 7,
+      "CategoryName": "Video"
+    },
+    {
+      "CategoryID": 8,
+      "CategoryName": "Sentence"
+    }
+  ],
+  "Places": [
+    {
+      "PlaceID": 1,
+      "Name": "Web Space",
+      "PlaceType": "Public",
+      "Address": "sylvainbreton.com",
+      "Country": "Canada"
+    },
+    {
+      "PlaceID": 2,
+      "Name": "Museum Space",
+      "PlaceType": "Private",
+      "Address": "123 Museum Drive",
+      "Country": "France"
+    }
+  ],
+  "Performances": [
+    {
+      "PerformanceID": 1,
+      "Title": "Dreaming Sarah Performance",
+      "PerformanceDate": "2011-01-01",
+      "Materials": "Digital Image",
+      "Description": "Performance of Dreaming Sarah",
+      "PlaceID": 1
+    },
+    {
+      "PerformanceID": 2,
+      "Title": "What To Do With The Contemporary?",
+      "PerformanceDate": "2011-01-01",
+      "Materials": "Digital Image",
+      "Description": "Discussion about contemporary art",
+      "PlaceID": 2
+    }
+  ],
+  "Events": [
+    {
+      "EventID": 1,
+      "Title": "Reseau Contact",
+      "StartDate": "2008-05-21",
+      "EndDate": "2009-07-12",
+      "PlaceID": 1,
+      "Description": "agency of possibilities and impossibilities (love as a life statement commodity), metropology: city intelligence by money."
+    },
+    {
+      "EventID": 2,
+      "Title": "Playa del Carmen Lotilus",
+      "StartDate": "2008-05-21",
+      "EndDate": "2009-07-12",
+      "PlaceID": 2,
+      "Description": "Christmas Party in Mexico"
+    }
+  ],
+  "Artworks": [
+    {
+      "ArtworkID": 1,
+      "Title": "Dreaming Sarah",
+      "CreationDate": "2011-01-01",
+      "CategoryID": 4,
+      "CategoryName": "Performance",
+      "Materials": "Digital work",
+      "Dimensions": "1.5cm X 1.5cm",
+      "Description": "Metropology: Love as a life statement commodity, City Intelligence by Money.",
+      "Conceptual": "(Conceptual art)"
+    },
+    {
+      "ArtworkID": 2,
+      "Title": "Red Line",
+      "CreationDate": "2011-01-01",
+      "CategoryID": 6,
+      "CategoryName": "Photography",
+      "Materials": "Digital photography",
+      "Dimensions": "1.5cm X 1.5cm",
+      "Description": "Metropology: Love as a life statement commodity, City Intelligence by Money.",
+      "Conceptual": "(Conceptual art)"
+    },
+    {
+      "ArtworkID": 3,
+      "Title": "Bathroom",
+      "CreationDate": "2011-01-01",
+      "CategoryID": 6,
+      "CategoryName": "Photography",
+      "Materials": "Mixed media",
+      "Dimensions": "1.5cm X 1.5cm",
+      "Description": "Agency of Possibilities and Impossibilities.",
+      "Conceptual": "(Conceptual art)"
+    },
+    {
+      "ArtworkID": 4,
+      "Title": "Red Tornado",
+      "CreationDate": "2011-01-01",
+      "CategoryID": 4,
+      "CategoryName": "Performance",
+      "Materials": "Glass, water, red pencil, wooden table",
+      "Dimensions": "1.5cm X 1.5cm",
+      "Description": "Agency of Possibilities and Impossibilities.",
+      "Conceptual": "(Conceptual art)"
+    },
+    {
+      "ArtworkID": 5,
+      "Title": "Unknown",
+      "CreationDate": "2011-01-01",
+      "CategoryID": 4,
+      "CategoryName": "Performance",
+      "Materials": "Digital work",
+      "Dimensions": "1.5cm X 1.5cm",
+      "Description": "Agency of Possibilities and Impossibilities.",
+      "Conceptual": "(Conceptual art)"
+    },
+    {
+      "ArtworkID": 6,
+      "Title": "Statements",
+      "CreationDate": "2013-09-12",
+      "CategoryID": 8,
+      "CategoryName": "Sentence",
+      "Materials": "Estonian & Russian newspapers, orange ink",
+      "Dimensions": "74 X 53 inches",
+      "Description": "M6 : Exhibition as a School, Art Factory Polymer.",
+      "Conceptual": "(Conceptual art)"
+    }    
+  ],
+  "Images": [
+    {
+      "ImageID": 1,
+      "ArtworkID": 1,
+      "PerformanceID": null,
+      "FileName": "dreaming-sarah.jpg",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/dreaming-sarah.jpg"
+    },
+    {
+      "ImageID": 2,
+      "ArtworkID": 2,
+      "PerformanceID": null,
+      "FileName": "red-line.jpg",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/red-line.jpg"
+    },
+    {
+      "ImageID": 3,
+      "ArtworkID": 3,
+      "PerformanceID": null,
+      "FileName": "bathroom-m6-event-032.jpg",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/bathroom-m6-event-032.jpg"
+    },
+    {
+      "ImageID": 4,
+      "ArtworkID": 4,
+      "PerformanceID": null,
+      "FileName": "red-tornado-center---something-043.jpg",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/red-tornado-center---something-043.jpg"
+    },
+    {
+      "ImageID": 5,
+      "ArtworkID": 5,
+      "PerformanceID": null,
+      "FileName": "unknown.jpg",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/unknown.jpg"
+    },
+    {
+      "ImageID": 6,
+      "ArtworkID": 6,
+      "PerformanceID": null,
+      "FileName": "statements-art-007.png",
+      "FilePath": "/assets/images/",
+      "URL": "/assets/images/statements-art-007.png"
+    }
+  ],
+  "EventArtworks": [
+    {
+      "EventID": 1,
+      "ArtworkID": 1
+    },
+    {
+      "EventID": 1,
+      "ArtworkID": 2
+    }
+  ],
+  "Sentences": [
+    {
+      "SentenceID": 1,
+      "ArtworkID": null,
+      "Author": "Joao Ribas",
+      "PublicationDate": "2011-01-01",
+      "BookTitle": "What To Do with The Contemporary?",
+      "Publisher": "Fiorucci Art Trust in Mousse Editions",
+      "SentencePage": 67,
+      "Content": "the only thing self-evident about the contemporary is that nothing concerning the contemporary is seft-evident anymore",
+      "CountryOfPublication": "Italy",
+      "CityOfPublication": "Milan"
+    },
+    {
+      "SentenceID": 2,
+      "ArtworkID": null,
+      "Author": "Theodor W. Adorno",
+      "PublicationDate": "1970-01-01",
+      "BookTitle": "Aesthetic Theory",
+      "Publisher": "Suhrkamp Verlag",
+      "SentencePage": 1,
+      "Content": "From Adorno statement: \"it is self-evident that nothing concerning art is self-evident anymore, not its inner life, not its relationship to the world, not even its right to exist\"",
+      "CountryOfPublication": "Germany",
+      "CityOfPublication": "Frankfurt am Main"
+    }
+  ]
+}

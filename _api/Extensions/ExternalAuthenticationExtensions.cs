@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.IdentityServer
+﻿namespace api_sylvainbreton.Extensions
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

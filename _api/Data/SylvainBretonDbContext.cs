@@ -29,6 +29,12 @@
         public DbSet<Image> Images { get; set; }
         public DbSet<Sentence> Sentences { get; set; }
         public DbSet<DynamicContent> DynamicContents { get; set; }
+        public DbSet<UserPost> UserPosts { get; set; }
+        public DbSet<UserComment> UserComments { get; set; }
+        public DbSet<PostCategory> PostCategories { get; set; }
+        public DbSet<PostTag> PostTags { get; set; }
+        public DbSet<UserPostTag> UserPostTags { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -99,8 +105,39 @@
             modelBuilder.Entity<DynamicContent>()
                 .HasKey(dc => dc.ContentID);
 
-            // Ajout des configurations ToTable pour chaque entité
-            // Configure EF to use singular table names
+            modelBuilder.Entity<UserPost>()
+                .HasKey(up => up.PostId);
+
+            modelBuilder.Entity<UserPost>()
+                .HasMany(up => up.UserPostTags)
+                .WithOne(upt => upt.UserPost)
+                .HasForeignKey(upt => upt.PostId);
+
+            modelBuilder.Entity<UserComment>()
+                .HasKey(uc => uc.CommentId);
+
+            modelBuilder.Entity<PostCategory>()
+                .HasKey(pc => pc.CategoryId);
+
+            modelBuilder.Entity<PostTag>()
+                .HasMany(pt => pt.UserPostTags)
+                .WithOne(up => up.PostTag)
+                .HasForeignKey(up => up.TagId);
+
+            modelBuilder.Entity<UserPostTag>()
+                .HasKey(upt => new { upt.PostId, upt.TagId });
+
+            modelBuilder.Entity<UserPostTag>()
+                .HasOne(upt => upt.UserPost)
+                .WithMany(up => up.UserPostTags) 
+                .HasForeignKey(upt => upt.PostId);
+
+            modelBuilder.Entity<UserPostTag>()
+                .HasOne(upt => upt.PostTag)
+                .WithMany(pt => pt.UserPostTags)
+                .HasForeignKey(upt => upt.TagId);
+
+
             modelBuilder.Entity<Artist>().ToTable("Artists");
             modelBuilder.Entity<Artwork>().ToTable("Artwork");
             modelBuilder.Entity<Category>().ToTable("Category");
@@ -109,8 +146,10 @@
             modelBuilder.Entity<Event>().ToTable("Event");
             modelBuilder.Entity<EventArtwork>().ToTable("EventArtwork");
             modelBuilder.Entity<Image>().ToTable("Image");
-            modelBuilder.Entity<Sentence>().ToTable("Sentence");
+            modelBuilder.Entity<Sentence>().ToTable("Sentence"); 
             modelBuilder.Entity<DynamicContent>().ToTable("DynamicContent");
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
 
             // Identity configurations that require the generic type parameter
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");

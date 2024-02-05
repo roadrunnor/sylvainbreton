@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using api_sylvainbreton.Data;
 
@@ -10,9 +11,11 @@ using api_sylvainbreton.Data;
 namespace api_sylvainbreton.Migrations
 {
     [DbContext(typeof(SylvainBretonDbContext))]
-    partial class SylvainBretonDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240205061950_extensionFolder")]
+    partial class extensionFolder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
