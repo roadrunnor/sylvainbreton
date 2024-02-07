@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Server.Kestrel.Core;
     using System;
+    using System.Security.Cryptography.X509Certificates;
 
     public static class KestrelServerConfiguration
     {
@@ -13,9 +14,8 @@
 
             builder.WebHost.ConfigureKestrel(serverOptions =>
             {
-                serverOptions.ListenAnyIP(5002, listenOptions =>
-                {
-                    listenOptions.UseHttps(certPath, certPassword);
+                serverOptions.ConfigureHttpsDefaults(listenOptions => {
+                    listenOptions.ServerCertificate = new X509Certificate2(certPath, certPassword);
                 });
             });
         }

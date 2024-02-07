@@ -13,13 +13,13 @@
             var certificatePath = Environment.GetEnvironmentVariable("CERT_PATH");
             if (string.IsNullOrWhiteSpace(certificatePath))
             {
-                throw new InvalidOperationException("Certificate path not found in configuration.");
+                throw new InvalidOperationException("CERT_PATH environment variable is not set.");
             }
 
             var certificatePassword = Environment.GetEnvironmentVariable("CERT_PASSWORD");
             if (string.IsNullOrWhiteSpace(certificatePassword))
             {
-                throw new InvalidOperationException("Certificate password not found in configuration.");
+                throw new InvalidOperationException("CERT_PASSWORD environment variable is not set.");
             }
 
             // Load the certificate with the given path and password.
