@@ -57,8 +57,6 @@
 		}
 	}
 
-	// In LAYOUT.SCSS
-
 	@media (max-width: $breakpoint-md) {
 		.image-row {
 			flex-direction: column; // Stack children vertically

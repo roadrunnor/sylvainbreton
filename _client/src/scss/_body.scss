@@ -1,5 +1,5 @@
 body {
-	background-image: url("/public/assets/images/bg-mousse.jpg");
+	//background-image: url("/public/assets/images/bg-mousse.jpg");
 	background-size: cover; // this will make sure the image covers the entire header
 	background-repeat: no-repeat; // this will prevent the image from repeating
 	background-position: center center; // this centers the image in the header
@@ -8,6 +8,7 @@ body {
 	margin: 0; // removes default margin
 	overflow-x: hidden; // prevents horizontal scrolling
 	//opacity: .6;
+	background-color: #E8E8D6 // Reférence ChatGPT/pricing page : https://openai.com/chatgpt/pricing (binome colors with a footer of a dark green #1F3319 )
 	//background-color: #E9F0FE; // Reférence Google Chrome new version splash screen 
 }
 

@@ -10,7 +10,7 @@
 
 	img {
 		cursor: pointer;
-		opacity: 0.5; // Default opacity
+		//opacity: 0.5; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
 			opacity: 1; // Full opacity on hover
@@ -47,7 +47,7 @@
 	border-bottom: $border-width solid $border-color;
 	height: 1px;
 	width: 100%;
-	opacity: 0.4;
+	//opacity: 0.4;
 }
 
 @mixin head-marquee {
@@ -55,9 +55,9 @@
 	overflow: hidden;
 	white-space: nowrap;
 	max-width: 100%;
-	background-color: $warning-color;
+	//background-color: $warning-color;
 	cursor: pointer;
-	opacity: 0.5; // Default opacity
+	//opacity: 0.5; // Default opacity
 	transition: opacity 0.3s ease; // Smooth transition for opacity change
 	&:hover {
 		opacity: 1; // Full opacity on hover
@@ -140,7 +140,7 @@
 		cursor: pointer;
 		width: 100%;
 		height: auto;
-		opacity: 0.4; // Default opacity
+		//opacity: 0.4; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
 			opacity: 1; // Full opacity on hover
@@ -149,13 +149,13 @@
 }
 
 @mixin image-info {
-	flex: 0 0 50%;
+	flex: 0 0 40%;
 	max-width: none;
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
 	padding: 0 $spacing-unit;
-	opacity: 0.4;
+	//opacity: 0.4;
 
 	p:first-of-type {
 		padding-top: calc($spacing-unit / 2);
@@ -177,7 +177,7 @@
 		width: 100%;
 		height: auto;
 		cursor: pointer;
-		opacity: 0.4; // Default opacity
+		//opacity: 0.4; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
 			opacity: 1; // Full opacity on hover
@@ -194,7 +194,7 @@
 	text-align: left;
 	padding-top: math.div($spacing-unit, 2);
 	padding-bottom: calc($spacing-unit / 2);
-	opacity: 0.4;
+	//opacity: 0.4;
 
 	p:first-of-type {
 		padding-bottom: calc($spacing-unit / 2);
