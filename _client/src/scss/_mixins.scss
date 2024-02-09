@@ -120,7 +120,8 @@
 	> *:last-child {
 		// Assuming the second child takes up 35%
 		flex: 1 1 35%;
-		max-width: 35%;
+		//max-width: 35%;
+
 	}
 }
 
@@ -140,6 +141,7 @@
 		cursor: pointer;
 		width: 100%;
 		height: auto;
+		display: block;
 		//opacity: 0.4; // Default opacity
 		transition: opacity 0.3s ease; // Smooth transition for opacity change
 		&:hover {
@@ -155,10 +157,11 @@
 	justify-content: center;
 	align-items: flex-start;
 	padding: 0 $spacing-unit;
+	padding-top: $spacing-unit;
+
 	//opacity: 0.4;
 
 	p:first-of-type {
-		padding-top: calc($spacing-unit / 2);
 		padding-bottom: calc($spacing-unit / 2);
 	}
 
@@ -192,8 +195,8 @@
 
 @mixin image-description {
 	text-align: left;
-	padding-top: math.div($spacing-unit, 2);
-	padding-bottom: calc($spacing-unit / 2);
+	padding-top: calc($spacing-unit);
+	padding-bottom: calc($spacing-unit);
 	//opacity: 0.4;
 
 	p:first-of-type {

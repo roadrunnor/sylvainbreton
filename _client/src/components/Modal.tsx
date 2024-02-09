@@ -6,13 +6,7 @@ import { ReactComponent as ServerErrorIcon } from "assets/icons/server-error.svg
 import { ReactComponent as UnknownErrorIcon } from "assets/icons/unknown-error.svg";
 import "../scss/_modal.scss";
 
-export const Modal: React.FC<ModalProps> = ({
-	show,
-	title,
-	message,
-	onClose,
-	IconComponent,
-}) => {
+export const Modal: React.FC<ModalProps> = ({ show, title, message, onClose, IconComponent }) => {
 	if (!show) {
 		return null;
 	}

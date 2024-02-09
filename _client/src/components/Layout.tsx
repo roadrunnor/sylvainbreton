@@ -4,6 +4,7 @@ import { Artwork } from "../models/Artwork";
 import { ArtworkImage } from "../models/ArtworkImage";
 import { Category } from "../models/Category";
 import { useApiService } from "../services/apiService";
+import ButtonShopNow from "./buttons/ButtonShopNow";
 
 const Layout = () => {
 	const [artworks, setArtworks] = useState<Artwork[]>([]);
@@ -59,10 +60,12 @@ const Layout = () => {
 						<img key={artworks[0].ArtworkID} src={getImagePath(artworks[0].ArtworkImages)} alt={artworks[0].Description} />
 					</div>
 					<div className="image-info">
+						<div className="col btn-fe">
+							<ButtonShopNow />
+						</div>
 						<p className="image-info-padding-b">
 							<em>{artworks[0].Title}</em> ({artworks[0].CreationDate.slice(0, 4)}), {artworks[0].Materials}
 						</p>
-
 						<p>{artworks[0].Description}</p>
 						<p>
 							{getCategoryNameById(artworks[0].CategoryID)}, {artworks[0].Conceptual}
@@ -75,6 +78,9 @@ const Layout = () => {
 					<div className="image-container" key={artwork.ArtworkID}>
 						<img src={getImagePath(artwork.ArtworkImages)} alt={artwork.Description} />
 						<div className="image-description">
+							<div className="col btn-fe">
+								<ButtonShopNow />
+							</div>
 							<p>
 								<em>{artwork.Title}</em> ({artwork.CreationDate.slice(0, 4)}), {artwork.Materials}
 							</p>

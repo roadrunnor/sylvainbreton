@@ -1,16 +1,52 @@
-a:link {
-	color: #000000;
-	text-decoration: none;
+@import "variables";
+
+.uiLink {
+	display: flex;
+	padding: 0.5rem 1.5rem;
+	border: 1px solid;
+	position: relative;
+	color: currentColor;
+	border-radius: 0.2em;
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+
+	&:hover {
+		background-color: black; // Use variable or specific color
+		color: #e8e8d6; // Adjust as needed
+		border-color: black; // Use variable or specific color
+
+		.arrowIcon {
+			fill: currentColor;
+		}
+	}
 }
-a:visited {
-	text-decoration: none;
-	color: #000000;
+
+.col {
+	display: flex;
+	align-items: flex-start;
+	flex: 0;
+
+	.btn-fe {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		align-items: flex-start;
+		margin-bottom: $spacing-unit;
+	}
 }
-a:hover {
-	text-decoration: none;
-	color: #33ccff;
+
+.flexContainer {
+	display: flex;
+	align-items: center;
 }
-a:active {
-	text-decoration: none;
-	color: #000000;
+
+.arrowIcon {
+	margin-left: 0.51rem;
+	margin-right: -1rem;
+	position: relative;
+	width: 1em;
+	height: 1em;
 }
