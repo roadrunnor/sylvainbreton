@@ -1,4 +1,6 @@
-﻿namespace api_sylvainbreton.Extensions
+﻿// File: DataProtectionExtensions.cs
+
+namespace api_sylvainbreton.Extensions
 {
     using Microsoft.AspNetCore.DataProtection;
     using System;
@@ -13,16 +15,19 @@
             var keysFolder = Environment.GetEnvironmentVariable("DP_KEYS_FOLDER");
             var certificateThumbprint = Environment.GetEnvironmentVariable("DP_CERT_THUMBPRINT");
 
-            // Check if the environment variables are set.
-            if (string.IsNullOrWhiteSpace(keysFolder) || string.IsNullOrWhiteSpace(certificateThumbprint))
+            if (string.IsNullOrWhiteSpace(keysFolder))
             {
-                throw new InvalidOperationException("The DP_KEYS_FOLDER or data protection environment variables are not set properly.");
+                throw new InvalidOperationException("DP_KEYS_FOLDER environment variable is not set.");
+            }
+            if (string.IsNullOrWhiteSpace(certificateThumbprint))
+            {
+                throw new InvalidOperationException("DP_CERT_THUMBPRINT environment variable is not set.");
             }
 
             X509Certificate2 cert = FindCertificateByThumbprint(certificateThumbprint);
             services.AddDataProtection()
-                    .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
-                    .ProtectKeysWithCertificate(cert);
+                .PersistKeysToFileSystem(new DirectoryInfo(keysFolder))
+                .ProtectKeysWithCertificate(cert);
 
             return services;
         }
@@ -37,11 +42,13 @@
             using (var store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
             {
                 store.Open(OpenFlags.ReadOnly);
-                var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, validOnly: false);
+                var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+
                 if (certificates.Count == 0)
                 {
                     throw new InvalidOperationException($"Certificate with thumbprint {certificateThumbprint} not found.");
                 }
+
                 return certificates[0]; // returns the first certificate found
             }
         }

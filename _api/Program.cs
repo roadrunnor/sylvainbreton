@@ -1,9 +1,9 @@
-using api_sylvainbreton.Config;
 using api_sylvainbreton.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-KestrelServerConfiguration.ConfigureKestrelServer(builder);
+// Call the extension Kestrel method with a certificate for HTTPS.
+builder.WebHost.UseKestrelWithCertificate();
 
 // Configure services, extend IMvcBuilder
 builder.Services
@@ -18,7 +18,8 @@ builder.Services
     .AddExternalAuthentication(builder.Configuration)
     .AddCustomCorsPolicy()
     .AddEndpointsApiExplorer()
-    .AddSwaggerGen();
+    .AddSwaggerGen()
+    .AddCustomDataProtection();
 
 builder.Services
     .AddCustomDataProtection();
