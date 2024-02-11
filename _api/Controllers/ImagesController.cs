@@ -5,6 +5,7 @@
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -13,6 +14,7 @@
         private readonly SylvainBretonDbContext _context = context;
         private readonly IConfiguration _configuration = configuration;
 
+        // GET: api/Images
         [HttpGet]
         public ActionResult<IEnumerable<ImageDTO>> GetImages()
         {
@@ -32,7 +34,8 @@
 
             return images;
         }
-
+        
+        // GET: api/Images/5
         [HttpGet("{id}")]
         public ActionResult<ImageDTO> GetImage(int id)
         {
@@ -59,6 +62,8 @@
             return image;
         }
 
+        // POST: api/Images
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<ImageDTO> PostImage([FromBody] ImageDTO imageDTO)
         {
@@ -92,6 +97,8 @@
             });
         }
 
+        // PUT: api/Images
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult PutImage(int id, [FromBody] ImageDTO imageDTO)
         {
@@ -130,7 +137,9 @@
 
             return NoContent();
         }
-
+        
+        // DELETE: api/Images/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<ImageDTO> DeleteImage(int id)
         {

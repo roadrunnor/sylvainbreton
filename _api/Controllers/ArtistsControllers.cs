@@ -34,7 +34,7 @@
         }
 
         // POST: api/Artists
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist(Artist artist)
         {
@@ -50,7 +50,7 @@
         }
 
         // PUT: api/Artists/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtist(int id, Artist artist)
         {
@@ -86,7 +86,7 @@
         }
 
         // DELETE: api/Artists/5
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtist(int id)
         {

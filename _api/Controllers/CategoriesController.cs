@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -35,6 +36,7 @@
         }
 
         // POST: api/Categories
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
@@ -50,6 +52,7 @@
         }
 
         // PUT: api/Categories/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(int id, Category category)
         {
@@ -85,6 +88,7 @@
         }
 
         // DELETE: api/Categories/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {

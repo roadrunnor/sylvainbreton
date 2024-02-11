@@ -4,6 +4,7 @@
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -33,6 +34,7 @@
         }
 
         // POST: api/Performances
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<Performance> PostPerformance(Performance performance)
         {
@@ -48,6 +50,7 @@
         }
 
         // PUT: api/Performances/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult PutPerformance(int id, Performance performance)
         {
@@ -83,6 +86,7 @@
         }
 
         // DELETE: api/Performances/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<Performance> DeletePerformance(int id)
         {

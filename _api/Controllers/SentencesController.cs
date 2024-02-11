@@ -5,13 +5,15 @@
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
     public class SentencesController(SylvainBretonDbContext context) : ControllerBase
     {
         private readonly SylvainBretonDbContext _context = context;
-
+        
+        // GET: api/Sentences
         [HttpGet]
         public ActionResult<IEnumerable<SentenceDTO>> GetSentences()
         {
@@ -35,6 +37,7 @@
             return sentences;
         }
 
+        // GET: api/Sentences/5
         [HttpGet("{id}")]
         public ActionResult<SentenceDTO> GetSentence(int id)
         {
@@ -56,6 +59,8 @@
             return sentence;
         }
 
+        // POST: api/Sentences
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<SentenceDTO> PostSentence([FromBody] SentenceDTO sentenceDto)
         {
@@ -81,6 +86,8 @@
             });
         }
 
+        // PUT: api/Sentences/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult PutSentence(int id, [FromBody] SentenceDTO sentenceDto)
         {
@@ -109,6 +116,8 @@
             return NoContent();
         }
 
+        // DELETE: api/Sentences/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<SentenceDTO> DeleteSentence(int id)
         {

@@ -4,6 +4,7 @@
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -40,6 +41,7 @@
         }
 
         // POST: api/EventArtworks
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<EventArtwork> PostEventArtwork(EventArtwork eventArtwork)
         {
@@ -59,8 +61,9 @@
 
             return CreatedAtAction(nameof(GetEventArtwork), new { eventId = eventArtwork.EventID, artworkId = eventArtwork.ArtworkID }, eventArtwork);
         }
-
+        
         // DELETE: api/EventArtworks/5/10
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{eventId}/{artworkId}")]
         public IActionResult DeleteEventArtwork(int eventId, int artworkId)
         {

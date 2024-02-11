@@ -4,6 +4,7 @@
     using Microsoft.EntityFrameworkCore;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -33,6 +34,7 @@
         }
 
         // POST: api/DynamicContents
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<DynamicContent>> PostDynamicContent(DynamicContent dynamicContent)
         {
@@ -48,6 +50,7 @@
         }
 
         // PUT: api/DynamicContents/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDynamicContent(int id, DynamicContent dynamicContent)
         {
@@ -83,6 +86,7 @@
         }
 
         // DELETE: api/DynamicContents/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDynamicContent(int id)
         {

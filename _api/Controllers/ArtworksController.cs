@@ -5,6 +5,7 @@
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -12,6 +13,7 @@
     {
         private readonly SylvainBretonDbContext _context = context;
 
+        // GET: api/Artworks
         [HttpGet]
         public ActionResult<IEnumerable<ArtworkDTO>> GetArtworks()
         {
@@ -42,7 +44,8 @@
 
             return artworks;
         }
-
+        
+        // GET: api/Artworks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ArtworkDTO>> GetArtwork(int id)
         {
@@ -80,6 +83,8 @@
             return artwork;
         }
 
+        // POST: api/Artworks
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<ArtworkDTO>> PostArtwork([FromBody] ArtworkDTO artworkDto)
         {
@@ -147,7 +152,9 @@
                 }).ToList()
             });
         }
-
+        
+        // PUT: api/Artworks/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtwork(int id, [FromBody] ArtworkDTO artworkDto)
         {
@@ -181,7 +188,9 @@
 
             return NoContent();
         }
-
+        
+        // DELETE: api/Artworks/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ArtworkDTO>> DeleteArtwork(int id)
         {

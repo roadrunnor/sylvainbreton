@@ -4,6 +4,7 @@
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -36,6 +37,7 @@
         }
 
         // POST: api/Places
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult<Place> PostPlace(Place place)
         {
@@ -51,6 +53,7 @@
         }
 
         // PUT: api/Places/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult PutPlace(int id, Place place)
         {
@@ -86,6 +89,7 @@
         }
 
         // DELETE: api/Places/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult<Place> DeletePlace(int id)
         {
