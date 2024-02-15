@@ -138,7 +138,7 @@
                 .HasForeignKey(upt => upt.TagId);
 
 
-            modelBuilder.Entity<Artist>().ToTable("Artists");
+            modelBuilder.Entity<Artist>().ToTable("Artist");
             modelBuilder.Entity<Artwork>().ToTable("Artwork");
             modelBuilder.Entity<Category>().ToTable("Category");
             modelBuilder.Entity<Place>().ToTable("Place");
@@ -148,8 +148,8 @@
             modelBuilder.Entity<Image>().ToTable("Image");
             modelBuilder.Entity<Sentence>().ToTable("Sentence"); 
             modelBuilder.Entity<DynamicContent>().ToTable("DynamicContent");
-            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
-            modelBuilder.Entity<IdentityRole>().ToTable("Roles");
+            modelBuilder.Entity<ApplicationUser>().ToTable("User");
+            modelBuilder.Entity<IdentityRole>().ToTable("Role");
 
             // Identity configurations that require the generic type parameter
             modelBuilder.Entity<IdentityUserRole<string>>().ToTable("UserRoles");

@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.Config
+﻿namespace api_sylvainbreton.Configuations
 {
     using IdentityServer4.Models;
     using IdentityServer4.Test;

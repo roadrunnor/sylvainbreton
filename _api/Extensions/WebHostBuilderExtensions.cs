@@ -29,16 +29,14 @@
 
         private static X509Certificate2 FindCertificateByThumbprint(string thumbprint, StoreName storeName, StoreLocation storeLocation)
         {
-            using (var store = new X509Store(storeName, storeLocation))
+            using var store = new X509Store(storeName, storeLocation);
+            store.Open(OpenFlags.ReadOnly);
+            var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, validOnly: false);
+            if (certificates.Count == 0)
             {
-                store.Open(OpenFlags.ReadOnly);
-                var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, validOnly: false);
-                if (certificates.Count == 0)
-                {
-                    throw new InvalidOperationException($"Certificate with thumbprint {thumbprint} not found.");
-                }
-                return certificates[0];
+                throw new InvalidOperationException($"Certificate with thumbprint {thumbprint} not found.");
             }
+            return certificates[0];
         }
     }
 }

@@ -9,14 +9,31 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class SentencesController(SylvainBretonDbContext context) : ControllerBase
+    public class SentencesController : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context = context;
-        
+        private readonly SylvainBretonDbContext _context;
+        private readonly ILogger<SentencesController> _logger;
+
+        private const string Log_RequestReceived = "Request received for {ActionName}";
+        private const string Log_RequestReceivedWithId = "Request for SentenceID {SentenceId} received";
+        private const string Log_RequestNotFound = "Sentence with SentenceID {SentenceId} not found";
+        private const string Log_RequestCreated = "Sentence with SentenceID {SentenceId} created successfully";
+        private const string Log_RequestUpdated = "Sentence with SentenceID {SentenceId} updated successfully";
+        private const string Log_RequestDeleted = "Sentence with SentenceID {SentenceId} deleted successfully";
+        private const string Log_ProcessingError = "Error processing {ActionName} request for SentenceID {SentenceId}";
+
+        public SentencesController(SylvainBretonDbContext context, ILogger<SentencesController> logger)
+        {
+            _context = context;
+            _logger = logger;
+        }
+
         // GET: api/Sentences
         [HttpGet]
         public ActionResult<IEnumerable<SentenceDTO>> GetSentences()
         {
+            _logger.LogInformation(Log_RequestReceived, nameof(GetSentences));
+
             var sentences = _context.Sentences
                 .Select(s => new SentenceDTO
                 {
@@ -41,6 +58,8 @@
         [HttpGet("{id}")]
         public ActionResult<SentenceDTO> GetSentence(int id)
         {
+            _logger.LogInformation(Log_RequestReceivedWithId, id);
+
             var sentence = _context.Sentences
                 .Where(s => s.SentenceID == id)
                 .Select(s => new SentenceDTO
@@ -53,6 +72,7 @@
 
             if (sentence == null)
             {
+                _logger.LogWarning(Log_RequestNotFound, id);
                 return NotFound();
             }
 
@@ -64,6 +84,8 @@
         [HttpPost]
         public ActionResult<SentenceDTO> PostSentence([FromBody] SentenceDTO sentenceDto)
         {
+            _logger.LogInformation(Log_RequestReceived, nameof(PostSentence));
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -75,8 +97,18 @@
                 ArtworkID = sentenceDto.ArtworkID
             };
 
-            _context.Sentences.Add(sentence);
-            _context.SaveChanges();
+
+            try
+            {
+                _context.Sentences.Add(sentence);
+                _context.SaveChanges();
+                _logger.LogInformation(Log_RequestCreated, sentence.SentenceID);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, Log_ProcessingError, nameof(PostSentence), sentence.SentenceID);
+                return StatusCode(500, "An error occurred while processing your sentence addon request. Please try again later.");
+            }
 
             return CreatedAtAction(nameof(GetSentence), new { id = sentence.SentenceID }, new SentenceDTO
             {
@@ -91,6 +123,8 @@
         [HttpPut("{id}")]
         public IActionResult PutSentence(int id, [FromBody] SentenceDTO sentenceDto)
         {
+            _logger.LogInformation(Log_RequestReceivedWithId, id);
+
             if (ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -104,14 +138,24 @@
             var sentence = _context.Sentences.Find(id);
             if (sentence == null)
             {
+                _logger.LogWarning(Log_RequestNotFound, id);
                 return NotFound();
             }
 
             sentence.Content = sentenceDto.Content;
             sentence.ArtworkID = sentenceDto.ArtworkID;
 
-            _context.Entry(sentence).State = EntityState.Modified;
-            _context.SaveChanges();
+            try
+            {
+                _context.Entry(sentence).State = EntityState.Modified;
+                _context.SaveChanges();
+                _logger.LogInformation(Log_RequestUpdated, sentence.SentenceID);
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _logger.LogError(ex, Log_ProcessingError, nameof(PutSentence), sentence.SentenceID);
+                return StatusCode(500, "An error occurred while processing your sentence update request. Please try again later.");
+            }
 
             return NoContent();
         }
@@ -121,14 +165,26 @@
         [HttpDelete("{id}")]
         public ActionResult<SentenceDTO> DeleteSentence(int id)
         {
+            _logger.LogInformation(Log_RequestReceivedWithId, id);
+
             var sentence = _context.Sentences.Find(id);
             if (sentence == null)
             {
+                _logger.LogWarning(Log_RequestNotFound, id);
                 return NotFound();
             }
 
-            _context.Sentences.Remove(sentence);
-            _context.SaveChanges();
+            try
+            {
+                _context.Sentences.Remove(sentence);
+                _context.SaveChanges();
+                _logger.LogInformation(Log_RequestDeleted, sentence.SentenceID);
+            }
+            catch (DbUpdateException ex)
+            {
+                _logger.LogError(ex, Log_ProcessingError, nameof(DeleteSentence), sentence.SentenceID);
+                return StatusCode(500, "An error occurred while processing your sentence deletion request. Please try again later.");
+            }
 
             return new SentenceDTO
             {

@@ -4,8 +4,8 @@ namespace api_sylvainbreton.Extensions
 {
     using System;
     using System.Security.Cryptography.X509Certificates;
+    using api_sylvainbreton.Configuations;
     using Microsoft.Extensions.DependencyInjection;
-    using api_sylvainbreton.Config;
 
     public static class IdentityServerExtensions
     {
@@ -30,16 +30,14 @@ namespace api_sylvainbreton.Extensions
 
         private static X509Certificate2 FindCertificateByThumbprint(string thumbprint)
         {
-            using (var store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+            using var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+            var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, validOnly: false);
+            if (certificates.Count == 0)
             {
-                store.Open(OpenFlags.ReadOnly);
-                var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, thumbprint, validOnly: false);
-                if (certificates.Count == 0)
-                {
-                    throw new InvalidOperationException($"Certificate with thumbprint {thumbprint} not found.");
-                }
-                return certificates[0]; // returns the first certificate found
+                throw new InvalidOperationException($"Certificate with thumbprint {thumbprint} not found.");
             }
+            return certificates[0]; // returns the first certificate found
         }
     }
 }

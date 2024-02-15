@@ -1,4 +1,7 @@
+using api_sylvainbreton.Configurations;
+using api_sylvainbreton.Data;
 using api_sylvainbreton.Extensions;
+using api_sylvainbreton.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +15,7 @@ builder.Services
 
 // Configure other services, extend IServiceCollection
 builder.Services
-    .AddDatabaseContext()
+    .AddDatabaseConfiguration(builder.Configuration)
     .AddIdentityServices()
     .AddIdentityServerWithCertificate()
     .AddExternalAuthentication(builder.Configuration)
@@ -21,17 +24,13 @@ builder.Services
     .AddSwaggerGen()
     .AddCustomDataProtection();
 
-builder.Services
-    .AddCustomDataProtection();
-
 var app = builder.Build();
-// Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("DockerDevelopment"))
-{
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+// Apply environment-specific exception handling
+app.UseEnvironmentSpecificExceptionHandling(app.Environment);
+
+// Initialize the database with roles and users
+await ApplicationDbInitializer.Initialize(app.Services);
 
 app.SeedDatabase();
 app.UseHttpsRedirection();

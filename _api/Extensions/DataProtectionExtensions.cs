@@ -39,18 +39,16 @@ namespace api_sylvainbreton.Extensions
                 throw new ArgumentException("The DP_CERT_THUMBPRINT or certificate thumbprint cannot be empty or null.");
             }
 
-            using (var store = new X509Store(StoreName.My, StoreLocation.LocalMachine))
+            using var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+            store.Open(OpenFlags.ReadOnly);
+            var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
+
+            if (certificates.Count == 0)
             {
-                store.Open(OpenFlags.ReadOnly);
-                var certificates = store.Certificates.Find(X509FindType.FindByThumbprint, certificateThumbprint, false);
-
-                if (certificates.Count == 0)
-                {
-                    throw new InvalidOperationException($"Certificate with thumbprint {certificateThumbprint} not found.");
-                }
-
-                return certificates[0]; // returns the first certificate found
+                throw new InvalidOperationException($"Certificate with thumbprint {certificateThumbprint} not found.");
             }
+
+            return certificates[0]; // returns the first certificate found
         }
     }
 }

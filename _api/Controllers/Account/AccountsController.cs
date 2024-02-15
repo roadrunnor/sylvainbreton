@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers.Account
 {
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -21,7 +21,7 @@
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded) 
+            if (result.Succeeded)
             {
                 // Optionally sign the user in upon registration
                 // await _signInManager.SignInAsync(user, isPersistent: false);

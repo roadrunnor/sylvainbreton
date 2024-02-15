@@ -4,6 +4,7 @@ namespace api_sylvainbreton.Models
 {
     public class Event
     {
+        [Key]
         public int EventID { get; set; }
 
         [Required, MaxLength(255)]
