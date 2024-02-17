@@ -4,8 +4,10 @@
     using Microsoft.EntityFrameworkCore;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
+    using api_sylvainbreton.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Data.SqlClient;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -13,6 +15,7 @@
     {
         private readonly SylvainBretonDbContext _context;
         private readonly ILogger<ArtistsController> _logger; 
+        private readonly ISanitizationService _sanitizationService;
 
         private const string Log_RequestReceived = "Request receive for {ActionName}";
         private const string Log_RequestReceivedWithId = "{ActionName} request for id {Id} has been found";
@@ -22,27 +25,54 @@
         private const string Log_RequestUpdated = "Artist with id {ArtistId} updated successfully";
         private const string Log_RequestDeleted = "Artist with id {ArtistId} deleted successfully";
 
-        public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger)
+        public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService)
         {
             _context = context;
             _logger = logger;
+            _sanitizationService = sanitizationService;
         }
 
         // GET: api/Artists
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artist>>> GetArtists()
+        public async Task<ActionResult<IEnumerable<Artist>>> GetArtists([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            _logger.LogInformation(Log_RequestReceived, nameof(GetArtists)); 
-            return await _context.Artists.ToListAsync();
+            _logger.LogInformation(Log_RequestReceived, nameof(GetArtists));
+
+            // Validate pageSize to ensure it's within a reasonable range
+            pageSize = Math.Clamp(pageSize, 1, 100);
+
+            var totalRecords = await _context.Artists.CountAsync(); // Get the total number of records
+            var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize); // Calculate total pages
+
+            var query = _context.Artists
+                .AsNoTracking()
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            var artists = await query.ToListAsync();
+
+            // Include pagination metadata in the response header or as part of a custom response object
+            Response.Headers.Append("X-Pagination", Newtonsoft.Json.JsonConvert
+                .SerializeObject(new { TotalRecords = totalRecords, Page = page, PageSize = pageSize, TotalPages = totalPages }));
+
+            return artists;
         }
+
 
         // GET: api/Artists/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {
             _logger.LogInformation(Log_RequestReceivedWithId, nameof(GetArtist), id);
-            var artist = await _context.Artists.FindAsync(id);
 
+            if (id <= 0)
+            {
+                return BadRequest("Invalid Artist ID");
+            }
+
+            var artist = await _context.Artists
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.ArtistID == id);
             if (artist == null)
             {
                 _logger.LogInformation(Log_RequestNotFound, nameof(GetArtist), id);
@@ -58,6 +88,11 @@
         public async Task<ActionResult<Artist>> PostArtist([FromBody] Artist artist)
         {
             _logger.LogInformation(Log_RequestReceived, nameof(PostArtist));
+
+            // Input Sanitization
+            artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
+            artist.LastName = _sanitizationService.SanitizeInput(artist.LastName);
+            artist.Bio = _sanitizationService.SanitizeInput(artist.Bio);
 
             if (!ModelState.IsValid)
             {
@@ -78,6 +113,7 @@
                 return StatusCode(500, "An error occurred while creating the artist. Please try again later.");
             }
         }
+
 
         // PUT: api/Artists/5
         [Authorize(Roles = "Admin")]

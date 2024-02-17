@@ -22,7 +22,8 @@ builder.Services
     .AddCustomCorsPolicy()
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
-    .AddCustomDataProtection();
+    .AddCustomDataProtection()
+    .AddApplicationServices();
 
 var app = builder.Build();
 
