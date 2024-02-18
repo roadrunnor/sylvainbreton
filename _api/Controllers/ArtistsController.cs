@@ -1,29 +1,21 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using api_sylvainbreton.Models;
     using api_sylvainbreton.Data;
+    using api_sylvainbreton.Models;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-    using Microsoft.Data.SqlClient;
+    using System;
 
     [Route("api/[controller]")]
     [ApiController]
     public class ArtistsController : ControllerBase
     {
         private readonly SylvainBretonDbContext _context;
-        private readonly ILogger<ArtistsController> _logger; 
+        private readonly ILogger<ArtistsController> _logger;
         private readonly ISanitizationService _sanitizationService;
-
-        private const string Log_RequestReceived = "Request receive for {ActionName}";
-        private const string Log_RequestReceivedWithId = "{ActionName} request for id {Id} has been found";
-        private const string Log_RequestNotFound = "{ActionName} request for id {Id} not found";
-        private const string Log_ProcessingError = "Error processing {ActionName} request for id {Id}";
-        private const string Log_RequestCreated = "Artist with id {ArtistId} created successfully";
-        private const string Log_RequestUpdated = "Artist with id {ArtistId} updated successfully";
-        private const string Log_RequestDeleted = "Artist with id {ArtistId} deleted successfully";
 
         public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService)
         {
@@ -36,7 +28,9 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Artist>>> GetArtists([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            _logger.LogInformation(Log_RequestReceived, nameof(GetArtists));
+            // Log the receipt of the GetArtists request with query parameters for pagination
+            _logger.LogInformation("{ControllerName}: {ActionName} request received with page number {Page} and page size {PageSize}", 
+                nameof(ArtistsController), nameof(GetArtists), page, pageSize);
 
             // Validate pageSize to ensure it's within a reasonable range
             pageSize = Math.Clamp(pageSize, 1, 100);
@@ -63,7 +57,9 @@
         [HttpGet("{id}")]
         public async Task<ActionResult<Artist>> GetArtist(int id)
         {
-            _logger.LogInformation(Log_RequestReceivedWithId, nameof(GetArtist), id);
+            // Received request for GetArtist
+            _logger.LogInformation("{ControllerName}: {ActionName} request received for artist ID {ArtistId}", 
+                nameof(ArtistsController), nameof(GetArtist), id);
 
             if (id <= 0)
             {
@@ -75,7 +71,9 @@
                 .FirstOrDefaultAsync(a => a.ArtistID == id);
             if (artist == null)
             {
-                _logger.LogInformation(Log_RequestNotFound, nameof(GetArtist), id);
+                // Artist not found in GetArtist
+                _logger.LogWarning("{ControllerName}: Artist with ID {ArtistId} not found in {ActionName}", 
+                    nameof(ArtistsController), id, nameof(GetArtist));
                 return NotFound();
             }
 
@@ -87,7 +85,9 @@
         [HttpPost]
         public async Task<ActionResult<Artist>> PostArtist([FromBody] Artist artist)
         {
-            _logger.LogInformation(Log_RequestReceived, nameof(PostArtist));
+            // Log that a request to create a new artist has been received
+            _logger.LogInformation("{ControllerName}: {ActionName} request received for new artist creation", 
+                nameof(ArtistsController), nameof(PostArtist));
 
             // Input Sanitization
             artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
@@ -104,12 +104,16 @@
                 _context.Artists.Add(artist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation(Log_RequestCreated, artist.ArtistID);
+                // Artist created successfully
+                _logger.LogInformation("{ControllerName}: Artist with ID {ArtistId} {Action} successfully", 
+                    nameof(ArtistsController), artist.ArtistID, "created");
                 return CreatedAtAction(nameof(GetArtist), new { id = artist.ArtistID }, artist);
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, Log_ProcessingError, nameof(PostArtist), artist.ArtistID);
+                // Error occurred during PostArtist
+                _logger.LogError("{ControllerName}: Error processing {ActionName} for artist ID {ArtistId}: {ExceptionMessage}", 
+                    nameof(ArtistsController), nameof(PostArtist), artist.ArtistID, ex.Message);
                 return StatusCode(500, "An error occurred while creating the artist. Please try again later.");
             }
         }
@@ -120,7 +124,9 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtist(int id, [FromBody] Artist artist)
         {
-            _logger.LogInformation(Log_RequestReceivedWithId, nameof(PutArtist), id);
+            // Log the received request with the artist ID
+            _logger.LogInformation("{ControllerName}: {ActionName} request received for artist ID {ArtistId}", 
+                nameof(ArtistsController), nameof(PutArtist), id);
 
             if (!ModelState.IsValid)
             {
@@ -138,12 +144,13 @@
                 var existingArtist = await _context.Artists.FindAsync(id);
                 if (existingArtist == null)
                 {
-                    _logger.LogWarning(Log_RequestNotFound, nameof(PutArtist), id);
+                    _logger.LogWarning("{ControllerName}: Artist with ID {ArtistId} not found in {ActionName}", 
+                        nameof(ArtistsController), id, nameof(PutArtist));
                     return NotFound();
                 }
 
                 // 2. Update properties of existing artist object *selectively*
-                existingArtist.FirstName = artist.FirstName; 
+                existingArtist.FirstName = artist.FirstName;
 
                 // 3. Additional data validation for Artist properties (e.g., FirstName, LastName)
                 // Here, we validate FirstName length using MaxLength attribute on the model
@@ -167,13 +174,27 @@
                 _context.Update(existingArtist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation(Log_RequestUpdated, id);
+                // Artist updated successfully
+                _logger.LogInformation("{ControllerName}: Artist with ID {ArtistId} {Action} successfully", 
+                    nameof(ArtistsController), artist.ArtistID, "updated");
                 return NoContent();
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, Log_ProcessingError, nameof(PutArtist), id);
-                return StatusCode(500, "An error occurred while updating the artist. Please try again later.");
+                if (!ArtistExists(id))
+                {
+                    // Artist not found in PutArtist
+                    _logger.LogWarning("{ControllerName}: Artist with ID {ArtistId} not found in {ActionName}", 
+                        nameof(ArtistsController), id, nameof(PutArtist));
+                    return NotFound();
+                }
+                else
+                {
+                    // Error occurred during PutArtist
+                    _logger.LogError("{ControllerName}: Error processing {ActionName} for artist ID {ArtistId}: {ExceptionMessage}", 
+                        nameof(ArtistsController), nameof(PutArtist), artist.ArtistID, ex.Message);
+                    return StatusCode(500, "An error occurred while updating the artist. Please try again later.");
+                }
             }
         }
 
@@ -182,26 +203,32 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtist(int id)
         {
-            _logger.LogInformation(Log_RequestReceivedWithId, nameof(DeleteArtist), id);
+            _logger.LogWarning("{ControllerName}: Artist with ID {ArtistId} not found in {ActionName}", 
+                nameof(ArtistsController), id, nameof(DeleteArtist));
 
             try
             {
                 var artist = await _context.Artists.FindAsync(id);
                 if (artist == null)
                 {
-                    _logger.LogWarning(Log_RequestNotFound, nameof(DeleteArtist), id);
+                    // Artist not found in DeleteArtist
+                    _logger.LogWarning("{ControllerName}: Artist with ID {ArtistId} not found in {ActionName}", 
+                        nameof(ArtistsController), id, nameof(DeleteArtist));
                     return NotFound();
                 }
 
                 _context.Artists.Remove(artist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation(Log_RequestDeleted, id);
+                // Artist deleted successfully
+                _logger.LogInformation("{ControllerName}: Artist with ID {ArtistId} {Action} successfully", 
+                    nameof(ArtistsController), id, "deleted");
                 return NoContent();
             }
             catch (DbUpdateException ex)
             {
-                _logger.LogError(ex, Log_ProcessingError, nameof(DeleteArtist), id);
+                _logger.LogError("{ControllerName}: Error processing {ActionName} for artist ID {ArtistId}: {ExceptionMessage}", 
+                    nameof(ArtistsController), nameof(DeleteArtist), id, ex.Message);
                 return StatusCode(500, "An error occurred while deleting the artist. Please try again later.");
             }
         }
