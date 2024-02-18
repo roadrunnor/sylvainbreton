@@ -69,6 +69,7 @@
             var artist = await _context.Artists
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.ArtistID == id);
+
             if (artist == null)
             {
                 // Artist not found in GetArtist
@@ -128,6 +129,10 @@
             _logger.LogInformation("{ControllerName}: {ActionName} request received for artist ID {ArtistId}", 
                 nameof(ArtistsController), nameof(PutArtist), id);
 
+            artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
+            artist.LastName = _sanitizationService.SanitizeInput(artist.LastName);
+            artist.Bio = _sanitizationService.SanitizeInput(artist.Bio);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -151,6 +156,8 @@
 
                 // 2. Update properties of existing artist object *selectively*
                 existingArtist.FirstName = artist.FirstName;
+                existingArtist.LastName = artist.LastName;
+                existingArtist.Bio = artist.Bio;
 
                 // 3. Additional data validation for Artist properties (e.g., FirstName, LastName)
                 // Here, we validate FirstName length using MaxLength attribute on the model
