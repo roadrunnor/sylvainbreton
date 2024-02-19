@@ -9,7 +9,6 @@ namespace api_sylvainbreton.Controllers
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -31,27 +30,36 @@ namespace api_sylvainbreton.Controllers
 
         // GET: api/Artworks
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Artwork>>> GetArtworks([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public ActionResult<IEnumerable<ArtworkDTO>> GetArtworks()
         {
-            _logger.LogInformation("{ControllerName}: {ActionName} request received with page number {Page} and page size {PageSize}",
-                nameof(ArtworksController), nameof(GetArtworks), page, pageSize);
+            // Log the receipt of the GetArtworks request
+            _logger.LogInformation("{ControllerName}: {ActionName} request received",
+                nameof(ArtistsController), nameof(GetArtwork));
 
-            pageSize = Math.Clamp(pageSize, 1, 100);
-
-            var totalRecords = await _context.Artworks.CountAsync();
-            var totalPages = (int)Math.Ceiling(totalRecords / (double)pageSize);
-
-            var query = _context.Artworks
+            var artworks = _context.Artworks
                 .Include(a => a.ArtworkImages)
-                    .ThenInclude(ai => ai.Image)
-                .AsNoTracking()
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
-
-            var artworks = await query.ToListAsync();
-
-            Response.Headers.Append("X-Pagination", Newtonsoft.Json.JsonConvert
-                .SerializeObject(new { TotalRecords = totalRecords, Page = page, PageSize = pageSize, TotalPages = totalPages }));
+                .ThenInclude(ai => ai.Image)
+                .Select(a => new ArtworkDTO
+                {
+                    ArtworkID = a.ArtworkID,
+                    Title = a.Title,
+                    CreationDate = a.CreationDate,
+                    CategoryID = a.CategoryID,
+                    CategoryName = a.CategoryName,
+                    Materials = a.Materials,
+                    Dimensions = a.Dimensions,
+                    Description = a.Description,
+                    Conceptual = a.Conceptual,
+                    ArtworkImages = a.ArtworkImages.Select(ai => new ArtworkImageDTO
+                    {
+                        ArtworkID = ai.ArtworkID,
+                        ImageID = ai.ImageID,
+                        FileName = ai.Image.FileName,
+                        FilePath = ai.Image.FilePath,
+                        URL = ai.Image.URL
+                    }).ToList()
+                })
+                .ToList();
 
             return artworks;
         }
