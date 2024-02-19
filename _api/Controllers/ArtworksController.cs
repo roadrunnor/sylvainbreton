@@ -1,5 +1,4 @@
-﻿// ArtworksController.cs
-namespace api_sylvainbreton.Controllers
+﻿namespace api_sylvainbreton.Controllers
 {
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
@@ -33,7 +32,7 @@ namespace api_sylvainbreton.Controllers
         public ActionResult<IEnumerable<ArtworkDTO>> GetArtworks()
         {
             // Log the receipt of the GetArtworks request
-            _logger.LogInformation("{ControllerName}: {ActionName} request received",
+            _logger.LogInformation("{ControllerName}: {ActionName} request received for all artworks",
                 nameof(ArtistsController), nameof(GetArtwork));
 
             var artworks = _context.Artworks
