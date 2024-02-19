@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Logging;
     using System;
 
@@ -16,12 +17,14 @@
         private readonly SylvainBretonDbContext _context;
         private readonly ILogger<ArtistsController> _logger;
         private readonly ISanitizationService _sanitizationService;
+        private readonly IMemoryCache _memoryCache;
 
-        public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService)
+        public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService, IMemoryCache memoryCache)
         {
             _context = context;
             _logger = logger;
             _sanitizationService = sanitizationService;
+            _memoryCache = memoryCache;
         }
 
         // GET: api/Artists
@@ -64,6 +67,12 @@
             if (id <= 0)
             {
                 return BadRequest("Invalid Artist ID");
+            }
+
+            string cacheKey = $"artist_{id}";
+            if (_memoryCache.TryGetValue(cacheKey, out Artist cachedArtist))
+            {
+                return cachedArtist;
             }
 
             var artist = await _context.Artists

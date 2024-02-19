@@ -1,12 +1,9 @@
-﻿using Ganss.Xss;
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using HtmlAgilityPack;
-
-namespace api_sylvainbreton.Services.Interfaces
+﻿namespace api_sylvainbreton.Services.Interfaces
 {
+    using Ganss.Xss;
+    using System.Text.RegularExpressions;
+    using HtmlAgilityPack;
+
     public interface ISanitizationService
     {
         string SanitizeInput(string input);

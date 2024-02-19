@@ -2,18 +2,19 @@ using api_sylvainbreton.Configurations;
 using api_sylvainbreton.Data;
 using api_sylvainbreton.Extensions;
 using api_sylvainbreton.Services;
+using api_sylvainbreton.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Call the extension Kestrel method with a certificate for HTTPS.
 builder.WebHost.UseKestrelWithCertificate();
 
-// Configure services, extend IMvcBuilder
+// Configure services extending IMvcBuilder
 builder.Services
     .AddControllersWithViews()
     .AddCustomJsonOptions();
 
-// Configure other services, extend IServiceCollection
+// Configure services extending IServiceCollection
 builder.Services
     .AddDatabaseConfiguration(builder.Configuration)
     .AddIdentityServices()
@@ -23,6 +24,7 @@ builder.Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
     .AddCustomDataProtection()
+    .AddCachingServices()
     .AddApplicationServices();
 
 var app = builder.Build();
