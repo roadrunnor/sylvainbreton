@@ -1,6 +1,4 @@
-﻿// File: DataProtectionExtensions.cs
-
-namespace api_sylvainbreton.Extensions
+﻿namespace api_sylvainbreton.Extensions
 {
     using Microsoft.AspNetCore.DataProtection;
     using System;

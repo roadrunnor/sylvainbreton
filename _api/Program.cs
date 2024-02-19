@@ -29,16 +29,12 @@ builder.Services
 
 var app = builder.Build();
 
-// Apply environment-specific exception handling
-app.UseEnvironmentSpecificExceptionHandling(app.Environment);
+// Apply middleware configurations using the new extension method
+app.UseApplicationMiddlewares(app.Environment);
 
 // Initialize the database with roles and users
 await ApplicationDbInitializer.Initialize(app.Services);
 
 app.SeedDatabase();
-app.UseHttpsRedirection();
-app.UseCors("AllowAllOrigins");
-app.UseAuthentication();
-app.UseAuthorization();
 app.MapControllers();
 app.Run();
