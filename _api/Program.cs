@@ -9,30 +9,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Call the extension Kestrel method with a certificate for HTTPS.
 builder.WebHost.UseKestrelWithCertificate();
 
-// Configure services extending IMvcBuilder
-builder.Services
-    .AddControllersWithViews()
-    .AddCustomJsonOptions();
-
-// Configure services extending IServiceCollection
-builder.Services
-    .AddDatabaseConfiguration(builder.Configuration)
-    .AddIdentityServices()
-    .AddIdentityServerWithCertificate()
-    .AddExternalAuthentication(builder.Configuration)
-    .AddCustomCorsPolicy()
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
-    .AddCustomDataProtection()
-    .AddCachingServices()
-    .AddApplicationServices();
+// Enhanced services configurations
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
-// Apply middleware configurations using the new extension method
-app.UseApplicationMiddlewares(app.Environment);
+// Enhanced app configurations 
+app.UseApplicationConfigurations();
 
-// Initialize the database with roles and users
+// Database initialization and seeding
 await ApplicationDbInitializer.Initialize(app.Services);
 
 app.SeedDatabase();

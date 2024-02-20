@@ -2,11 +2,15 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Hosting;
+    using api_sylvainbreton.Exceptions;
+
 
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder UseEnvironmentSpecificExceptionHandling(this IApplicationBuilder app, IHostEnvironment env)
+        public static WebApplication UseApplicationConfigurations(this WebApplication app)
         {
+            var env = app.Environment;
+
             if (env.IsDevelopment() || env.IsEnvironment("DockerDevelopment"))
             {
                 app.UseDeveloperExceptionPage();
@@ -17,6 +21,16 @@
             {
                 app.UseGlobalErrorHandling();
             }
+
+            // Global exception handling middleware
+            app.UseMiddleware<ExceptionMiddleware>();
+
+            // Other middleware registrations...
+            app.UseHttpsRedirection();
+            app.UseCors("AllowAllOrigins");
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             return app;
         }

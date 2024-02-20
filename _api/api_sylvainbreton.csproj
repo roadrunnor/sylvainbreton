@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\PlacesController - Copy.cs" />
-      </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.59" />
     <PackageReference Include="HtmlSanitizer" Version="8.1.844-beta" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
