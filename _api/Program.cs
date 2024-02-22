@@ -1,8 +1,5 @@
-using api_sylvainbreton.Configurations;
 using api_sylvainbreton.Data;
 using api_sylvainbreton.Extensions;
-using api_sylvainbreton.Services;
-using api_sylvainbreton.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

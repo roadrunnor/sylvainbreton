@@ -122,26 +122,26 @@
             _logger.LogInformation("{ControllerName}: {ActionName} request received for new artist creation", 
                 nameof(ArtistsController), nameof(PostArtist));
 
-            // Map ArtistDTO to Artist entity
-            var artist = new Artist
-            {
-                FirstName = artistDTO.FirstName,
-                LastName = artistDTO.LastName,
-                Bio = artistDTO.Bio
-            };
-
-            // Input Sanitization
-            artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
-            artist.LastName = _sanitizationService.SanitizeInput(artist.LastName);
-            artist.Bio = _sanitizationService.SanitizeInput(artist.Bio);
-
-            if (!ModelState.IsValid)
-            {
-                throw new BadRequestException("Invalid input data");
-            }
-
             try
             {
+                // Map ArtistDTO to Artist entity
+                var artist = new Artist
+                {
+                    FirstName = artistDTO.FirstName,
+                    LastName = artistDTO.LastName,
+                    Bio = artistDTO.Bio
+                };
+
+                // Input Sanitization
+                artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
+                artist.LastName = _sanitizationService.SanitizeInput(artist.LastName);
+                artist.Bio = _sanitizationService.SanitizeInput(artist.Bio);
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
                 _context.Artists.Add(artist);
                 await _context.SaveChangesAsync();
 
@@ -191,13 +191,12 @@
 
             if (!ModelState.IsValid)
             {
-                // More general BadRequest
-                throw new BadRequestException("Invalid input data"); 
+                return BadRequest(ModelState);
             }
 
             if (id != artist.ArtistID)
             {
-                return BadRequest("ArtistID in URL does not match ArtistID in request body");
+                throw new BadRequestException("ArtistID in URL does not match ArtistID in request body");
             }
 
             try

@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace api_sylvainbreton.Models.DTOs
+﻿namespace api_sylvainbreton.Models.DTOs
 {
+    using api_sylvainbreton.ValidationAttributes;
+    using System.ComponentModel.DataAnnotations;
+
     public class ArtworkDTO
     {
+        [Key]
         public int ArtworkID { get; set; }
 
         [Required, MaxLength(255)]
@@ -27,6 +29,9 @@ namespace api_sylvainbreton.Models.DTOs
 
         [MaxLength(255)]
         public string Conceptual { get; set; }
+
+        [Required, Base64ImageList(ErrorMessage = "Invalid image data.")]
+        public List<string> ImageData { get; set; } = new List<string>(); 
 
         // navigation props
         public List<ArtworkImageDTO> ArtworkImages { get; set; }

@@ -34,6 +34,7 @@
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<UserPostTag> UserPostTags { get; set; }
+        public DbSet<ArtworkImage> ArtworkImages { get; set; }
 
 
 
@@ -44,18 +45,30 @@
             modelBuilder.Entity<Artist>()
                 .HasKey(a => a.ArtistID);
 
+            modelBuilder.Entity<Artist>()
+                .HasIndex(a => new { a.FirstName, a.LastName })
+                .IsUnique();
+
             modelBuilder.Entity<Artwork>()
                 .HasOne(a => a.Category) 
                 .WithMany(c => c.Artworks) 
-                .HasForeignKey(a => a.CategoryID);
+                .HasForeignKey(a => a.CategoryID)
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<ArtworkImage>()
                 .HasKey(ai => new { ai.ArtworkID, ai.ImageID });
 
             modelBuilder.Entity<ArtworkImage>()
+                .HasIndex(ai => ai.ArtworkID);
+
+            modelBuilder.Entity<ArtworkImage>()
+                .HasIndex(ai => ai.ImageID);
+
+            modelBuilder.Entity<ArtworkImage>()
                 .HasOne(ai => ai.Artwork)
                 .WithMany(a => a.ArtworkImages)
-                .HasForeignKey(ai => ai.ArtworkID);
+                .HasForeignKey(ai => ai.ArtworkID)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ArtworkImage>()
                 .HasOne(ai => ai.Image)
@@ -76,7 +89,12 @@
                 .HasOne(i => i.Artwork)
                 .WithMany(a => a.Images)
                 .HasForeignKey(i => i.ArtworkID)
-                .IsRequired(false);
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Cascade); 
+
+            modelBuilder.Entity<Image>()
+                .HasIndex(img => img.FileName)
+                .IsUnique();
 
             modelBuilder.Entity<Image>()
                 .HasOne(i => i.Performance)
