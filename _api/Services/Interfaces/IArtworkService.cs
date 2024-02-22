@@ -8,8 +8,9 @@
     {
         Task<IServiceResult<IEnumerable<ArtworkDTO>>> GetAllArtworksAsync();
         Task<IServiceResult<ArtworkDTO>> GetArtworkByIdAsync(int id);
-        Task<IServiceResult<ArtworkDTO>> CreateArtworkAsync(ArtworkDTO artworkDto);
-        Task<IServiceResult> UpdateArtworkAsync(int id, ArtworkDTO artworkDto);
-        Task<IServiceResult> DeleteArtworkAsync(int id);
+        Task<IServiceResult<ArtworkDTO>> CreateArtworkAsync(ArtworkDTO artworkDTO);
+        Task<IServiceResult<ArtworkDTO>> UpdateArtworkAsync(int id, ArtworkDTO artworkDTO);
+        Task<IServiceResult<ArtworkDTO>> DeleteArtworkAsync(int id);
+
     }
 }

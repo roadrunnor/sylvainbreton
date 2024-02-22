@@ -15,5 +15,8 @@ namespace api_sylvainbreton.Models.DTOs
         
         [MaxLength(1000)]
         public string URL { get; set; }
+
+        [Required(ErrorMessage = "Image data is required.")]
+        public string ImageData { get; set; }
     }
 }

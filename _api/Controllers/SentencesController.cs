@@ -9,10 +9,10 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class SentencesController : ControllerBase
+    public class SentencesController(SylvainBretonDbContext context, ILogger<SentencesController> logger) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-        private readonly ILogger<SentencesController> _logger;
+        private readonly SylvainBretonDbContext _context = context;
+        private readonly ILogger<SentencesController> _logger = logger;
 
         private const string Log_RequestReceived = "Request received for {ActionName}";
         private const string Log_RequestReceivedWithId = "Request for SentenceID {SentenceId} received";
@@ -21,12 +21,6 @@
         private const string Log_RequestUpdated = "Sentence with SentenceID {SentenceId} updated successfully";
         private const string Log_RequestDeleted = "Sentence with SentenceID {SentenceId} deleted successfully";
         private const string Log_ProcessingError = "Error processing {ActionName} request for SentenceID {SentenceId}";
-
-        public SentencesController(SylvainBretonDbContext context, ILogger<SentencesController> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
 
         // GET: api/Sentences
         [HttpGet]

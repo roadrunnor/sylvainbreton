@@ -7,21 +7,16 @@
     using api_sylvainbreton.Services.Interfaces;
     using api_sylvainbreton.Data;
     using Microsoft.EntityFrameworkCore;
-    using api_sylvainbreton.Utilities;
 
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             // Add MVC controllers to the services collection
-            services.AddControllers();
-
-            // Add DbContext with options
-            services.AddDbContext<SylvainBretonDbContext>(options =>
-                options.UseMySql(configuration.GetConnectionString("SylvainBretonConnection"),
-                ServerVersion.AutoDetect(configuration.GetConnectionString("SylvainBretonConnection"))));
+            services.AddControllers();            
 
             // Scoped services
+            services.AddScoped<IArtworkService, ArtworkService>();
             services.AddScoped<ImageProcessingService>();
             services.AddScoped<ImageService>();
             services.AddScoped<ImageValidationService>();

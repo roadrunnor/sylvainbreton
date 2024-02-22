@@ -14,20 +14,12 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistsController : ControllerBase
+    public class ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService, IMemoryCache memoryCache) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-        private readonly ILogger<ArtistsController> _logger;
-        private readonly ISanitizationService _sanitizationService;
-        private readonly IMemoryCache _memoryCache;
-
-        public ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService, IMemoryCache memoryCache)
-        {
-            _context = context;
-            _logger = logger;
-            _sanitizationService = sanitizationService;
-            _memoryCache = memoryCache;
-        }
+        private readonly SylvainBretonDbContext _context = context;
+        private readonly ILogger<ArtistsController> _logger = logger;
+        private readonly ISanitizationService _sanitizationService = sanitizationService;
+        private readonly IMemoryCache _memoryCache = memoryCache;
 
         // GET: api/Artists
         [HttpGet]

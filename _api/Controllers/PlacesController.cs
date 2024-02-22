@@ -8,10 +8,10 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class PlacesController : ControllerBase
+    public class PlacesController(SylvainBretonDbContext context, ILogger<PlacesController> logger) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context;
-        private readonly ILogger<PlacesController> _logger;
+        private readonly SylvainBretonDbContext _context = context;
+        private readonly ILogger<PlacesController> _logger = logger;
 
         private const string Log_RequestReceived = "Request received for {ActionName}";
         private const string Log_RequestReceivedWithId = "Request for PlaceID {PlaceId} received";
@@ -20,12 +20,6 @@
         private const string Log_RequestUpdated = "Place with PlaceID {PlaceId} updated successfully";
         private const string Log_RequestDeleted = "Place with PlaceID {PlaceId} deleted successfully";
         private const string Log_ProcessingError = "Error processing {ActionName} request for PlaceID {PlaceId}";
-
-        public PlacesController(SylvainBretonDbContext context, ILogger<PlacesController> logger)
-        {
-            _context = context;
-            _logger = logger;
-        }
 
         // GET: api/Places
         [HttpGet]

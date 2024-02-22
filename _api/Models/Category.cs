@@ -4,6 +4,7 @@ namespace api_sylvainbreton.Models
 {
     public class Category
     {
+        [Key]
         public int CategoryID { get; set; }
 
         [Required, MaxLength(255)]
@@ -15,7 +16,7 @@ namespace api_sylvainbreton.Models
         // Constructor to initialize the collection
         public Category()
         {
-            Artworks = new HashSet<Artwork>();
+            Artworks = [];
         }
     }
 }

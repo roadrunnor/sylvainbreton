@@ -11,16 +11,16 @@
 
     public class SanitizationService : ISanitizationService
     {
-        private static readonly HtmlSanitizer sanitizer = new HtmlSanitizer();
+        private static readonly HtmlSanitizer sanitizer = new();
 
         static SanitizationService()
         {
             sanitizer.AllowedTags.Clear();
-            sanitizer.AllowedTags.UnionWith(new[] { "p", "strong", "em", "br", "a" });
+            sanitizer.AllowedTags.UnionWith(["p", "strong", "em", "br", "a"]);
             sanitizer.AllowedAttributes.Clear();
-            sanitizer.AllowedAttributes.UnionWith(new[] { "href", "style" });
+            sanitizer.AllowedAttributes.UnionWith(["href", "style"]);
             sanitizer.AllowedCssProperties.Clear();
-            sanitizer.AllowedCssProperties.UnionWith(new[] { "color", "font-weight" });
+            sanitizer.AllowedCssProperties.UnionWith(["color", "font-weight"]);
             sanitizer.AllowedCssProperties.Add("margin");
             sanitizer.AllowedCssProperties.Add("padding");
             sanitizer.KeepChildNodes = true;

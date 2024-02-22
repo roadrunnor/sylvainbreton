@@ -52,8 +52,7 @@
             modelBuilder.Entity<Artwork>()
                 .HasOne(a => a.Category) 
                 .WithMany(c => c.Artworks) 
-                .HasForeignKey(a => a.CategoryID)
-                .OnDelete(DeleteBehavior.SetNull);
+                .HasForeignKey(a => a.CategoryID);
 
             modelBuilder.Entity<ArtworkImage>()
                 .HasKey(ai => new { ai.ArtworkID, ai.ImageID });
@@ -67,8 +66,7 @@
             modelBuilder.Entity<ArtworkImage>()
                 .HasOne(ai => ai.Artwork)
                 .WithMany(a => a.ArtworkImages)
-                .HasForeignKey(ai => ai.ArtworkID)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(ai => ai.ArtworkID);
 
             modelBuilder.Entity<ArtworkImage>()
                 .HasOne(ai => ai.Image)
@@ -89,8 +87,7 @@
                 .HasOne(i => i.Artwork)
                 .WithMany(a => a.Images)
                 .HasForeignKey(i => i.ArtworkID)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .IsRequired(false); 
 
             modelBuilder.Entity<Image>()
                 .HasIndex(img => img.FileName)
@@ -158,6 +155,7 @@
 
             modelBuilder.Entity<Artist>().ToTable("Artist");
             modelBuilder.Entity<Artwork>().ToTable("Artwork");
+            modelBuilder.Entity<ArtworkImage>().ToTable("ArtworkImage");
             modelBuilder.Entity<Category>().ToTable("Category");
             modelBuilder.Entity<Place>().ToTable("Place");
             modelBuilder.Entity<Performance>().ToTable("Performance");

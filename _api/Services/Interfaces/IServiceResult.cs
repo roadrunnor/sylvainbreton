@@ -1,9 +1,10 @@
 ﻿namespace api_sylvainbreton.Services.Interfaces
 {
-    public interface IServiceResult
+    public interface IServiceResult<T>
     {
         bool Success { get; }
-        string Message { get; }
-        object Data { get; }
+        T Data { get; }
+        string ErrorMessage { get; }
+        int StatusCode { get; }
     }
 }

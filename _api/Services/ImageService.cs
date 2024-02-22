@@ -7,20 +7,12 @@
     using System;
     using System.IO;
 
-    public class ImageService
+    public class ImageService(IWebHostEnvironment env, IConfiguration configuration, SylvainBretonDbContext context, ImageProcessingService imageProcessingService)
     {
-        private readonly IWebHostEnvironment _env;
-        private readonly IConfiguration _configuration;
-        private readonly SylvainBretonDbContext _context;
-        private readonly ImageProcessingService _imageProcessingService;
-
-        public ImageService(IWebHostEnvironment env, IConfiguration configuration, SylvainBretonDbContext context, ImageProcessingService imageProcessingService)
-        {
-            _env = env;
-            _configuration = configuration;
-            _context = context;
-            _imageProcessingService = imageProcessingService;
-        }
+        private readonly IWebHostEnvironment _env = env;
+        private readonly IConfiguration _configuration = configuration;
+        private readonly SylvainBretonDbContext _context = context;
+        private readonly ImageProcessingService _imageProcessingService = imageProcessingService;
 
         public async Task<Image> SaveImageAsync(byte[] imageBytes, string originalFileName, int? artworkId = null)
         {

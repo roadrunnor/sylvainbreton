@@ -2,19 +2,16 @@
 {
     public class Exceptions
     {
-        public class BadRequestException : Exception
+        public class BadRequestException(string message) : Exception(message)
         {
-            public BadRequestException(string message) : base(message) { }
         }
 
-        public class NotFoundException : Exception
+        public class NotFoundException(string message) : Exception(message)
         {
-            public NotFoundException(string message) : base(message) { }
         }
 
-        public class InternalServerErrorException : Exception
+        public class InternalServerErrorException(string message) : Exception(message)
         {
-            public InternalServerErrorException(string message) : base(message) { }
         }
     }
 }

@@ -31,7 +31,7 @@
         public string Conceptual { get; set; }
 
         [Required, Base64ImageList(ErrorMessage = "Invalid image data.")]
-        public List<string> ImageData { get; set; } = new List<string>(); 
+        public List<string> ImageData { get; set; } = [];
 
         // navigation props
         public List<ArtworkImageDTO> ArtworkImages { get; set; }
