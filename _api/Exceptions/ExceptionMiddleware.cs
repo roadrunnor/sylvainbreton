@@ -30,6 +30,7 @@
             // Map exceptions to specific status codes
             if (ex is BadRequestException) statusCode = HttpStatusCode.BadRequest;
             else if (ex is NotFoundException) statusCode = HttpStatusCode.NotFound;
+            else if (ex is InternalServerErrorException) message = ex.Message; // Keep the default status code
 
             // You can customize logic to extract error messages if needed
             if (ex is BadRequestException badRequestEx) message = badRequestEx.Message;

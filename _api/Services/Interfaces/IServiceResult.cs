@@ -6,5 +6,7 @@
         T Data { get; }
         string ErrorMessage { get; }
         int StatusCode { get; }
+        PaginationDetails Pagination { get; }
     }
+
 }
