@@ -2,7 +2,7 @@
 using api_sylvainbreton.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace api_sylvainbreton.Services
+namespace api_sylvainbreton.Extensions
 {
     public static class IdentityServiceExtensions
     {

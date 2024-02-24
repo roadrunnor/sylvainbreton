@@ -5,8 +5,6 @@
     using api_sylvainbreton.Configurations;
     using api_sylvainbreton.Services;
     using api_sylvainbreton.Services.Interfaces;
-    using api_sylvainbreton.Data;
-    using Microsoft.EntityFrameworkCore;
 
     public static class ServiceCollectionExtensions
     {
@@ -37,6 +35,12 @@
             services.AddSwaggerGen();
 
             // Any additional services your application needs
+            return services;
+        }
+
+        public static IServiceCollection AddCachingServices(this IServiceCollection services)
+        {
+            services.AddMemoryCache();
             return services;
         }
     }
