@@ -1,8 +1,9 @@
-﻿namespace api_sylvainbreton.Services
+﻿namespace api_sylvainbreton.Services.Implementations
 {
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Models.DTOs;
+    using api_sylvainbreton.Services.Utilities;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -36,12 +37,12 @@
                     })
                     .ToListAsync();
 
-                var pagination = new PaginationDetails 
-                { 
-                    TotalRecords = totalRecords, 
-                    PageSize = pageSize, 
-                    CurrentPage = page, 
-                    TotalPages = totalPages 
+                var pagination = new PaginationDetails
+                {
+                    TotalRecords = totalRecords,
+                    PageSize = pageSize,
+                    CurrentPage = page,
+                    TotalPages = totalPages
                 };
 
                 return new ServiceResult<IEnumerable<ArtistDTO>>(artists, pagination);

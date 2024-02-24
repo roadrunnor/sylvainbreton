@@ -3,8 +3,9 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using api_sylvainbreton.Configurations;
-    using api_sylvainbreton.Services;
     using api_sylvainbreton.Services.Interfaces;
+    using api_sylvainbreton.Services.Implementations;
+    using api_sylvainbreton.Services.Utilities;
 
     public static class ServiceCollectionExtensions
     {

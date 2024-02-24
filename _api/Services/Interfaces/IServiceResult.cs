@@ -1,4 +1,6 @@
-﻿namespace api_sylvainbreton.Services.Interfaces
+﻿using api_sylvainbreton.Services.Utilities;
+
+namespace api_sylvainbreton.Services.Interfaces
 {
     public interface IServiceResult<T>
     {

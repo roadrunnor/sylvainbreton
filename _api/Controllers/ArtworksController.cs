@@ -3,8 +3,8 @@
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Models.DTOs;
-    using api_sylvainbreton.Services;
     using api_sylvainbreton.Services.Interfaces;
+    using api_sylvainbreton.Services.Utilities;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;

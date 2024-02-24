@@ -1,4 +1,4 @@
-﻿namespace api_sylvainbreton.Services
+﻿namespace api_sylvainbreton.Services.Utilities
 {
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;

@@ -1,6 +1,6 @@
 ﻿using api_sylvainbreton.Services.Interfaces;
 
-namespace api_sylvainbreton.Services
+namespace api_sylvainbreton.Services.Utilities
 {
     public class ServiceResult<T> : IServiceResult<T>
     {

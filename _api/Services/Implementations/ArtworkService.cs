@@ -1,9 +1,10 @@
-﻿namespace api_sylvainbreton.Services
+﻿namespace api_sylvainbreton.Services.Implementations
 {
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Services.Interfaces;
+    using api_sylvainbreton.Services.Utilities;
     using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
@@ -142,9 +143,9 @@
                     Conceptual = _sanitizationService.SanitizeInput(artworkDTO.Conceptual),
                     ArtworkImages = artworkDTO.ArtworkImages.Select(ai => new ArtworkImage
                     {
-                        ImageID = ai.ImageID, 
-                        ArtworkID = ai.ArtworkID, 
-                                                  
+                        ImageID = ai.ImageID,
+                        ArtworkID = ai.ArtworkID,
+
                         Image = new Image
                         {
                             FileName = ai.FileName,
@@ -194,7 +195,7 @@
                     .Include(a => a.ArtworkImages)
                     .ThenInclude(ai => ai.Image)
                     .FirstOrDefaultAsync(a => a.ArtworkID == id);
-                
+
                 if (artwork == null)
                 {
                     return new ServiceResult<ArtworkDTO>(false, null, "Artwork not found.", 404);
@@ -202,8 +203,8 @@
 
                 // Sanitize and map DTO to entity
                 artwork.Title = _sanitizationService.SanitizeInput(artworkDTO.Title);
-                artwork.CreationDate = artworkDTO.CreationDate; 
-                artwork.CategoryID = artworkDTO.CategoryID; 
+                artwork.CreationDate = artworkDTO.CreationDate;
+                artwork.CategoryID = artworkDTO.CategoryID;
                 artwork.CategoryName = _sanitizationService.SanitizeInput(artworkDTO.CategoryName);
                 artwork.Materials = _sanitizationService.SanitizeInput(artworkDTO.Materials);
                 artwork.Dimensions = _sanitizationService.SanitizeInput(artworkDTO.Dimensions);
@@ -226,10 +227,8 @@
                     // Check if the image already exists
                     if (imageData.ImageID != 0 && existingImageIds.Contains(imageData.ImageID))
                     {
-                        // Update existing image data if necessary
+                        // Update existing image data 
                         image = await _context.Images.FindAsync(imageData.ImageID);
-                        // Assuming you might want to update some properties of the existing image
-                        // Example: image.FileName = imageData.FileName;
                         updatedImageIds.Add(imageData.ImageID);
                     }
                     else
