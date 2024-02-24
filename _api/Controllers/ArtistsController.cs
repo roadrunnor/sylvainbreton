@@ -43,7 +43,6 @@
             string cacheKey = $"artist_{id}";
             if (_memoryCache.TryGetValue(cacheKey, out ArtistDTO cachedArtist))
             {
-                _logger.LogInformation("Returning cached artist for ID {Id}", id);
                 return Ok(cachedArtist);
             }
 
@@ -52,18 +51,16 @@
                 var result = await _artistService.GetArtistByIdAsync(id);
                 if (!result.Success)
                 {
-                    _logger.LogError("Error retrieving artist {Id}: {ErrorMessage}", id, result.ErrorMessage);
                     return StatusCode(result.StatusCode, result.ErrorMessage);
                 }
 
                 _memoryCache.Set(cacheKey, result.Data, TimeSpan.FromMinutes(30)); // Cache the result
-                _logger.LogInformation("Artist for ID {Id} cached", id);
                 return Ok(result.Data);
             }
             catch (Exception ex)
             {
                 _logger.LogError("An unexpected error occurred while retrieving artist {Id}: {Message}", id, ex.Message);
-                return StatusCode(500, "An unexpected error occurred.");
+                throw;
             }
         }
 
@@ -77,7 +74,6 @@
                 var result = await _artistService.CreateArtistAsync(artistDTO);
                 if (!result.Success)
                 {
-                    _logger.LogError("Error creating artist: {ErrorMessage}", result.ErrorMessage);
                     return StatusCode(result.StatusCode, result.ErrorMessage);
                 }
 
@@ -86,7 +82,7 @@
             catch (Exception ex)
             {
                 _logger.LogError("An unexpected error occurred while creating an artist: {Message}", ex.Message);
-                return StatusCode(500, "An unexpected error occurred.");
+                throw;
             }
         }
 
@@ -105,7 +101,6 @@
                 var result = await _artistService.UpdateArtistAsync(id, artistDTO);
                 if (!result.Success)
                 {
-                    _logger.LogError("Error updating artist {Id}: {ErrorMessage}", id, result.ErrorMessage);
                     return StatusCode(result.StatusCode, result.ErrorMessage);
                 }
 
@@ -114,7 +109,7 @@
             catch (Exception ex)
             {
                 _logger.LogError("An unexpected error occurred while updating artist {Id}: {Message}", id, ex.Message);
-                return StatusCode(500, "An unexpected error occurred.");
+                throw;
             }
         }
 
@@ -129,7 +124,6 @@
                 var result = await _artistService.DeleteArtistAsync(id);
                 if (!result.Success)
                 {
-                    _logger.LogError("Error deleting artist {Id}: {ErrorMessage}", id, result.ErrorMessage);
                     return StatusCode(result.StatusCode, result.ErrorMessage);
                 }
 
@@ -138,7 +132,7 @@
             catch (Exception ex)
             {
                 _logger.LogError("An unexpected error occurred while deleting artist {Id}: {Message}", id, ex.Message);
-                return StatusCode(500, "An unexpected error occurred.");
+                throw;
             }
         }
     }

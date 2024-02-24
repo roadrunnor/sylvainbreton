@@ -10,6 +10,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using static api_sylvainbreton.Exceptions.Exceptions;
 
     public class ArtistService(SylvainBretonDbContext context, ISanitizationService sanitizationService, ILogger<ArtistService> logger) : IArtistService
     {
@@ -45,10 +46,9 @@
 
                 return new ServiceResult<IEnumerable<ArtistDTO>>(artists, pagination);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError("An error occurred in GetAllArtistsAsync: {Message}", ex.Message);
-                return new ServiceResult<IEnumerable<ArtistDTO>>(false, null, "An error occurred while retrieving artists.", 500);
+                throw new InternalServerErrorException("An error occurred while retrieving artists.");
             }
         }
 
@@ -74,10 +74,9 @@
 
                 return new ServiceResult<ArtistDTO>(artist);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError("An error occurred in GetArtistByIdAsync: {Message}", ex.Message);
-                return new ServiceResult<ArtistDTO>(false, null, "An error occurred while retrieving the artist.", 500);
+                throw new NotFoundException($"Artist with ID {id} not found");
             }
         }
 
@@ -97,13 +96,11 @@
 
                 artistDTO.ArtistID = artist.ArtistID; // Update DTO with new ID
 
-                _logger.LogInformation("Artist with ID {Id} created successfully.", artistDTO.ArtistID);
                 return new ServiceResult<ArtistDTO>(artistDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError("An error occurred in CreateArtistAsync: {Message}", ex.Message);
-                return new ServiceResult<ArtistDTO>(false, null, "An error occurred while creating the artist.", 500);
+                throw new InternalServerErrorException("An error occurred while creating the artist. Please try again later.");
             }
         }
 
@@ -130,13 +127,11 @@
                 _context.Update(artist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Artist with ID {Id} updated successfully.", id);
                 return new ServiceResult<ArtistDTO>(artistDTO);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError("An error occurred in UpdateArtistAsync: {Message}", ex.Message);
-                return new ServiceResult<ArtistDTO>(false, null, "An error occurred while updating the artist.", 500);
+                throw new InternalServerErrorException("An error occurred while updating the artist. Please try again later.");
             }
         }
 
@@ -154,13 +149,11 @@
                 _context.Artists.Remove(artist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Artist with ID {Id} deleted successfully.", id);
                 return new ServiceResult<ArtistDTO>(true, null, "Artist deleted successfully.", 200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError("An error occurred in DeleteArtistAsync: {Message}", ex.Message);
-                return new ServiceResult<ArtistDTO>(false, null, "An error occurred while deleting the artist.", 500);
+                throw new InternalServerErrorException("An error occurred while deleting the artist. Please try again later.");
             }
         }
     }
