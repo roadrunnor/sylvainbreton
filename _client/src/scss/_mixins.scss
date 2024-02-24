@@ -12,7 +12,7 @@
 	.row {
 		.col {
 			p {
-				opacity: 0.5;
+				//opacity: 0.5;
 
 				&.uppercase-text {
 					cursor: pointer;
@@ -28,7 +28,7 @@
 	// Opacity for earth logo & big photo
 	img {
 		cursor: pointer;
-		opacity: 0.6;
+		//opacity: 0.6;
 		transition: opacity 0.3s ease;
 		&:hover {
 			opacity: 1;
@@ -75,7 +75,9 @@
 	max-width: 100%;
 	background-color: $warning-color;
 	cursor: pointer;
-	opacity: 0.5;
+
+	//opacity: 0.5;
+	
 	transition: opacity 0.3s ease;
 	&:hover {
 		opacity: 1;
@@ -171,7 +173,7 @@
 	padding: 0 $spacing-unit;
 	padding-top: $spacing-unit;
 
-	opacity: 0.5;
+	//opacity: 0.5;
 
 	p:first-of-type {
 		padding-bottom: calc($spacing-unit / 2);
@@ -193,7 +195,7 @@
 		height: auto;
 		cursor: pointer;
 
-		opacity: 0.6;
+		//opacity: 0.6;
 
 		transition: opacity 0.3s ease;
 		&:hover {
@@ -212,7 +214,7 @@
 	padding-top: calc($spacing-unit);
 	padding-bottom: calc($spacing-unit);
 
-	opacity: 0.5;
+	//opacity: 0.5;
 
 	p:first-of-type {
 		padding-bottom: calc($spacing-unit / 2);
