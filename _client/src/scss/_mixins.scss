@@ -8,12 +8,30 @@
 	max-width: $container-max-width;
 	margin: 0 auto;
 
+	// Opacity for Artist name and BG
+	.row {
+		.col {
+			p {
+				opacity: 0.5;
+
+				&.uppercase-text {
+					cursor: pointer;
+					transition: opacity 0.3s ease; // Smooth transition for opacity change
+					&:hover {
+						opacity: 1; // Full opacity on hover
+					}
+				}
+			}
+		}
+	}
+
+	// Opacity for earth logo & big photo
 	img {
 		cursor: pointer;
-		//opacity: 0.5; // Default opacity
-		transition: opacity 0.3s ease; // Smooth transition for opacity change
+		opacity: 0.6;
+		transition: opacity 0.3s ease;
 		&:hover {
-			opacity: 1; // Full opacity on hover
+			opacity: 1;
 		}
 	}
 }
@@ -47,7 +65,7 @@
 	border-bottom: $border-width solid $border-color;
 	height: 1px;
 	width: 100%;
-	//opacity: 0.4;
+	opacity: 0.4;
 }
 
 @mixin head-marquee {
@@ -55,12 +73,12 @@
 	overflow: hidden;
 	white-space: nowrap;
 	max-width: 100%;
-	//background-color: $warning-color;
+	background-color: $warning-color;
 	cursor: pointer;
-	//opacity: 0.5; // Default opacity
-	transition: opacity 0.3s ease; // Smooth transition for opacity change
+	opacity: 0.5;
+	transition: opacity 0.3s ease;
 	&:hover {
-		opacity: 1; // Full opacity on hover
+		opacity: 1;
 	}
 
 	.scrolling-text {
@@ -121,7 +139,6 @@
 		// Assuming the second child takes up 35%
 		flex: 1 1 35%;
 		//max-width: 35%;
-
 	}
 }
 
@@ -142,11 +159,6 @@
 		width: 100%;
 		height: auto;
 		display: block;
-		//opacity: 0.4; // Default opacity
-		transition: opacity 0.3s ease; // Smooth transition for opacity change
-		&:hover {
-			opacity: 1; // Full opacity on hover
-		}
 	}
 }
 
@@ -159,7 +171,7 @@
 	padding: 0 $spacing-unit;
 	padding-top: $spacing-unit;
 
-	//opacity: 0.4;
+	opacity: 0.5;
 
 	p:first-of-type {
 		padding-bottom: calc($spacing-unit / 2);
@@ -180,10 +192,12 @@
 		width: 100%;
 		height: auto;
 		cursor: pointer;
-		//opacity: 0.4; // Default opacity
-		transition: opacity 0.3s ease; // Smooth transition for opacity change
+
+		opacity: 0.6;
+
+		transition: opacity 0.3s ease;
 		&:hover {
-			opacity: 1; // Full opacity on hover
+			opacity: 1;
 		}
 	}
 }
@@ -197,7 +211,8 @@
 	text-align: left;
 	padding-top: calc($spacing-unit);
 	padding-bottom: calc($spacing-unit);
-	//opacity: 0.4;
+
+	opacity: 0.5;
 
 	p:first-of-type {
 		padding-bottom: calc($spacing-unit / 2);
