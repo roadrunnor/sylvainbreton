@@ -1,6 +1,5 @@
 ﻿namespace api_sylvainbreton.Exceptions
 {
-    using static api_sylvainbreton.Exceptions.Exceptions;
     using Microsoft.AspNetCore.Http;
     using System.Net;
     using System.Text.Json;

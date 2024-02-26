@@ -1,18 +1,15 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
     using api_sylvainbreton.Data;
-    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Services.Interfaces;
     using api_sylvainbreton.Services.Utilities;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using static api_sylvainbreton.Exceptions.Exceptions;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -29,31 +26,23 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ArtworkDTO>>> GetArtworks()
         {
-            _logger.LogInformation("ArtworksController: GetArtworks request received for all artworks");
-
             var serviceResult = await _artworkService.GetAllArtworksAsync();
-
             if (!serviceResult.Success)
             {
-                _logger.LogError("ArtworksController: Error processing GetArtworks: {ErrorMessage}", serviceResult.ErrorMessage);
-                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+                throw new BadRequestException(serviceResult.ErrorMessage);
             }
 
             return Ok(serviceResult.Data);
         }
 
-        // GET: api/Artworks/{id}
+        // GET: api/Artworks/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ArtworkDTO>> GetArtwork(int id)
         {
-            _logger.LogInformation("ArtworksController: GetArtwork request received for artwork ID {ArtworkId}", id);
-
             var serviceResult = await _artworkService.GetArtworkByIdAsync(id);
-
             if (!serviceResult.Success)
             {
-                _logger.LogError("ArtworksController: Error processing GetArtwork: {ErrorMessage}", serviceResult.ErrorMessage);
-                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+                throw new NotFoundException($"Artwork with ID {id} not found.");
             }
 
             return Ok(serviceResult.Data);
@@ -64,34 +53,33 @@
         [HttpPost]
         public async Task<ActionResult<ArtworkDTO>> PostArtwork([FromBody] ArtworkDTO artworkDTO)
         {
-            _logger.LogInformation("ArtworksController: PostArtwork request received for new artwork creation");
-
             if (!ModelState.IsValid)
             {
+                _logger.LogWarning("ArtworksController: Invalid model state for PostArtwork.");
                 return BadRequest(ModelState);
             }
 
             var serviceResult = await _artworkService.CreateArtworkAsync(artworkDTO);
-
             if (!serviceResult.Success)
             {
-                _logger.LogError("ArtworksController: Error processing PostArtwork: {ErrorMessage}", serviceResult.ErrorMessage);
-                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+                throw new BadRequestException(serviceResult.ErrorMessage);
             }
 
-            _logger.LogInformation("ArtworksController: Artwork with ID {ArtworkId} created successfully", serviceResult.Data.ArtworkID);
             return CreatedAtAction(nameof(GetArtwork), new { id = serviceResult.Data.ArtworkID }, serviceResult.Data);
         }
 
         // PUT: api/Artworks/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArtwork(int id, [FromBody] ArtworkDTO artworkDto)
+        public async Task<IActionResult> PutArtwork(int id, [FromBody] ArtworkDTO artworkDTO)
         {
-            _logger.LogInformation("ArtworksController: GetArtwork request received for artwork ID {ArtworkId}", id);
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("ArtworksController: Invalid model state for PutArtwork with ID {ArtworkId}.", id);
+                return BadRequest(ModelState);
+            }
 
-            var serviceResult = await _artworkService.UpdateArtworkAsync(id, artworkDto);
-
+            var serviceResult = await _artworkService.UpdateArtworkAsync(id, artworkDTO);
             if (!serviceResult.Success)
             {
                 _logger.LogError("ArtworksController: Error processing PutArtwork for ID {ArtworkId}: {ErrorMessage}", id, serviceResult.ErrorMessage);
@@ -106,17 +94,22 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtwork(int id)
         {
-            _logger.LogInformation("ArtworksController: Delete request received for artwork ID {ArtworkId}", id);
-
-            var serviceResult = await _artworkService.DeleteArtworkAsync(id);
-
-            if (!serviceResult.Success)
+            try
             {
-                _logger.LogError("ArtworksController: Error processing DeleteArtwork for ID {ArtworkId}: {ErrorMessage}", id, serviceResult.ErrorMessage);
-                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
-            }
+                var serviceResult = await _artworkService.DeleteArtworkAsync(id);
+                if (!serviceResult.Success)
+                {
+                    _logger.LogError("ArtworksController: Error processing DeleteArtwork for ID {ArtworkId}: {ErrorMessage}", id, serviceResult.ErrorMessage);
+                    return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+                }
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("ArtworksController: An unexpected error occurred while processing DeleteArtwork for ID {ArtworkId}: {Message}", id, ex.Message);
+                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace api_sylvainbreton.Services.Implementations
 {
     using api_sylvainbreton.Data;
+    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Services.Interfaces;
@@ -11,9 +12,10 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class ArtworkService(SylvainBretonDbContext context, ISanitizationService sanitizationService, ImageValidationService imageValidationService, ImageService imageService) : IArtworkService
+    public class ArtworkService(SylvainBretonDbContext context, ILogger<ArtworkService> logger, ISanitizationService sanitizationService, ImageValidationService imageValidationService, ImageService imageService) : IArtworkService
     {
         private readonly SylvainBretonDbContext _context = context;
+        private readonly ILogger<ArtworkService> _logger = logger;
         private readonly ISanitizationService _sanitizationService = sanitizationService;
         private readonly ImageValidationService _imageValidationService = imageValidationService;
         private readonly ImageService _imageService = imageService;
@@ -50,9 +52,10 @@
 
                 return new ServiceResult<IEnumerable<ArtworkDTO>>(artworks);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ServiceResult<IEnumerable<ArtworkDTO>>(false, default, "An error occurred while retrieving artworks. Please try again later.", 500);
+                _logger.LogError("An error occurred while retrieving artworks: {Exception}", ex);
+                throw new InternalServerErrorException("ArtworkService: An error occurred while retrieving artworks.");
             }
         }
 
@@ -88,14 +91,16 @@
 
                 if (artwork == null)
                 {
+                    _logger.LogWarning("ArtworkService: Artwork with ID {Id} not found.", id);
                     return new ServiceResult<ArtworkDTO>(false, null, "Artwork not found.", 404);
                 }
 
-                return new ServiceResult<ArtworkDTO>(artwork);
+                return new ServiceResult<ArtworkDTO>(true, artwork, null, 200);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ServiceResult<ArtworkDTO>(false, null, "An error occurred while retrieving the artwork. Please try again later.", 500);
+                _logger.LogError(ex, "An error occurred while retrieving artwork with ID {Id}.", id);
+                throw new InternalServerErrorException($"An error occurred while retrieving artwork with ID {id}.");
             }
         }
 
@@ -181,9 +186,10 @@
 
                 return new ServiceResult<ArtworkDTO>(createdArtworkDTO);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new ServiceResult<ArtworkDTO>(false, null, "An error occurred while creating the artwork.", 500);
+                _logger.LogError(ex, "ArtworkService: An error occurred while creating the artwork.");
+                throw new InternalServerErrorException("An error occurred while creating the artwork. Please try again later.");
             }
         }
 
@@ -250,9 +256,9 @@
 
                 return new ServiceResult<ArtworkDTO>(true, null, "Artwork updated successfully.", 200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new ServiceResult<ArtworkDTO>(false, null, $"An error occurred: {ex.Message}", 500);
+                throw new InternalServerErrorException("ArtworkService: An error occurred while updating the artwork. Please try again later.");
             }
         }
 
@@ -270,11 +276,10 @@
                 await _context.SaveChangesAsync();
                 return new ServiceResult<ArtworkDTO>(true, null, "Artwork deleted successfully.", 200);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new ServiceResult<ArtworkDTO>(false, null, $"An error occurred while deleting the artwork: {ex.Message}", 500);
+                throw new InternalServerErrorException("ArtworkService: An error occurred while deleting the artwork. Please try again later.");
             }
         }
-
     }
 }

@@ -17,6 +17,7 @@
             // Scoped services
             services.AddScoped<IArtistService, ArtistService>();
             services.AddScoped<IArtworkService, ArtworkService>();
+            services.AddScoped<ICategoriesService, CategoryService>();
             services.AddScoped<ImageProcessingService>();
             services.AddScoped<ImageService>();
             services.AddScoped<ImageValidationService>();

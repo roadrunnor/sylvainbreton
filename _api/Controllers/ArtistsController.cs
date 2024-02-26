@@ -1,6 +1,7 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
     using api_sylvainbreton.Data;
+    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -24,7 +25,9 @@
         {
             var serviceResult = await _artistService.GetAllArtistsAsync(page, pageSize);
             if (!serviceResult.Success)
+            {
                 return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+            }
 
             Response.Headers.Append("X-Pagination", Newtonsoft.Json.JsonConvert.SerializeObject(serviceResult.Pagination));
             return Ok(serviceResult.Data);
@@ -36,13 +39,14 @@
         {
             if (id <= 0)
             {
-                _logger.LogWarning("Invalid Artist ID provided.");
-                return BadRequest("Invalid Artist ID");
+                _logger.LogWarning("ArtistsController: Invalid Artist ID provided.");
+                return BadRequest("Invalid Artist ID.");
             }
 
             string cacheKey = $"artist_{id}";
             if (_memoryCache.TryGetValue(cacheKey, out ArtistDTO cachedArtist))
             {
+                _logger.LogInformation("ArtistsController: Returning cached result for artist ID {Id}.", id);
                 return Ok(cachedArtist);
             }
 
@@ -51,16 +55,23 @@
                 var result = await _artistService.GetArtistByIdAsync(id);
                 if (!result.Success)
                 {
+                    _logger.LogError("ArtistsController: Error retrieving artist with ID {Id}: {ErrorMessage}", id, result.ErrorMessage);
                     return StatusCode(result.StatusCode, result.ErrorMessage);
                 }
 
-                _memoryCache.Set(cacheKey, result.Data, TimeSpan.FromMinutes(30)); // Cache the result
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                    .SetAbsoluteExpiration(TimeSpan.FromMinutes(30)); // Cache duration
+                _memoryCache.Set(cacheKey, result.Data, cacheEntryOptions);
+
                 return Ok(result.Data);
             }
-            catch (Exception ex)
+            catch (NotFoundException ex)
             {
-                _logger.LogError("An unexpected error occurred while retrieving artist {Id}: {Message}", id, ex.Message);
-                throw;
+                return NotFound(ex.Message);
+            }
+            catch (InternalServerErrorException ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -69,21 +80,13 @@
         [HttpPost]
         public async Task<ActionResult<ArtistDTO>> PostArtist([FromBody] ArtistDTO artistDTO)
         {
-            try
+            var result = await _artistService.CreateArtistAsync(artistDTO);
+            if (!result.Success)
             {
-                var result = await _artistService.CreateArtistAsync(artistDTO);
-                if (!result.Success)
-                {
-                    return StatusCode(result.StatusCode, result.ErrorMessage);
-                }
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
 
-                return CreatedAtAction(nameof(GetArtist), new { id = result.Data.ArtistID }, result.Data);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An unexpected error occurred while creating an artist: {Message}", ex.Message);
-                throw;
-            }
+            return CreatedAtAction(nameof(GetArtist), new { id = result.Data.ArtistID }, result.Data);
         }
 
         // PUT: api/Artists/5
@@ -91,49 +94,32 @@
         [HttpPut("{id}")]
         public async Task<IActionResult> PutArtist(int id, [FromBody] ArtistDTO artistDTO)
         {
-            if (artistDTO.FirstName.Length > 100 || artistDTO.LastName.Length > 100 || artistDTO.Bio.Length < 10)
+            if (!ModelState.IsValid || artistDTO.FirstName.Length > 100 || artistDTO.LastName.Length > 100 || artistDTO.Bio.Length < 10)
             {
                 return BadRequest("Validation error: First name and Last name cannot be longer than 100 characters, and Bio must be at least 10 characters long.");
             }
 
-            try
+            var result = await _artistService.UpdateArtistAsync(id, artistDTO);
+            if (!result.Success)
             {
-                var result = await _artistService.UpdateArtistAsync(id, artistDTO);
-                if (!result.Success)
-                {
-                    return StatusCode(result.StatusCode, result.ErrorMessage);
-                }
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An unexpected error occurred while updating artist {Id}: {Message}", id, ex.Message);
-                throw;
-            }
+            return NoContent();
         }
-
 
         // DELETE: api/Artists/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtist(int id)
         {
-            try
+            var result = await _artistService.DeleteArtistAsync(id);
+            if (!result.Success)
             {
-                var result = await _artistService.DeleteArtistAsync(id);
-                if (!result.Success)
-                {
-                    return StatusCode(result.StatusCode, result.ErrorMessage);
-                }
+                return StatusCode(result.StatusCode, result.ErrorMessage);
+            }
 
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("An unexpected error occurred while deleting artist {Id}: {Message}", id, ex.Message);
-                throw;
-            }
+            return NoContent();
         }
     }
 }
