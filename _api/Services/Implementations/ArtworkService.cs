@@ -54,8 +54,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError("An error occurred while retrieving artworks: {Exception}", ex);
-                throw new InternalServerErrorException("ArtworkService: An error occurred while retrieving artworks.");
+                _logger.LogError("GetAllArtworksAsync: An error occurred while retrieving artworks: {Exception}", ex);
+                throw new InternalServerErrorException("GetAllArtworksAsync: An error occurred while retrieving artworks. Please try again later.");
             }
         }
 
@@ -91,16 +91,16 @@
 
                 if (artwork == null)
                 {
-                    _logger.LogWarning("ArtworkService: Artwork with ID {Id} not found.", id);
-                    return new ServiceResult<ArtworkDTO>(false, null, "Artwork not found.", 404);
+                    _logger.LogWarning("GetArtworkByIdAsync: Artwork with ID {Id} not found.", id);
+                    return new ServiceResult<ArtworkDTO>(false, null, "GetArtworkByIdAsync: Artwork not found.", 404);
                 }
 
                 return new ServiceResult<ArtworkDTO>(true, artwork, null, 200);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred while retrieving artwork with ID {Id}.", id);
-                throw new InternalServerErrorException($"An error occurred while retrieving artwork with ID {id}.");
+                _logger.LogError(ex, "GetArtworkByIdAsync: An error occurred while retrieving artwork with ID {Id}.", id);
+                throw new InternalServerErrorException($"GetArtworkByIdAsync: An error occurred while retrieving artwork with ID {id}. Please try again later.");
             }
         }
 
@@ -188,8 +188,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "ArtworkService: An error occurred while creating the artwork.");
-                throw new InternalServerErrorException("An error occurred while creating the artwork. Please try again later.");
+                _logger.LogError(ex, "CreateArtworkAsync: An error occurred while creating the artwork.");
+                throw new InternalServerErrorException("CreateArtworkAsync: An error occurred while creating the artwork. Please try again later.");
             }
         }
 
@@ -204,7 +204,7 @@
 
                 if (artwork == null)
                 {
-                    return new ServiceResult<ArtworkDTO>(false, null, "Artwork not found.", 404);
+                    return new ServiceResult<ArtworkDTO>(false, null, "UpdateArtworkAsync: Artwork not found.", 404);
                 }
 
                 // Sanitize and map DTO to entity
@@ -226,7 +226,7 @@
                     var imageBytes = Convert.FromBase64String(imageData.ImageData);
                     if (!_imageValidationService.IsValidImage(imageBytes))
                     {
-                        return new ServiceResult<ArtworkDTO>(false, null, "Invalid image data.", 400);
+                        return new ServiceResult<ArtworkDTO>(false, null, "UpdateArtworkAsync: Invalid image data.", 400);
                     }
 
                     Image image;
@@ -254,31 +254,33 @@
                 _context.Update(artwork);
                 await _context.SaveChangesAsync();
 
-                return new ServiceResult<ArtworkDTO>(true, null, "Artwork updated successfully.", 200);
+                return new ServiceResult<ArtworkDTO>(true, null, "UpdateArtworkAsync: Artwork updated successfully.", 200);
             }
             catch (Exception)
             {
-                throw new InternalServerErrorException("ArtworkService: An error occurred while updating the artwork. Please try again later.");
+                throw new InternalServerErrorException("UpdateArtworkAsync: An error occurred while updating the artwork. Please try again later.");
             }
         }
 
         public async Task<IServiceResult<ArtworkDTO>> DeleteArtworkAsync(int id)
         {
             var artwork = await _context.Artworks.Include(a => a.ArtworkImages).FirstOrDefaultAsync(a => a.ArtworkID == id);
+
             if (artwork == null)
             {
-                return new ServiceResult<ArtworkDTO>(false, null, "Artwork not found.", 404);
+                _logger.LogWarning("DeleteArtworkAsync: Artwork with ID {Id} not found.", id);
+                return new ServiceResult<ArtworkDTO>(false, null, "DeleteArtworkAsync: Artwork not found.", 404);
             }
 
             try
             {
                 _context.Artworks.Remove(artwork);
                 await _context.SaveChangesAsync();
-                return new ServiceResult<ArtworkDTO>(true, null, "Artwork deleted successfully.", 200);
+                return new ServiceResult<ArtworkDTO>(true, null, "DeleteArtworkAsync: Artwork deleted successfully.", 200);
             }
             catch (Exception)
             {
-                throw new InternalServerErrorException("ArtworkService: An error occurred while deleting the artwork. Please try again later.");
+                throw new InternalServerErrorException("DeleteArtworkAsync: An error occurred while deleting the artwork. Please try again later.");
             }
         }
     }

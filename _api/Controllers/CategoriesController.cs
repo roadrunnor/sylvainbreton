@@ -22,17 +22,36 @@
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            var categories = await _categoryService.GetAllCategoriesAsync();
-            return Ok(categories);
+            var serviceResult = await _categoryService.GetAllCategoriesAsync();
+
+            if (!serviceResult.Success)
+            {
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+            }
+
+            return Ok(serviceResult.Data);
         }
+
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
         {
-            var category = await _categoryService.GetCategoryByIdAsync(id);
-            return category == null ? throw new NotFoundException($"Category with ID {id} not found.") : (ActionResult<Category>)Ok(category);
+            var serviceResult = await _categoryService.GetCategoryByIdAsync(id);
+
+            if (!serviceResult.Success)
+            {
+                if (serviceResult.StatusCode == 404)
+                {
+                    return NotFound("The specified category was not found.");
+                }
+
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+            }
+
+            return Ok(serviceResult.Data);
         }
+
 
         // POST: api/Categories
         [Authorize(Roles = "Admin")]
@@ -44,8 +63,14 @@
                 return BadRequest(ModelState);
             }
 
-            var createdCategory = await _categoryService.CreateCategoryAsync(category);
-            return CreatedAtAction(nameof(GetCategory), new { id = createdCategory.CategoryID }, createdCategory);
+            var serviceResult = await _categoryService.CreateCategoryAsync(category);
+
+            if (!serviceResult.Success)
+            {
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
+            }
+
+            return CreatedAtAction(nameof(GetCategory), new { id = serviceResult.Data.CategoryID }, serviceResult.Data);
         }
 
         // PUT: api/Categories/5
@@ -63,19 +88,14 @@
                 return BadRequest("The ID does not match.");
             }
 
-            try
+            var serviceResult = await _categoryService.UpdateCategoryAsync(id, category);
+
+            if (!serviceResult.Success)
             {
-                await _categoryService.UpdateCategoryAsync(category);
-                return NoContent();
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (InternalServerErrorException ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+
+            return NoContent();
         }
 
         // DELETE: api/Categories/{id}
@@ -83,19 +103,14 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
-            try
+            var serviceResult = await _categoryService.DeleteCategoryAsync(id);
+
+            if (!serviceResult.Success)
             {
-                await _categoryService.DeleteCategoryAsync(id);
-                return NoContent();
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (InternalServerErrorException ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+
+            return NoContent();
         }
     }
 }

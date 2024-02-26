@@ -4,6 +4,7 @@
     using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Services.Interfaces;
+    using api_sylvainbreton.Services.Utilities;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
     using System;
@@ -15,84 +16,106 @@
         private readonly SylvainBretonDbContext _context = context;
         private readonly ILogger<CategoryService> _logger = logger;
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public async Task<IServiceResult<IEnumerable<Category>>> GetAllCategoriesAsync()
         {
             try
             {
                 var categories = await _context.Categories.AsNoTracking().ToListAsync();
-                return categories;
+                return new ServiceResult<IEnumerable<Category>>(categories);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "CategoryService: An error occurred while retrieving all categories.");
-                throw new InternalServerErrorException("An error occurred while retrieving all categories.");
+                _logger.LogError(ex, "An error occurred while retrieving all categories.");
+                return new ServiceResult<IEnumerable<Category>>("An error occurred while retrieving all categories. Please try again later.", 500);
             }
         }
 
-        public async Task<Category> GetCategoryByIdAsync(int id)
+        public async Task<IServiceResult<Category>> GetCategoryByIdAsync(int id)
         {
-            var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.CategoryID == id);
-            if (category == null)
+            try
             {
-                _logger.LogWarning("CategoryService: Category with ID {Id} not found.", id);
-                throw new NotFoundException($"Category with ID {id} not found.");
-            }
+                var category = await _context.Categories.AsNoTracking().FirstOrDefaultAsync(c => c.CategoryID == id);
+                if (category == null)
+                {
+                    _logger.LogWarning("Category with ID {Id} not found.", id);
+                    return new ServiceResult<Category>($"Category with ID {id} not found.", 404);
+                }
 
-            return category;
+                return new ServiceResult<Category>(category);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred.");
+                return new ServiceResult<Category>("An error occurred while retrieving the category. Please try again later.", 500);
+            }
         }
 
-        public async Task<Category> CreateCategoryAsync(Category category)
+        public async Task<IServiceResult<Category>> CreateCategoryAsync(Category category)
         {
             try
             {
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return category;
+                return new ServiceResult<Category>(category);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "CategoryService: An error occurred while creating a new category.");
-                throw new InternalServerErrorException("An error occurred while creating the category. Please try again later.");
+                _logger.LogError(ex, "An error occurred while creating a new category.");
+                return new ServiceResult<Category>("An error occurred while creating the category. Please try again later.", 500);
             }
         }
 
-        public async Task UpdateCategoryAsync(Category category)
+        public async Task<IServiceResult<Category>> UpdateCategoryAsync(int id, Category category)
         {
             try
             {
-                _context.Entry(category).State = EntityState.Modified;
+                var existingCategory = await _context.Categories.FindAsync(id);
+                if (existingCategory == null)
+                {
+                    _logger.LogWarning("Category with ID {Id} not found.", id);
+
+                    return new ServiceResult<Category>($"Category with ID {id} not found.", 404);
+                }
+
+                _context.Entry(existingCategory).CurrentValues.SetValues(category);
                 await _context.SaveChangesAsync();
+                return new ServiceResult<Category>(existingCategory);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                _logger.LogError(ex, "CategoryService: A concurrency error occurred while updating the category with ID {Id}.", category.CategoryID);
-                throw new InternalServerErrorException("CategoryService: A concurrency error occurred. Please try again later.");
+                _logger.LogError(ex, "A concurrency error occurred while updating the category with ID {Id}.", id);
+                
+                return new ServiceResult<Category>("A concurrency error occurred. Please try again later.", 500);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "CategoryService: An error occurred while updating the category with ID {Id}.", category.CategoryID);
-                throw new InternalServerErrorException("CategoryService: An error occurred while updating the category. Please try again later.");
+                _logger.LogError(ex, "An error occurred while updating the category with ID {Id}.", id);
+
+                return new ServiceResult<Category>("An error occurred while updating the category. Please try again later.", 500);
             }
         }
 
-        public async Task DeleteCategoryAsync(int id)
+        public async Task<IServiceResult<Category>> DeleteCategoryAsync(int id)
         {
             try
             {
                 var category = await _context.Categories.FindAsync(id);
+
                 if (category == null)
                 {
-                    _logger.LogWarning("CategoryService: Attempted to delete a category with ID {Id}, but it was not found.", id);
-                    throw new NotFoundException($"CategoryService: Category with ID {id} not found.");
+                    _logger.LogWarning("Category with ID {Id} not found.", id);
+                    return new ServiceResult<Category>(string.Format("Category with ID {0} not found.", id), 404);
                 }
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
+                return new ServiceResult<Category>(true, null, "The category has been successfully deleted.", 200);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "CategoryService: An error occurred while deleting the category with ID {Id}.", id);
-                throw new InternalServerErrorException("CategoryService: An error occurred while deleting the category. Please try again later.");
+                _logger.LogError(ex, "An error occurred while deleting the category with ID {Id}.", id);
+
+                return new ServiceResult<Category>("An error occurred while deleting the category. Please try again later.", 500);
             }
         }
     }

@@ -1,15 +1,16 @@
 ﻿namespace api_sylvainbreton.Services.Interfaces
 {
     using api_sylvainbreton.Models;
+    using api_sylvainbreton.Services.Utilities;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface ICategoryService
     {
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
-        Task<Category> GetCategoryByIdAsync(int id);
-        Task<Category> CreateCategoryAsync(Category category);
-        Task UpdateCategoryAsync(Category category);
-        Task DeleteCategoryAsync(int id);
+        Task<IServiceResult<IEnumerable<Category>>> GetAllCategoriesAsync();
+        Task<IServiceResult<Category>> GetCategoryByIdAsync(int id);
+        Task<IServiceResult<Category>> CreateCategoryAsync(Category category);
+        Task<IServiceResult<Category>> UpdateCategoryAsync(int id, Category category);
+        Task<IServiceResult<Category>> DeleteCategoryAsync(int id);
     }
 }

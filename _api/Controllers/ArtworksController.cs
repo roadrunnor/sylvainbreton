@@ -27,9 +27,10 @@
         public async Task<ActionResult<IEnumerable<ArtworkDTO>>> GetArtworks()
         {
             var serviceResult = await _artworkService.GetAllArtworksAsync();
+
             if (!serviceResult.Success)
             {
-                throw new BadRequestException(serviceResult.ErrorMessage);
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
 
             return Ok(serviceResult.Data);
@@ -40,9 +41,10 @@
         public async Task<ActionResult<ArtworkDTO>> GetArtwork(int id)
         {
             var serviceResult = await _artworkService.GetArtworkByIdAsync(id);
+
             if (!serviceResult.Success)
             {
-                throw new NotFoundException($"Artwork with ID {id} not found.");
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
 
             return Ok(serviceResult.Data);
@@ -55,14 +57,14 @@
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("ArtworksController: Invalid model state for PostArtwork.");
                 return BadRequest(ModelState);
             }
 
             var serviceResult = await _artworkService.CreateArtworkAsync(artworkDTO);
+
             if (!serviceResult.Success)
             {
-                throw new BadRequestException(serviceResult.ErrorMessage);
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
 
             return CreatedAtAction(nameof(GetArtwork), new { id = serviceResult.Data.ArtworkID }, serviceResult.Data);
@@ -75,14 +77,13 @@
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogWarning("ArtworksController: Invalid model state for PutArtwork with ID {ArtworkId}.", id);
                 return BadRequest(ModelState);
             }
 
             var serviceResult = await _artworkService.UpdateArtworkAsync(id, artworkDTO);
+
             if (!serviceResult.Success)
             {
-                _logger.LogError("ArtworksController: Error processing PutArtwork for ID {ArtworkId}: {ErrorMessage}", id, serviceResult.ErrorMessage);
                 return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
 
@@ -94,22 +95,14 @@
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArtwork(int id)
         {
-            try
-            {
-                var serviceResult = await _artworkService.DeleteArtworkAsync(id);
-                if (!serviceResult.Success)
-                {
-                    _logger.LogError("ArtworksController: Error processing DeleteArtwork for ID {ArtworkId}: {ErrorMessage}", id, serviceResult.ErrorMessage);
-                    return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
-                }
+            var serviceResult = await _artworkService.DeleteArtworkAsync(id);
 
-                return NoContent();
-            }
-            catch (Exception ex)
+            if (!serviceResult.Success)
             {
-                _logger.LogError("ArtworksController: An unexpected error occurred while processing DeleteArtwork for ID {ArtworkId}: {Message}", id, ex.Message);
-                return StatusCode(500, "An unexpected error occurred. Please try again later.");
+                return StatusCode(serviceResult.StatusCode, serviceResult.ErrorMessage);
             }
+
+            return NoContent();
         }
     }
 }
