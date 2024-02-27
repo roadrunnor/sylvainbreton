@@ -13,6 +13,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Caching.Memory;
+    using api_sylvainbreton.Models.Helpers;
 
     public class ArtistService(SylvainBretonDbContext context, ISanitizationService sanitizationService, IMemoryCache memoryCache, ILogger<ArtistService> logger) : IArtistService
     {
@@ -51,8 +52,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "GetAllArtistsAsync: An error occurred while retrieving artists.");
-                throw new InternalServerErrorException("GetAllArtistsAsync: An error occurred while retrieving artists. Please try again later.");
+                _logger.LogError(ex, "An error occurred while retrieving artists.");
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -62,7 +63,7 @@
             {
                 if (id <= 0)
                 {
-                    return new ServiceResult<ArtistDTO>("Invalid Artist ID.", 400); // BadRequest equivalent
+                    return new ServiceResult<ArtistDTO>("Invalid Artist ID.", 400); 
                 }
 
                 string cacheKey = $"artist_{id}";
@@ -84,8 +85,8 @@
 
                 if (artist == null)
                 {
-                    _logger.LogWarning("GetArtistByIdAsync: Artist with ID {Id} not found.", id);
-                    return new ServiceResult<ArtistDTO>($"GetArtistByIdAsync: Artist with ID {id} not found.", 404); // NotFound equivalent
+                    _logger.LogWarning("Artist with ID {Id} not found.", id);
+                    return new ServiceResult<ArtistDTO>($"Artist with ID {id} not found.", 404);
                 }
 
                 var cacheEntryOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(30));
@@ -95,8 +96,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "GetArtistByIdAsync: An unexpected error occurred while retrieving artist with ID {Id}.", id);
-                return new ServiceResult<ArtistDTO>($"GetArtistByIdAsync: An unexpected error occurred while retrieving artist with ID {id}. Please try again later.", 500); // InternalServerError equivalent
+                _logger.LogError(ex, "An unexpected error occurred while retrieving artist with ID {Id}.", id);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -114,14 +115,14 @@
                 _context.Artists.Add(artist);
                 await _context.SaveChangesAsync();
 
-                artistDTO.ArtistID = artist.ArtistID; // Update DTO with new ID
+                artistDTO.ArtistID = artist.ArtistID; 
 
                 return new ServiceResult<ArtistDTO>(true, artistDTO, "Artist created successfully.", 201);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "CreateArtistAsync: An error occurred while creating the artist.");
-                throw new InternalServerErrorException("CreateArtistAsync: An error occurred while creating the artist. Please try again later.");
+                _logger.LogError(ex, "An error occurred while creating the artist.");
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -131,32 +132,13 @@
             {
                 if (id != artistDTO.ArtistID)
                 {
-                    _logger.LogWarning("UpdateArtistAsync: Artist ID mismatch for ID {Id}.", id);
-                    return new ServiceResult<ArtistDTO>(false, null, "UpdateArtistAsync: Artist ID mismatch.", 400);
+                    _logger.LogWarning("Artist ID mismatch for ID {Id}.", id);
+                    return new ServiceResult<ArtistDTO>(false, null, "Artist ID mismatch.", 400);
                 }
 
                 var artist = await _context.Artists.FindAsync(id);
 
-                if (artist == null)
-                {
-                    _logger.LogWarning("UpdateArtistAsync: Artist with ID {Id} not found.", id);
-                    return new ServiceResult<ArtistDTO>(false, null, "UpdateArtistAsync: Artist not found.", 404);
-                }
-
-                if (artistDTO.FirstName.Length > 100)
-                {
-                    throw new BadRequestException("ArtistsController: Firstname cannot be longer than 100 characters.");
-                }
-
-                if (artistDTO.LastName.Length > 100)
-                {
-                    throw new BadRequestException("ArtistsController: Lastname cannot be longer than 100 characters.");
-                }
-
-                if (artistDTO.Bio.Length < 10)
-                {
-                    throw new BadRequestException("ArtistsController: Bio must be at least 10 characters long.");
-                }
+                ValidationHelper.ValidateArtistDTO(artistDTO);
 
                 artist.FirstName = _sanitizationService.SanitizeInput(artistDTO.FirstName);
                 artist.LastName = _sanitizationService.SanitizeInput(artistDTO.LastName);
@@ -169,8 +151,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "UpdateArtistAsync: An error occurred while updating the artist with ID {Id}.", id);
-                throw new InternalServerErrorException("UpdateArtistAsync: An error occurred while updating the artist. Please try again later.");
+                _logger.LogError(ex, "An error occurred while updating the artist with ID {Id}.", id);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -182,8 +164,8 @@
 
                 if (artist == null)
                 {
-                    _logger.LogWarning("DeleteArtistAsync: Artist with ID {Id} not found.", id);
-                    return new ServiceResult<ArtistDTO>(false, null, "DeleteArtistAsync: Artist not found.", 404);
+                    _logger.LogWarning("Artist with ID {Id} not found.", id);
+                    return new ServiceResult<ArtistDTO>(false, null, "Artist not found.", 404);
                 }
 
                 _context.Artists.Remove(artist);
@@ -193,8 +175,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "DeleteArtistAsync: An error occurred while deleting the artist with ID {Id}.", id);
-                throw new InternalServerErrorException("DeleteArtistAsync: An error occurred while deleting the artist. Please try again later.");
+                _logger.LogError(ex, "An error occurred while deleting the artist with ID {Id}.", id);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
