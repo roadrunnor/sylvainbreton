@@ -26,7 +26,7 @@
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving all categories.");
-                return new ServiceResult<IEnumerable<Category>>("An error occurred while retrieving all categories. Please try again later.", 500);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -45,8 +45,8 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred.");
-                return new ServiceResult<Category>("An error occurred while retrieving the category. Please try again later.", 500);
+                _logger.LogError(ex, "An error occurred while retrieving the category with ID {Id}.", id);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -61,7 +61,7 @@
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while creating a new category.");
-                return new ServiceResult<Category>("An error occurred while creating the category. Please try again later.", 500);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -84,14 +84,12 @@
             catch (DbUpdateConcurrencyException ex)
             {
                 _logger.LogError(ex, "A concurrency error occurred while updating the category with ID {Id}.", id);
-                
-                return new ServiceResult<Category>("A concurrency error occurred. Please try again later.", 500);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while updating the category with ID {Id}.", id);
-
-                return new ServiceResult<Category>("An error occurred while updating the category. Please try again later.", 500);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
 
@@ -109,13 +107,13 @@
 
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
+
                 return new ServiceResult<Category>(true, null, "The category has been successfully deleted.", 200);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while deleting the category with ID {Id}.", id);
-
-                return new ServiceResult<Category>("An error occurred while deleting the category. Please try again later.", 500);
+                throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
     }

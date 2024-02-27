@@ -1,7 +1,6 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
     using api_sylvainbreton.Data;
-    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;

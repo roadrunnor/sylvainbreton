@@ -96,7 +96,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An unexpected error occurred while retrieving artist with ID {Id}.", id);
+                _logger.LogError(ex, "An error occurred while retrieving artist with ID {Id}.", id);
                 throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
         }
