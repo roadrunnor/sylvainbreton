@@ -1,20 +1,16 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
-    using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController(SylvainBretonDbContext context, ILogger<CategoriesController> logger, ICategoryService categoryService) : ControllerBase
+    public class CategoriesController(ICategoryService categoryService) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context = context;
-        private readonly ILogger<CategoriesController> _logger = logger;
         private readonly ICategoryService _categoryService = categoryService;
 
         // GET: api/Categories

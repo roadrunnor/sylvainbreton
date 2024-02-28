@@ -21,7 +21,7 @@
             try
             {
                 var categories = await _context.Categories.AsNoTracking().ToListAsync();
-                return new ServiceResult<IEnumerable<Category>>(categories);
+                return new ServiceResult<IEnumerable<Category>>(true, categories, null);
             }
             catch (Exception ex)
             {
@@ -41,7 +41,7 @@
                     return new ServiceResult<Category>($"Category with ID {id} not found.", 404);
                 }
 
-                return new ServiceResult<Category>(category);
+                return new ServiceResult<Category>(true, category, null);
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@
             {
                 _context.Categories.Add(category);
                 await _context.SaveChangesAsync();
-                return new ServiceResult<Category>(category);
+                return new ServiceResult<Category>(true, category, null);
             }
             catch (Exception ex)
             {
@@ -73,7 +73,6 @@
                 if (existingCategory == null)
                 {
                     _logger.LogWarning("Category with ID {Id} not found.", id);
-
                     return new ServiceResult<Category>($"Category with ID {id} not found.", 404);
                 }
 
@@ -108,7 +107,7 @@
                 _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
 
-                return new ServiceResult<Category>(true, null, "The category has been successfully deleted.", 200);
+                return new ServiceResult<Category>(true, null, "The category has been successfully deleted.");
             }
             catch (Exception ex)
             {

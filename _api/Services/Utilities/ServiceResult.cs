@@ -1,4 +1,5 @@
 ﻿using api_sylvainbreton.Services.Interfaces;
+using IdentityServer4.Models;
 
 namespace api_sylvainbreton.Services.Utilities
 {
@@ -9,8 +10,17 @@ namespace api_sylvainbreton.Services.Utilities
         public string ErrorMessage { get; private set; }
         public int StatusCode { get; private set; }
         public PaginationDetails Pagination { get; private set; }
+        public string Message { get; }
+
 
         // Success result with data and optional pagination
+        public ServiceResult(bool success, T data, string message)
+        {
+            Success = success;
+            Data = data;
+            Message = message;
+        }
+
         public ServiceResult(T data, PaginationDetails pagination = null)
         {
             Success = true;

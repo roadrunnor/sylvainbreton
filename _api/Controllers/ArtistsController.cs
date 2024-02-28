@@ -9,11 +9,8 @@
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtistsController(SylvainBretonDbContext context, ILogger<ArtistsController> logger, ISanitizationService sanitizationService, IArtistService artistService) : ControllerBase
+    public class ArtistsController(IArtistService artistService) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context = context;
-        private readonly ILogger<ArtistsController> _logger = logger;
-        private readonly ISanitizationService _sanitizationService = sanitizationService;
         private readonly IArtistService _artistService = artistService;
 
         // GET: api/Artists

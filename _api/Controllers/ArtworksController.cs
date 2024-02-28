@@ -1,24 +1,16 @@
 ﻿namespace api_sylvainbreton.Controllers
 {
-    using api_sylvainbreton.Data;
     using api_sylvainbreton.Models.DTOs;
     using api_sylvainbreton.Services.Interfaces;
-    using api_sylvainbreton.Services.Utilities;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     [Route("api/[controller]")]
     [ApiController]
-    public class ArtworksController(SylvainBretonDbContext context, ILogger<ArtworksController> logger, ISanitizationService sanitizationService, ImageService imageService, ImageValidationService imageValidationService, IArtworkService artworkService) : ControllerBase
+    public class ArtworksController(IArtworkService artworkService) : ControllerBase
     {
-        private readonly SylvainBretonDbContext _context = context;
-        private readonly ILogger<ArtworksController> _logger = logger;
-        private readonly ISanitizationService _sanitizationService = sanitizationService;
-        private readonly ImageService _imageService = imageService;
-        private readonly ImageValidationService _imageValidationService = imageValidationService;
         private readonly IArtworkService _artworkService = artworkService;
 
         // GET: api/Artworks

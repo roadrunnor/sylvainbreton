@@ -1,7 +1,6 @@
 ﻿namespace api_sylvainbreton.Services.Interfaces
 {
     using api_sylvainbreton.Models;
-    using api_sylvainbreton.Services.Utilities;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
