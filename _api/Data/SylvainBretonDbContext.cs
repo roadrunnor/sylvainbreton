@@ -12,7 +12,7 @@
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var connectionString = Environment.GetEnvironmentVariable("SylvainBretonConnection");
+                var connectionString = Environment.GetEnvironmentVariable("SYLVAINBRETON_DB_CONNECTION");
                 optionsBuilder
                     .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole()))
                     .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

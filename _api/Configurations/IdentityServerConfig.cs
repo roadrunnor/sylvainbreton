@@ -8,16 +8,18 @@
     {
         public static IEnumerable<Client> GetClients()
         {
-            return
-            [
-                 new Client
-                 {
-                     ClientId = "postman",
-                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                     ClientSecrets = { new Secret("your_secret".Sha256()) },
-                     AllowedScopes = { "api_sylvainbreton" }
-                 }
-            ];
+            var clientSecret = Environment.GetEnvironmentVariable("POSTMAN_CLIENT_SECRET") ?? "default_secret";
+
+            return new List<Client>
+            {
+                new Client
+                {
+                    ClientId = "postman",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
+                    ClientSecrets = { new Secret(clientSecret.Sha256()) },
+                    AllowedScopes = { "api_sylvainbreton" }
+                }
+            };
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()

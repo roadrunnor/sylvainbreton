@@ -1,17 +1,18 @@
 ﻿namespace api_sylvainbreton.Services
 {
+    using api_sylvainbreton.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
     using System.IdentityModel.Tokens.Jwt;
     using System.Security.Claims;
     using System.Text;
 
-    public class RolesManagementService(UserManager<IdentityUser> userManager, IConfiguration configuration)
+    public class RolesManagementService(UserManager<ApplicationUser> userManager, IConfiguration configuration)
     {
-        private readonly UserManager<IdentityUser> _userManager = userManager;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly IConfiguration _configuration = configuration;
 
-        public async Task<string> GenerateJwtToken(IdentityUser user)
+        public async Task<string> GenerateJwtToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);

@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.IdentityModel.Tokens;
+    using System.Collections;
     using System.Text;
 
     public static class IdentityServiceExtensions
@@ -17,11 +18,22 @@
             string jwtIssuer = GetConfigurationValue(configuration, "JwtConfig:JwtIssuer", "JwtIssuer");
             string jwtAudience = GetConfigurationValue(configuration, "JwtConfig:JwtAudience", "JwtAudience");
 
+            // Example debugging code to log all environment variables
+            foreach (var envVar in Environment.GetEnvironmentVariables().Cast<DictionaryEntry>())
+            {
+                Console.WriteLine($"{envVar.Key} = {envVar.Value}");
+            }
+
+            // Adjusted DbContext configuration
+            var connectionString = Environment.GetEnvironmentVariable("SYLVAINBRETON_DB_CONNECTION");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection 'SYLVAINBRETON_DB_CONNECTION' not found in environment variables.");
+            }
+
             services.AddDbContext<SylvainBretonDbContext>(options =>
-                options.UseMySql(
-                    configuration.GetConnectionString("SylvainBretonConnection"),
-                    ServerVersion.AutoDetect(configuration.GetConnectionString("SylvainBretonConnection"))
-            ));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+            );
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {

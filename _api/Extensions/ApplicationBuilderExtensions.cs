@@ -23,12 +23,10 @@
             }
 
             // Global exception handling middleware
-            app.UseMiddleware<ExceptionMiddleware>();
-
-            // Other middleware registrations...
             app.UseHttpsRedirection();
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseIdentityServer();
-            app.UseCors("AllowAllOrigins");
+            app.UseCors("CustomCorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 

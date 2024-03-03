@@ -18,7 +18,6 @@
 
             // Scoped services
             services.AddScoped<IArtistService, ArtistService>();
-            services.AddScoped<IArtistService, ArtistService>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IArtworkService, ArtworkService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -27,13 +26,14 @@
             services.AddScoped<ImageValidationService>();
             services.AddScoped<ISanitizationService, SanitizationService>();
             services.AddScoped<RolesManagementService>();
+            services.AddScoped<ApplicationSetupService>();
 
             // Incorporate other service configurations from Program.cs
             // Note: Ensure that you include method implementations for these if they're not already implemented
             services.AddAutoMapper(typeof(Program));
             services.AddCachingServices();
             services.AddControllersWithViews().AddCustomJsonOptions();
-            services.AddCustomCorsPolicy();
+            services.AddCustomCorsPolicy(configuration);
             services.AddCustomDataProtection();
             services.AddDatabaseConfiguration(configuration);
             services.AddEndpointsApiExplorer();
