@@ -27,6 +27,7 @@
 
             // Other middleware registrations...
             app.UseHttpsRedirection();
+            app.UseIdentityServer();
             app.UseCors("AllowAllOrigins");
             app.UseAuthentication();
             app.UseAuthorization();

@@ -1,13 +1,28 @@
-﻿using api_sylvainbreton.Data;
-using api_sylvainbreton.Models;
-using Microsoft.AspNetCore.Identity;
-
-namespace api_sylvainbreton.Extensions
+﻿namespace api_sylvainbreton.Extensions
 {
+    using api_sylvainbreton.Data;
+    using api_sylvainbreton.Models;
+    using api_sylvainbreton.Services;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.IdentityModel.Tokens;
+    using System.Text;
+
     public static class IdentityServiceExtensions
     {
-        public static IServiceCollection AddIdentityServices(this IServiceCollection services)
+        public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
+            string jwtKey = GetConfigurationValue(configuration, "JwtConfig:JwtKey", "JwtKey");
+            string jwtIssuer = GetConfigurationValue(configuration, "JwtConfig:JwtIssuer", "JwtIssuer");
+            string jwtAudience = GetConfigurationValue(configuration, "JwtConfig:JwtAudience", "JwtAudience");
+
+            services.AddDbContext<SylvainBretonDbContext>(options =>
+                options.UseMySql(
+                    configuration.GetConnectionString("SylvainBretonConnection"),
+                    ServerVersion.AutoDetect(configuration.GetConnectionString("SylvainBretonConnection"))
+            ));
+
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings
@@ -33,11 +48,43 @@ namespace api_sylvainbreton.Extensions
                 options.Tokens.AuthenticatorTokenProvider = "YourCustomTokenProvider"; // If you're implementing a custom 2FA token provider
 
             })
-            .AddEntityFrameworkStores<SylvainBretonDbContext>()
-            .AddDefaultUI()
-            .AddDefaultTokenProviders();
+                    .AddEntityFrameworkStores<SylvainBretonDbContext>()
+                    .AddDefaultUI()
+                    .AddDefaultTokenProviders();
+
+            // JWT Authentication
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => ConfigureJwtBearerOptions(options, jwtKey, jwtIssuer, jwtAudience));
+
+            // Register the RolesManagementService for dependency injection
+            services.AddScoped<RolesManagementService>();
 
             return services;
+        }
+
+        private static void ConfigureJwtBearerOptions(JwtBearerOptions options, string jwtKey, string jwtIssuer, string jwtAudience)
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+                ValidateIssuer = true,
+                ValidIssuer = jwtIssuer,
+                ValidateAudience = true,
+                ValidAudience = jwtAudience,
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+        }
+
+        private static string GetConfigurationValue(IConfiguration configuration, string paramName, string configKey)
+        {
+            var value = configuration[configKey];
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentNullException(paramName, $"Configuration value for '{configKey}' is required but was not found.");
+
+            return value;
         }
     }
 }

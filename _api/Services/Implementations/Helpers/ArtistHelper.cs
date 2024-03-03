@@ -1,9 +1,9 @@
 ﻿using api_sylvainbreton.Exceptions;
 using api_sylvainbreton.Models.DTOs;
 
-namespace api_sylvainbreton.Models.Helpers
+namespace api_sylvainbreton.Services.Implementations.Helpers
 {
-    public class ValidationHelper
+    public static class ArtistHelper
     {
         public static void ValidateArtistDTO(ArtistDTO artistDTO)
         {

@@ -1,6 +1,4 @@
-﻿// File: IdentityServerExtensions.cs
-
-namespace api_sylvainbreton.Extensions
+﻿namespace api_sylvainbreton.Extensions
 {
     using System;
     using System.Security.Cryptography.X509Certificates;

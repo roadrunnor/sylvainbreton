@@ -1,8 +1,10 @@
 ﻿namespace api_sylvainbreton.Services.Implementations
+
 {
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
+    using api_sylvainbreton.Services.Implementations.Helpers;
     using api_sylvainbreton.Services.Interfaces;
     using api_sylvainbreton.Services.Utilities;
     using Microsoft.EntityFrameworkCore;
@@ -76,20 +78,18 @@
 
             try
             {
+                if (!await DynamicContentHelper.DynamicContentExists(_context, id))
+                {
+                    return new ServiceResult<DynamicContent>(false, null, "Dynamic content not found");
+                }
+
                 await _context.SaveChangesAsync();
                 return new ServiceResult<DynamicContent>(true, dynamicContent, null);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!DynamicContentExists(id))
-                {
-                    return new ServiceResult<DynamicContent>(false, null, "Dynamic content not found");
-                }
-                else
-                {
-                    _logger.LogError(ex, "Error updating dynamic content with ID {Id}", id);
-                    return new ServiceResult<DynamicContent>(false, null, "An error occurred while updating");
-                }
+                _logger.LogError(ex, "Error updating dynamic content with ID {Id}", id);
+                throw new InternalServerErrorException("An error occurred while updating. Please try again later.");
             }
             catch (Exception ex)
             {
@@ -118,11 +118,6 @@
                 _logger.LogError(ex, "Error deleting dynamic content with ID {Id}", id);
                 throw new InternalServerErrorException("An error occurred while processing your request. Please try again later.");
             }
-        }
-
-        private bool DynamicContentExists(int id)
-        {
-            return _context.DynamicContents.Any(e => e.ContentID == id);
         }
     }
 }

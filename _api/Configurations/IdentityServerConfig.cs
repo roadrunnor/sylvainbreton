@@ -2,49 +2,57 @@
 {
     using IdentityServer4.Models;
     using IdentityServer4.Test;
+    using System.Security.Claims;
 
     public static class IdentityServerConfig
     {
         public static IEnumerable<Client> GetClients()
         {
-            // Define your clients here
-            return new List<Client>
-            {
-                // Example client configuration
-            };
+            return
+            [
+                 new Client
+                 {
+                     ClientId = "postman",
+                     AllowedGrantTypes = GrantTypes.ClientCredentials,
+                     ClientSecrets = { new Secret("your_secret".Sha256()) },
+                     AllowedScopes = { "api_sylvainbreton" }
+                 }
+            ];
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            // Define your identity resources here
-            return new List<IdentityResource>
-        {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-            // Others as needed
-        };
+            return
+            [
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+            ];
         }
 
         public static IEnumerable<ApiResource> GetApiResources()
         {
-            // Define your API resources here
-            return new List<ApiResource>
-            {
-                // Example API resource configuration
-            };
+            return
+            [
+                new ApiResource("api_sylvainbreton", "Sylvain Breton API")
+            ];
         }
 
         public static List<TestUser> GetUsers()
         {
-            // Define your test users here (for development)
             return
-        [
-            new TestUser
-            {
-                // User definition
-            }
-        ];
+            [
+                new TestUser
+                {
+                    SubjectId = "1",
+                    Username = "testuser",
+                    Password = "password",
+                    Claims =
+                    [
+                        new Claim("name", "Test User"),
+                        new Claim("email", "testuser@example.com")
+                    ]
+                }
+            ];
         }
     }
-
 }

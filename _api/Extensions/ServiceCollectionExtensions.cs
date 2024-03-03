@@ -6,6 +6,8 @@
     using api_sylvainbreton.Services.Interfaces;
     using api_sylvainbreton.Services.Implementations;
     using api_sylvainbreton.Services.Utilities;
+    using api_sylvainbreton.Services.Repositories;
+    using api_sylvainbreton.Services;
 
     public static class ServiceCollectionExtensions
     {
@@ -16,15 +18,19 @@
 
             // Scoped services
             services.AddScoped<IArtistService, ArtistService>();
+            services.AddScoped<IArtistService, ArtistService>();
+            services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IArtworkService, ArtworkService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ImageProcessingService>();
             services.AddScoped<ImageService>();
             services.AddScoped<ImageValidationService>();
             services.AddScoped<ISanitizationService, SanitizationService>();
+            services.AddScoped<RolesManagementService>();
 
             // Incorporate other service configurations from Program.cs
             // Note: Ensure that you include method implementations for these if they're not already implemented
+            services.AddAutoMapper(typeof(Program));
             services.AddCachingServices();
             services.AddControllersWithViews().AddCustomJsonOptions();
             services.AddCustomCorsPolicy();
@@ -33,16 +39,9 @@
             services.AddEndpointsApiExplorer();
             services.AddExternalAuthentication(configuration);
             services.AddIdentityServerWithCertificate();
-            services.AddIdentityServices();
+            services.AddIdentityServices(configuration);
             services.AddSwaggerGen();
 
-            // Any additional services your application needs
-            return services;
-        }
-
-        public static IServiceCollection AddCachingServices(this IServiceCollection services)
-        {
-            services.AddMemoryCache();
             return services;
         }
     }

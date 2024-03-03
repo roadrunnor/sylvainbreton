@@ -50,7 +50,7 @@
                     .AsNoTracking()
                     .ToListAsync();
 
-                return new ServiceResult<IEnumerable<ArtworkDTO>>(artworks);
+                return new ServiceResult<IEnumerable<ArtworkDTO>>(true, artworks, null, 200);
             }
             catch (Exception ex)
             {
