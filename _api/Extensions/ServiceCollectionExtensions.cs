@@ -13,10 +13,8 @@
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // Add MVC controllers to the services collection
+            // MVC controllers to the services collection
             services.AddControllers();
-
-            // Scoped services
             services.AddScoped<IArtistService, ArtistService>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IArtworkService, ArtworkService>();
@@ -28,8 +26,7 @@
             services.AddScoped<RolesManagementService>();
             services.AddScoped<ApplicationSetupService>();
 
-            // Incorporate other service configurations from Program.cs
-            // Note: Ensure that you include method implementations for these if they're not already implemented
+            // Other service configurations from Program.cs
             services.AddAutoMapper(typeof(Program));
             services.AddCachingServices();
             services.AddControllersWithViews().AddCustomJsonOptions();
