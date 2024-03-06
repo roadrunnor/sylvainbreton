@@ -48,7 +48,12 @@
             var adminEmail = Environment.GetEnvironmentVariable("ADMIN_USER_EMAIL");
             var adminPassword = Environment.GetEnvironmentVariable("ADMIN_USER_PASSWORD");
 
+            _logger.LogInformation($"Admin User Name: {adminUserName}");
+            _logger.LogInformation($"Admin Email: {adminEmail}");
+            _logger.LogInformation($"Admin Password: {adminPassword}");
+
             if (await userManager.FindByNameAsync(adminUserName) == null)
+
             {
                 var adminUser = new ApplicationUser
                 {

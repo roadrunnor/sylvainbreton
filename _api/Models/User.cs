@@ -8,6 +8,7 @@
     public class User
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string UserID { get; set; }
 
         [Required]
@@ -25,14 +26,19 @@
         [MaxLength(256)]
         public string NormalizedEmail { get; set; }
 
+        [Required]
         public bool EmailConfirmed { get; set; }
 
+        [Required]
         public string PasswordHash { get; set; }
 
-        public string SecurityStamp { get; set; }
+        [Required]
+        public string SecurityStamp { get; set; } = Guid.NewGuid().ToString();
 
-        public string ConcurrencyStamp { get; set; }
+        [Required]
+        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
+        [Phone]
         [MaxLength(15)]
         public string PhoneNumber { get; set; }
 
@@ -45,13 +51,13 @@
 
         public bool LockoutEnabled { get; set; }
 
-        public int AccessFailedCount { get; set; }
+        public int AccessFailedCount { get; set; } = 0;
 
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public bool IsActive { get; set; }
 

@@ -15,7 +15,7 @@ namespace api_sylvainbreton.Extensions
             {
                 // Log a warning or throw an exception based on your preference
                 // For example, you might want to allow a very permissive policy for development:
-                allowedOrigins = new string[] { "*" }; // Use with caution, ideally only in development
+                allowedOrigins = ["*"]; // Use with caution, ideally only in development
             }
 
             services.AddCors(options =>

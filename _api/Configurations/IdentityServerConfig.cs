@@ -10,8 +10,8 @@
         {
             var clientSecret = Environment.GetEnvironmentVariable("POSTMAN_CLIENT_SECRET") ?? "default_secret";
 
-            return new List<Client>
-            {
+            return
+            [
                 new Client
                 {
                     ClientId = "postman",
@@ -19,7 +19,7 @@
                     ClientSecrets = { new Secret(clientSecret.Sha256()) },
                     AllowedScopes = { "api_sylvainbreton" }
                 }
-            };
+            ];
         }
 
         public static IEnumerable<IdentityResource> GetIdentityResources()

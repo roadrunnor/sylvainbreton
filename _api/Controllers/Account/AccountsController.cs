@@ -4,9 +4,12 @@
     using Microsoft.AspNetCore.Mvc;
     using api_sylvainbreton.Models;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
+    using api_sylvainbreton.Data;
 
-    public class AccountsController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : ControllerBase
+    public class AccountsController(SylvainBretonDbContext sylvainBretonDbContext, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : ControllerBase
     {
+        private readonly SylvainBretonDbContext _dbContext = sylvainBretonDbContext;
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
 
@@ -18,13 +21,23 @@
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                FullName = $"{model.FirstName} {model.LastName}", 
+                CreatedAt = DateTime.UtcNow,
+                DateOfBirth = model.DateOfBirth,
+            };
             var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
                 // Optionally sign the user in upon registration
-                // await _signInManager.SignInAsync(user, isPersistent: false);
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                await _dbContext.SaveChangesAsync();
                 return Ok(new { Message = "User registered successfully" });
             }
 

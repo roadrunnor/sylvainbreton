@@ -25,6 +25,7 @@
             services.AddScoped<ISanitizationService, SanitizationService>();
             services.AddScoped<RolesManagementService>();
             services.AddScoped<ApplicationSetupService>();
+            services.AddScoped<AuthenticationService>();
 
             // Other service configurations from Program.cs
             services.AddAutoMapper(typeof(Program));
@@ -38,8 +39,17 @@
             services.AddIdentityServerWithCertificate();
             services.AddIdentityServices(configuration);
             services.AddSwaggerGen();
+            services.AddJwtAuthentication();
+
 
             return services;
+        }
+
+        public static async Task InitializeApplicationDataAsync(this IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var setupService = scope.ServiceProvider.GetRequiredService<ApplicationSetupService>();
+            await setupService.InitializeAsync();
         }
     }
 }

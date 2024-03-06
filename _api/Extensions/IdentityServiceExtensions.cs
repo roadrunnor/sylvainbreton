@@ -3,20 +3,16 @@
     using api_sylvainbreton.Data;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Services;
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.IdentityModel.Tokens;
-    using System.Collections;
-    using System.Text;
 
     public static class IdentityServiceExtensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
         {
-            string jwtKey = GetConfigurationValue(configuration, "JwtConfig:JwtKey", "JwtKey");
-            string jwtIssuer = GetConfigurationValue(configuration, "JwtConfig:JwtIssuer", "JwtIssuer");
-            string jwtAudience = GetConfigurationValue(configuration, "JwtConfig:JwtAudience", "JwtAudience");
+            string jwtKey = GetConfigurationValue(configuration, "JwtConfig:JwtKey", "JWT_KEY");
+            string jwtIssuer = GetConfigurationValue(configuration, "JwtConfig:JwtIssuer", "JWT_ISSUER");
+            string jwtAudience = GetConfigurationValue(configuration, "JwtConfig:JwtAudience", "JWT_AUDIENCE");
 
             var connectionString = Environment.GetEnvironmentVariable("SYLVAINBRETON_DB_CONNECTION");
             if (string.IsNullOrEmpty(connectionString))
@@ -33,7 +29,7 @@
                 // Password settings
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
 
@@ -44,6 +40,7 @@
 
                 // User settings
                 options.User.RequireUniqueEmail = true;
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+ ";
 
                 // Sign-in settings
                 options.SignIn.RequireConfirmedEmail = true;
@@ -57,34 +54,14 @@
                     .AddDefaultUI()
                     .AddDefaultTokenProviders();
 
-            // JWT Authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => ConfigureJwtBearerOptions(options, jwtKey, jwtIssuer, jwtAudience));
-
             // Register the RolesManagementService for dependency injection
             services.AddScoped<RolesManagementService>();
 
             return services;
         }
 
-        private static void ConfigureJwtBearerOptions(JwtBearerOptions options, string jwtKey, string jwtIssuer, string jwtAudience)
-        {
-            options.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-                ValidateIssuer = true,
-                ValidIssuer = jwtIssuer,
-                ValidateAudience = true,
-                ValidAudience = jwtAudience,
-                RequireExpirationTime = false,
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero
-            };
-        }
-
         private static string GetConfigurationValue(IConfiguration configuration, string paramName, string configKey)
-        {
+            {
             var value = configuration[configKey];
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(paramName, $"Configuration value for '{configKey}' is required but was not found.");
