@@ -41,7 +41,8 @@
             }
 
             // Validate and sanitize style attributes
-            var nodesWithStyle = htmlDoc.DocumentNode.SelectNodes("//*[contains(@style)]");
+            var nodesWithStyle = htmlDoc.DocumentNode.SelectNodes("//*[@style]");
+
             if (nodesWithStyle != null)
             {
                 foreach (var node in nodesWithStyle)

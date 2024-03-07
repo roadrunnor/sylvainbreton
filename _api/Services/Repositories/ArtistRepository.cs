@@ -1,11 +1,13 @@
 ﻿namespace api_sylvainbreton.Services.Repositories
 {
     using api_sylvainbreton.Data;
+    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
     using api_sylvainbreton.Services.Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Microsoft.Extensions.Logging;
+    using MySqlConnector;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -79,7 +81,9 @@
 
         public async Task<Artist> CreateArtistAsync(Artist artist)
         {
-            if (artist != null)
+            if (artist == null) throw new ArgumentNullException(nameof(artist));
+
+            try
             {
                 artist.FirstName = _sanitizationService.SanitizeInput(artist.FirstName);
                 artist.LastName = _sanitizationService.SanitizeInput(artist.LastName);
@@ -88,11 +92,21 @@
                 await _context.Artists.AddAsync(artist);
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("Artist {artist.ArtistID} created successfully.", artist);
+                _logger.LogInformation("Artist {ArtistName} created successfully.", $"{artist.FirstName} {artist.LastName}");
                 return artist;
             }
-
-            throw new ArgumentNullException(nameof(artist));
+            catch (DbUpdateException ex) when ((ex.InnerException as MySqlException)?.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+            {
+                // Log the error for duplicate entry and throw a BadRequestException indicating a duplicate artist entry.
+                _logger.LogError(ex, "Duplicate entry for {ArtistName}.", $"{artist.FirstName} {artist.LastName}");
+                throw new api_sylvainbreton.Exceptions.BadRequestException($"An artist with the name {artist.FirstName} {artist.LastName} already exists.");
+            }
+            catch (Exception ex)
+            {
+                // Log the generic error and throw an InternalServerErrorException to indicate an unexpected error during artist creation.
+                _logger.LogError(ex, "An error occurred while creating the artist {ArtistName}.", $"{artist.FirstName} {artist.LastName}");
+                throw new api_sylvainbreton.Exceptions.InternalServerErrorException("An unexpected error occurred while creating the artist.");
+            }
         }
 
         public async Task<Artist> UpdateArtistAsync(int artistId, Artist artist)
