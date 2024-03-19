@@ -1,16 +1,16 @@
 ﻿namespace api_sylvainbreton.Services
 {
+    using api_sylvainbreton.Exceptions;
     using api_sylvainbreton.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
-    public class ApplicationSetupService(IServiceProvider serviceProvider, ILogger<ApplicationSetupService> logger)
+    public class ApplicationSetupService(IServiceProvider serviceProvider)
     {
         private readonly IServiceProvider _serviceProvider = serviceProvider;
-        private readonly ILogger<ApplicationSetupService> _logger = logger;
 
         public async Task InitializeAsync()
         {
@@ -25,7 +25,7 @@
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "An error occurred during application setup.");
+                throw new InternalServerErrorException($"An error occurred during application setup: {ex.Message}");
             }
         }
 
@@ -41,19 +41,13 @@
             }
         }
 
-        private async Task SeedUsersAsync(UserManager<ApplicationUser> userManager)
+        private static async Task SeedUsersAsync(UserManager<ApplicationUser> userManager)
         {
-            // Read from environment variables
             var adminUserName = Environment.GetEnvironmentVariable("ADMIN_USER_NAME");
             var adminEmail = Environment.GetEnvironmentVariable("ADMIN_USER_EMAIL");
             var adminPassword = Environment.GetEnvironmentVariable("ADMIN_USER_PASSWORD");
 
-            _logger.LogInformation($"Admin User Name: {adminUserName}");
-            _logger.LogInformation($"Admin Email: {adminEmail}");
-            _logger.LogInformation($"Admin Password: {adminPassword}");
-
             if (await userManager.FindByNameAsync(adminUserName) == null)
-
             {
                 var adminUser = new ApplicationUser
                 {
@@ -63,15 +57,13 @@
                 };
 
                 var createUserResult = await userManager.CreateAsync(adminUser, adminPassword);
-                if (createUserResult.Succeeded)
+                if (!createUserResult.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                    // Collect error descriptions
+                    var errors = createUserResult.Errors.Select(e => e.Description).Aggregate((a, b) => a + "; " + b);
+                    throw new InternalServerErrorException($"Failed to create the admin user: {errors}");
                 }
-                else
-                {
-                    var errors = createUserResult.Errors.Select(e => e.Description).ToArray();
-                    _logger.LogError("Failed to create the admin user: {Errors}", string.Join(", ", errors));
-                }
+                await userManager.AddToRoleAsync(adminUser, "Admin");
             }
         }
     }

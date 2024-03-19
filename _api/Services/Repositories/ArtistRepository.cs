@@ -81,7 +81,7 @@
 
         public async Task<Artist> CreateArtistAsync(Artist artist)
         {
-            if (artist == null) throw new ArgumentNullException(nameof(artist));
+            ArgumentNullException.ThrowIfNull(artist);
 
             try
             {
@@ -95,7 +95,7 @@
                 _logger.LogInformation("Artist {ArtistName} created successfully.", $"{artist.FirstName} {artist.LastName}");
                 return artist;
             }
-            catch (DbUpdateException ex) when ((ex.InnerException as MySqlException)?.ErrorCode == MySqlErrorCode.DuplicateKeyEntry)
+            catch (DbUpdateException ex) when (ex.InnerException is MySqlException { ErrorCode: MySqlErrorCode.DuplicateKeyEntry })
             {
                 // Log the error for duplicate entry and throw a BadRequestException indicating a duplicate artist entry.
                 _logger.LogError(ex, "Duplicate entry for {ArtistName}.", $"{artist.FirstName} {artist.LastName}");
