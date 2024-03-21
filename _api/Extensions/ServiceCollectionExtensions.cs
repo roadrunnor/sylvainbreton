@@ -13,8 +13,12 @@
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
+            // Single call to AddControllersWithViews if your application uses both MVC views and API controllers.
+            // If only API controllers are used, consider replacing it with AddControllers().
+            services.AddControllersWithViews().AddCustomJsonOptions();
+
+
             // MVC controllers to the services collection
-            services.AddControllers();
             services.AddScoped<IArtistService, ArtistService>();
             services.AddScoped<IArtistRepository, ArtistRepository>();
             services.AddScoped<IArtworkService, ArtworkService>();
@@ -27,20 +31,29 @@
             services.AddScoped<ApplicationSetupService>();
             services.AddScoped<AuthenticationService>();
 
-            // Other service configurations from Program.cs
+            // Additional service configurations
             services.AddAutoMapper(typeof(Program));
             services.AddCachingServices();
-            services.AddControllersWithViews().AddCustomJsonOptions();
             services.AddCustomCorsPolicy(configuration);
-            services.AddCustomDataProtection();
             services.AddDatabaseConfiguration(configuration);
             services.AddEndpointsApiExplorer();
-            services.AddExternalAuthentication(configuration);
-            services.AddIdentityServerWithCertificate();
-            services.AddIdentityServices(configuration);
             services.AddSwaggerGen();
+            services.AddIdentityServices(configuration);
+            services.AddIdentityServerWithCertificate();
+            services.AddExternalAuthentication(configuration);
             services.AddJwtAuthentication();
 
+            // Security configurations.
+            services.ConfigureSecurityServices(configuration);
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureSecurityServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            // Security services configurations. 
+            services.AddCustomDataProtection(configuration);
+            services.AddCertificateValidation(configuration);
 
             return services;
         }
@@ -53,4 +66,3 @@
         }
     }
 }
-

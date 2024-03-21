@@ -51,6 +51,7 @@ packages
 
 # Fichiers de configuration personnelle
 **/appsettings.json
+**/appsettings.development.json
 
 # Dossiers et fichiers spécifiques à l'IDE
 *.user

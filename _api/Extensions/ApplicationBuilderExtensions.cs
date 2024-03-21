@@ -2,8 +2,6 @@
 {
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Hosting;
-    using api_sylvainbreton.Exceptions;
-
 
     public static class ApplicationBuilderExtensions
     {
@@ -22,17 +20,12 @@
                 app.UseGlobalErrorHandling();
             }
 
-            // Global exception handling middleware
             app.UseHttpsRedirection();
-            app.UseMiddleware<ExceptionMiddleware>();
             app.UseIdentityServer();
             app.UseCors("CustomCorsPolicy");
             app.UseAuthentication();
             app.UseAuthorization();
-
-
             return app;
         }
     }
-
 }
